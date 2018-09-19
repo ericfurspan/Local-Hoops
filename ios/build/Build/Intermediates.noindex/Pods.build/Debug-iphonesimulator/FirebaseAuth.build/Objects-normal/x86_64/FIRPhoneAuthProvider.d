@@ -1,0 +1,36 @@
+dependencies: \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/AuthProviders/Phone/FIRPhoneAuthProvider.m \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FIRPhoneAuthProvider.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/Headers/Private/FirebaseCore/FIRLogger.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/Headers/Private/FirebaseCore/FIRLoggerLevel.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/AuthProviders/Phone/FIRPhoneAuthCredential_Internal.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FIRPhoneAuthCredential.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FIRAuthCredential.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/Headers/Private/FirebaseCore/FIRApp.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthAPNSToken.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FIRAuthAPNSTokenType.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthAPNSTokenManager.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthAppCredential.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthAppCredentialManager.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthGlobalWorkQueue.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuth_Internal.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FIRAuth.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FIRAuthErrors.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthURLPresenter.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthNotificationManager.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthErrorUtils.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRAuthBackend.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FIRAuthSettings.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/FIRAuthWebUtils.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/Public/FirebaseAuthVersion.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/Headers/Private/FirebaseCore/FIROptions.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRGetProjectConfigRequest.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRIdentityToolkitRequest.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRAuthRequestConfiguration.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRAuthRPCRequest.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRGetProjectConfigResponse.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRAuthRPCResponse.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRSendVerificationCodeRequest.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRSendVerificationCodeResponse.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRVerifyClientRequest.h \
+  /Users/ericfurspan/Dev/LocalBall/ios/Pods/FirebaseAuth/Firebase/Auth/Source/RPCs/FIRVerifyClientResponse.h
