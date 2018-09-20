@@ -54,11 +54,13 @@ export const FacebookLogin = () => (dispatch, getState) => {
                         return firebase.auth().signInAndRetrieveDataWithCredential(credential);
                     }
                 })
-                .then(currentUser => {
-                    dispatch(loginSuccess(currentUser.user._user));
+                .then((currentUser) => {
                     if(currentUser.additionalUserInfo.isNewUser) {
                         return dispatch(createUserDoc(currentUser)) // this should create a user object in firestore
                     }
+                })
+                .catch(error => {
+                    throw 'Something went wrong trying to signInAndRetrieveDataWithCredential'
                 })
         })
         .catch(error => {
@@ -72,7 +74,7 @@ export const GoogleLogin = () => (dispatch, getState) => {
 
       GoogleSignin.configure();
   
-      return GoogleSignin.signIn()
+      GoogleSignin.signIn()
         .then(data => {
             // create a new firebase credential with the token  
             const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
@@ -80,16 +82,10 @@ export const GoogleLogin = () => (dispatch, getState) => {
             return firebase.auth().signInAndRetrieveDataWithCredential(credential);
         })
         .then(currentUser => {
-            if(currentUser) {
-                dispatch(loginSuccess(currentUser.user._user));
-            }
-            return currentUser;
-        })
-        .then(currentUser => {
             if(currentUser.additionalUserInfo.isNewUser) {
-                console.log('new user! creating in firestore')
                 return dispatch(createUserDoc(currentUser)) // this should create a user object in firestore
             }
+            return currentUser
         })
         .catch(error => {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -119,10 +115,10 @@ export const GoogleLogin = () => (dispatch, getState) => {
     const userObj = {
         uid: newUser.user._user.uid,
         displayName: newUser.user._user.displayName,
+        photoURL: newUser.user._user.photoURL,
         email: newUser.additionalUserInfo.profile.email,
         friends: [],
-        events: []
     }
-    const userRef = firebase.firestore().doc(`users/${userObj.uid}`)
-    userRef.set(userObj)
+    return firebase.firestore().doc(`users/${userObj.uid}`)
+      .set(userObj)
 }

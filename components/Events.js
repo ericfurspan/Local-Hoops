@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import firebase from 'react-native-firebase'
-import _ from 'lodash';
 import { updateEvents, updateEventsRequest } from '../actions/auth';
 import { connect } from 'react-redux';
 import Loading from './Loading';
@@ -13,13 +12,17 @@ class Events extends React.Component {
     componentDidMount() {
         //fetch both user and friends events
         this.fetchUserEvents()
-        this.fetchFriendsEvents()
+        console.log(this.props)
+        if(this.props.friends) {
+            console.log('has friends! calling fetchFriendsEvents')
+            this.fetchFriendsEvents()
+        } else {
+            console.log('has no friends! NOT calling fetchFriendsEvents')
+        }
     }
 
     fetchUserEvents = () => {
         let events = [];
-
-        console.log('fetching My Activity')
         let counter = 0;
         firebase.firestore().collection('events').where("event_author", "==", this.props.currentUser.uid) 
         .get()
@@ -63,12 +66,17 @@ class Events extends React.Component {
     fetchFriendsEvents = () => {
         let events = [];
 
-        console.log('fetching Friend Activity')
         // first get current users' friend list
         firebase.firestore().doc(`users/${this.props.currentUser.uid}`)
         .get()
         .then(doc => {
-            return doc.data().friends
+            console.log(doc.data().friends.length)
+            if(doc.data().friends.length > 0) {
+                console.log(doc.data())
+                return doc.data().friends
+            } else {
+                console.log(`No friends for ${doc.id}`)
+            }
         })
         // then search the participants sub collection of the event
         .then(friends => {
@@ -91,7 +99,6 @@ class Events extends React.Component {
                     .then(participantsSnapshot => {
                         for(let i=0; i<participantsSnapshot.size;i++) {
                             if(participantsSnapshot.docs[i].exists) {
-                                console.log(participantsSnapshot.docs[i].data())
                                 // if participant uid is in friends array, add event to events array
                                 if(friends.includes(participantsSnapshot.docs[i].data().uid)) {
                                     // add participants to event
@@ -104,7 +111,6 @@ class Events extends React.Component {
                         }
                     })
                     .then(() => {
-                        console.log(events)
                         this.props.dispatch(updateEvents('friends', events))
                     })
                     .catch(e => {console.error(e)})
@@ -115,21 +121,22 @@ class Events extends React.Component {
     }
 
     render() {        
+        console.log(this.props)
         if(this.props.events) {
             let events;
             switch(this.props.activityType) {
                 case 'My Activity':
                     if(this.props.events.user) events = this.props.events.user
-                    else return <Loading />
+                    else return null
                     break;
                 case 'Friends Activity':
                     if(this.props.events.friends) events = this.props.events.friends
-                    else return <Loading />
+                    else return null
                     break;
                 case 'All Activity':
                     if(this.props.events.friends && this.props.events.user) {
                         events = [...this.props.events.user, ...this.props.events.friends]
-                    } else return <Loading />
+                    } else return null
                     break;
             }
             let timelineData = events.map(event => {
@@ -153,7 +160,7 @@ class Events extends React.Component {
 
                 />
             )
-        } else {return <Loading />}
+        } else {return null}
     }
 }
 const styles = StyleSheet.create({

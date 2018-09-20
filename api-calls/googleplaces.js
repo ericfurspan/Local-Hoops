@@ -1,7 +1,5 @@
 // Place Search
-//https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=40.775616,-73.962371&keyword=basketball%20court&rankby=distance&key=AIzaSyBrOtbO2EJJwHUWSZzWy_Lxa0_pXlcuThA
-
-const GOOGLE_API_KEY = "AIzaSyBrOtbO2EJJwHUWSZzWy_Lxa0_pXlcuThA";
+import { GOOGLE_API_KEY } from '../config';
 
 export const findNearbyCourtsByLatLong = (lat, long, searchRadius, callback) => {
     const searchUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&keyword=basketballcourt&radius=${searchRadius}&rankby=prominence&key=${GOOGLE_API_KEY}`
@@ -41,8 +39,6 @@ export const findLocationByQuery = (query, callback) => {
 }
 
 // Place Details
-//https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJpccj45lYwokR0fLRqUZo6vI&key=AIzaSyBrOtbO2EJJwHUWSZzWy_Lxa0_pXlcuThA
-
 const addCourtDetail = (courtData, callback) => {
 
     let updatedCourtData = [];

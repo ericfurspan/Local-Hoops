@@ -6,7 +6,7 @@
 	<dict>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<data>
-		hHaDPjMxRe6vlMZg4gLRA/rrVtA=
+		Mx1dHpmC0/nPgZQ24laM9V/VnxQ=
 		</data>
 		<key>Entypo.ttf</key>
 		<data>
@@ -1049,7 +1049,7 @@
 		</data>
 		<key>GTMOAuth2ViewTouch.nib</key>
 		<data>
-		EzecBskAK8e0HNXqdiWPFrf4zkU=
+		k0pULp8gXUq1Vg/XvjLvFQQDLJ4=
 		</data>
 		<key>GoogleService-Info.plist</key>
 		<data>
@@ -1447,7 +1447,7 @@
 		</data>
 		<key>PlugIns/LocalBallTests.xctest.dSYM/Contents/Resources/DWARF/LocalBallTests</key>
 		<data>
-		9lGfoVhC+z0MLJBjqBQntWBOXtI=
+		KFgw1oCKZNeNsUQ2FQPLrKoQupk=
 		</data>
 		<key>PlugIns/LocalBallTests.xctest/Info.plist</key>
 		<data>
@@ -1455,7 +1455,7 @@
 		</data>
 		<key>PlugIns/LocalBallTests.xctest/LocalBallTests</key>
 		<data>
-		y2j2NXGkKeh7tO9/R9JtyuxyBwI=
+		RNNQ84StekhRZ+6eOQ/piTY6Nh4=
 		</data>
 		<key>PlugIns/LocalBallTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
@@ -1484,11 +1484,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hHaDPjMxRe6vlMZg4gLRA/rrVtA=
+			Mx1dHpmC0/nPgZQ24laM9V/VnxQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			Qvs4pm8SD7pa587yxSjR/kas0HORCb7f1We/2NpR9o0=
+			br+L6TMx9IbO+vlAmbxt/3DF5VS8EapBzDgMfSUSRbA=
 			</data>
 		</dict>
 		<key>Entypo.ttf</key>
@@ -3142,11 +3142,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			EzecBskAK8e0HNXqdiWPFrf4zkU=
+			k0pULp8gXUq1Vg/XvjLvFQQDLJ4=
 			</data>
 			<key>hash2</key>
 			<data>
-			nyfkBk5UheTzgTU2nOLPTVn8xtlLyU2HkR7N6fb5ynA=
+			NPs7jt1tp9c2WytTOadF2m4ZBNGyKBr3qjgEAoA8EyU=
 			</data>
 		</dict>
 		<key>GoogleService-Info.plist</key>
@@ -3768,11 +3768,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9lGfoVhC+z0MLJBjqBQntWBOXtI=
+			KFgw1oCKZNeNsUQ2FQPLrKoQupk=
 			</data>
 			<key>hash2</key>
 			<data>
-			WeBgIfFcshm87f2ISfsKQjiEp2Og7fxPEcoq1lIqlsM=
+			+KmK9DzW0vzADxbEhXUXE9aHdLiyeObh01mP6Jv59NI=
 			</data>
 		</dict>
 		<key>PlugIns/LocalBallTests.xctest/Info.plist</key>
@@ -3790,11 +3790,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			y2j2NXGkKeh7tO9/R9JtyuxyBwI=
+			RNNQ84StekhRZ+6eOQ/piTY6Nh4=
 			</data>
 			<key>hash2</key>
 			<data>
-			AmfJ+/ubmi9K8/TRubIgJJBKzp4aatsdvNDvMnmN+oQ=
+			xGyFXfl/8VXV6TcZ6Xvsq58WmZoIWwU2xM24ACGqXcg=
 			</data>
 		</dict>
 		<key>PlugIns/LocalBallTests.xctest/_CodeSignature/CodeResources</key>

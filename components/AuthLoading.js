@@ -1,8 +1,7 @@
 import React from 'react';
-import { AsyncStorage, View } from 'react-native';
 import Loading from './Loading';
 import firebase from 'react-native-firebase'
-import {loginSuccess} from '../actions/auth';
+import { loginSuccess } from '../actions/auth';
 import { connect } from 'react-redux';
 
 class AuthLoadingScreen extends React.Component {
@@ -11,9 +10,12 @@ class AuthLoadingScreen extends React.Component {
     // if user is authenticated, navigate to dashboard
     firebase.auth().onAuthStateChanged(user => {
         if(user) {
-          console.log(user)
-          this.props.dispatch(loginSuccess(user))
-          this.props.navigation.navigate('App');
+          firebase.firestore().doc(`users/${user.uid}`)
+          .get()
+          .then(doc => {
+              this.props.dispatch(loginSuccess(doc.data()))
+              this.props.navigation.navigate('App');
+          })
         } else {
           this.props.navigation.navigate('Auth');
         }

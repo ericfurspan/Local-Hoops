@@ -7,7 +7,7 @@ class Loading extends React.Component {
     render() {
         return (
             <View style={styles.background}>
-                <IonIcon name='md-basketball' size={80} color='#444' />
+                <IonIcon name='ios-basketball' size={80} color='#444' />
                 <Text style={styles.text}>Loading...</Text>
             </View>
         )
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        fontSize: 30
+        fontSize: 25
     }
 })
 

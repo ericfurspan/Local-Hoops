@@ -65,6 +65,10 @@ dependencies: \
   ../../../ios/Pods/Headers/Public/FirebaseAuth/FIRPhoneAuthCredential.h \
   ../../../ios/Pods/Headers/Public/FirebaseAuth/FIRPhoneAuthProvider.h \
   ../../../ios/Pods/Headers/Public/FirebaseAuth/FIRAuthSettings.h \
+  ../../../ios/Pods/Headers/Public/FirebaseFunctions/FirebaseFunctions.h \
+  ../../../ios/Pods/Headers/Public/FirebaseFunctions/FIRError.h \
+  ../../../ios/Pods/Headers/Public/FirebaseFunctions/FIRFunctions.h \
+  ../../../ios/Pods/Headers/Public/FirebaseFunctions/FIRHTTPSCallable.h \
   ../../../ios/Pods/Headers/Public/FirebaseInstanceID/FirebaseInstanceID/FirebaseInstanceID.h \
   ../../../ios/Pods/Headers/Public/FirebaseInstanceID/FirebaseInstanceID/FIRInstanceID.h \
   /Users/ericfurspan/Dev/LocalBall/node_modules/react-native-firebase/ios/RNFirebase/RNFirebaseEvents.h \

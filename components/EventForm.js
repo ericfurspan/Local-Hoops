@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Picker, TouchableOpacity, DatePickerIOS } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 
 let fieldValues = {
     type: null,
@@ -118,22 +119,32 @@ class EventForm extends React.Component {
                 )
             case 3: 
                 return (
-                    //Picker with all nearby locations and a form
-                    //to discover new court using mapview and dropping pin
-                    <View style={[styles.bottomMiddle, styles.inlineItems]}>
-                        <TouchableOpacity
-                            onPress={() => this.previousStep()}>
-                            <IonIcon name='md-arrow-back' size={35} color='#444'/>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.navBtn}
-                            onPress={() => this.nextStep()}>
-                            <IonIcon name='md-arrow-forward' size={35} color='#444'/>
-                        </TouchableOpacity>
-                    </View>                    
+                    <View style={styles.container}>
+                        <Text>Comment</Text>
+                        <FormInput 
+                            placeholder='optional'
+                            onChangeText={val => this.handleChange('comment', val)}
+                            containerStyle={{width: 300}}
+                            inputStyle={{color: '#444', marginLeft: 5}}
+                        />
+
+                        <View style={[styles.bottomMiddle, styles.inlineItems]}>
+                            <TouchableOpacity
+                                onPress={() => this.previousStep()}>
+                                <IonIcon name='md-arrow-back' size={35} color='#444'/>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.navBtn}
+                                onPress={() => this.nextStep()}>
+                                <IonIcon name='md-arrow-forward' size={35} color='#444'/>
+                            </TouchableOpacity>
+                        </View> 
+                    </View>                   
                 )
             case 4 :
                 return (
+                    //Picker with all nearby locations and a form
+                    //to discover new court using mapview and dropping pin
                     null
                 )
             default : 

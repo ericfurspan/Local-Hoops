@@ -21,6 +21,7 @@ export default reducer = (state = initialState, action)  => {
             error: null
         });
     } else if (action.type === LOGIN_SUCCESS) {
+        console.log(action)
         return Object.assign({}, state, {
             currentUser: action.user,
             loggedIn: true,
@@ -40,8 +41,6 @@ export default reducer = (state = initialState, action)  => {
             loading: true
         });   
     } else if (action.type === UPDATE_EVENTS) {
-         console.log(action.events)
-         console.log(action.category)
          switch(action.category) {
                 case 'user':
                     return Object.assign({}, state, {
@@ -52,8 +51,6 @@ export default reducer = (state = initialState, action)  => {
                     });
                     break;
                 case 'friends':
-                    console.log(state)
-                    console.log(action.events)
                     return Object.assign({}, state, {
                         events: {
                             ...state.events,
@@ -62,7 +59,6 @@ export default reducer = (state = initialState, action)  => {
                     });
                     break;
                 case 'all':
-                    console.log([...state.events.user, ...state.events.friends])
                     return Object.assign({}, state, {
                         events: {
                             ...state.events,

@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import Loading from './Loading';
 import Events from './Events';
 import firebase from 'react-native-firebase'
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import EventForm from './EventForm';
 import { Dropdown } from 'react-native-material-dropdown';
 
@@ -29,7 +28,6 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    console.log('rerendering dashboard')
     if(this.props.currentUser) {
       return (
           <ScrollView contentContainerStyle={styles.container}>
