@@ -2,13 +2,16 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import firebase from 'react-native-firebase'
-import { updateEvents, updateEventsRequest } from '../actions/auth';
+import { updateEvents, updateEventsRequest } from '../actions';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import Timeline from 'react-native-timeline-listview'
 
 class Events extends React.Component {
-
+    constructor() {
+        super();
+        this.unsubscribeUserEvents = null;
+    }
     componentDidMount() {
         //fetch both user and friends events
         this.fetchUserEvents()
@@ -20,13 +23,14 @@ class Events extends React.Component {
             console.log('has no friends! NOT calling fetchFriendsEvents')
         }
     }
-
+    componentWillUnmount() {
+        this.unsubscribeUserEvents();
+    }
     fetchUserEvents = () => {
-        let events = [];
-        let counter = 0;
-        firebase.firestore().collection('events').where("event_author", "==", this.props.currentUser.uid) 
-        .get()
-        .then(eventsSnapshot => {
+        this.unsubscribeUserEvents = firebase.firestore().collection('events').where("event_author", "==", this.props.currentUser.uid) 
+        .onSnapshot(eventsSnapshot => {
+            let events = [];
+            let counter = 0;
             eventsSnapshot.forEach(doc => {
                 const { type, date, event_author, comment } = doc.data();
                 let event = {
@@ -35,6 +39,7 @@ class Events extends React.Component {
                     type,
                     event_author,
                     participants: [],
+
                     date,
                     comment,
                 } 
@@ -120,23 +125,25 @@ class Events extends React.Component {
         })        
     }
 
-    render() {        
-        console.log(this.props)
+    render() {     
         if(this.props.events) {
-            let events;
+            let events, userEventsExists, friendsEventsExists;
+            this.props.events.user ? userEventsExists = true : userEventsExists = false
+            this.props.events.friends ? friendsEventsExists = true : friendsEventsExists = false
             switch(this.props.activityType) {
                 case 'My Activity':
-                    if(this.props.events.user) events = this.props.events.user
+                    if(userEventsExists) events = this.props.events.user
                     else return null
                     break;
                 case 'Friends Activity':
-                    if(this.props.events.friends) events = this.props.events.friends
+                    if(friendsEventsExists) events = this.props.events.friends
                     else return null
                     break;
                 case 'All Activity':
-                    if(this.props.events.friends && this.props.events.user) {
-                        events = [...this.props.events.user, ...this.props.events.friends]
-                    } else return null
+                    if(userEventsExists && friendsEventsExists) events = [...this.props.events.user, ...this.props.events.friends]
+                    else if(userEventsExists && !friendsEventsExists) events = this.props.events.user;
+                    else if(!userEventsExists && friendsEventsExists) events = this.props.events.friends;
+                    else return null
                     break;
             }
             let timelineData = events.map(event => {

@@ -98,7 +98,6 @@ class Explore extends React.Component {
     }
     // Loop over state.nearbyCourts and return annotations
     renderAnnotations = () => {
-        console.log('running renderAnnotations')
         if(this.state.nearbyCourts !== null) {
             let annotations = this.state.nearbyCourts.map( (court, i) => {
                 return this.returnAnnotation(i)
@@ -198,14 +197,11 @@ class Explore extends React.Component {
                     </View>
                 )
             } else if(this.state.viewMode === 'map') {
-                console.log('returning map')
                 return (
                     <View style={[styles.container]}>
                         {modal}
                         <Mapbox.MapView
                             onLongPress={(e) => {
-                                console.log(e)
-                                console.log('long pressed')
                                 this.updateUserLocation(e.geometry.coordinates[1], e.geometry.coordinates[0])
                             }}
                             styleURL={Mapbox.StyleURL.Light}
@@ -231,7 +227,7 @@ class Explore extends React.Component {
                 )
             }
         } else {
-            return <Loading />
+            return <Loading message='courts...'/>
         }
     }
 

@@ -4,12 +4,14 @@ import {
     LOGIN_ERROR,
     LOGOUT,
     UPDATE_EVENTS,
-    UPDATE_EVENTS_REQUEST
-} from './actions/auth';
+    UPDATE_EVENTS_REQUEST,
+    UPDATE_FRIENDS
+} from './actions';
 
 const initialState = {
     currentUser: null,
     events: null,
+    friends: null,
     loggedIn: false,
     loading: false,
     error: null
@@ -21,7 +23,6 @@ export default reducer = (state = initialState, action)  => {
             error: null
         });
     } else if (action.type === LOGIN_SUCCESS) {
-        console.log(action)
         return Object.assign({}, state, {
             currentUser: action.user,
             loggedIn: true,
@@ -34,6 +35,7 @@ export default reducer = (state = initialState, action)  => {
     } else if (action.type === LOGOUT) {
         return Object.assign({}, state, {
             currentUser: null,
+            events: null,
             loggedIn: false
         });
     } else if (action.type === UPDATE_EVENTS_REQUEST) {
@@ -67,7 +69,10 @@ export default reducer = (state = initialState, action)  => {
                     });
                     break;
          }
-
+    } else if (action.type === UPDATE_FRIENDS) {
+        return Object.assign({}, state, {
+            friends: action.friends
+        })
     }
     return state;
 }

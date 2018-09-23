@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
-import { logout } from '../actions/auth';
+import { logout } from '../actions';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase'
 import Loading from './Loading';
+import FriendList from './FriendList';
 
 class Account extends React.Component {
+
     logout = () => {
         this.props.dispatch(logout())
         firebase.auth().signOut();
@@ -22,7 +24,8 @@ class Account extends React.Component {
                         source={{uri: this.props.currentUser.photoURL}}
                         activeOpacity={0.7}
                     />
-                    <Text style={styles.text}>{this.props.currentUser.displayName}</Text>   
+                    <Text style={styles.text}>{this.props.currentUser.displayName}</Text>  
+                    <FriendList />
                     <TouchableOpacity
                         style={styles.bottomCenter}
                         onPress={() => this.logout()}>
@@ -32,7 +35,7 @@ class Account extends React.Component {
                 </View>
             )
         } else {
-            return <Loading />
+            return <Loading message='friends...'/>
         }
 
     }

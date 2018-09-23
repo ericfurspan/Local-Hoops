@@ -71,7 +71,7 @@ class Dashboard extends React.Component {
       );
     } else {
       return (
-        <Loading />
+        <Loading message='...'/>
       )
     }
 

@@ -3,7 +3,6 @@ import { GOOGLE_API_KEY } from '../config';
 
 export const findNearbyCourtsByLatLong = (lat, long, searchRadius, callback) => {
     const searchUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&keyword=basketballcourt&radius=${searchRadius}&rankby=prominence&key=${GOOGLE_API_KEY}`
-    console.log(searchUrl)
     fetch(searchUrl)
         .then(res => res.json())
         .then(json => {
@@ -47,7 +46,6 @@ const addCourtDetail = (courtData, callback) => {
         fetch(searchUrl)
             .then(res => res.json())
             .then(json => {
-                console.log(json)
                 let updatedCourt = {
                     ...court,
                     address: json.result.formatted_address,

@@ -1,7 +1,7 @@
 import React from 'react';
 import Loading from './Loading';
 import firebase from 'react-native-firebase'
-import { loginSuccess } from '../actions/auth';
+import { loginSuccess } from '../actions';
 import { connect } from 'react-redux';
 
 class AuthLoadingScreen extends React.Component {
@@ -25,7 +25,7 @@ class AuthLoadingScreen extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-        <Loading />
+        <Loading message='...'/>
     );
   }
 }

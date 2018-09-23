@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
-import { GoogleLogin, GoogleLogout, FacebookLogin } from '../actions/auth'
+import { GoogleLogin, GoogleLogout, FacebookLogin } from '../actions'
 import { connect } from 'react-redux';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 

@@ -29,7 +29,11 @@ export const UPDATE_EVENTS_REQUEST = 'UPDATE_EVENTS_REQUEST';
 export const updateEventsRequest = () => ({
     type: UPDATE_EVENTS_REQUEST,
 })
-
+export const UPDATE_FRIENDS = 'UPDATE_FRIENDS';
+export const updateFriends = (friends) => ({
+    type: UPDATE_FRIENDS,
+    friends
+})
 
 // Facebook Login
 export const FacebookLogin = () => (dispatch, getState) => {

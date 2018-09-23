@@ -8,7 +8,7 @@ class Loading extends React.Component {
         return (
             <View style={styles.background}>
                 <IonIcon name='ios-basketball' size={80} color='#444' />
-                <Text style={styles.text}>Loading...</Text>
+                <Text style={styles.text}>Loading {this.props.message}</Text>
             </View>
         )
     }

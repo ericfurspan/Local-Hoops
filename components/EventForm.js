@@ -72,7 +72,6 @@ class EventForm extends React.Component {
         return pickerItems;
     }
     render() {
-        console.log(this.state.tempEvent)
         switch(this.state.step) {            
             case 1 :
                 return (
