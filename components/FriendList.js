@@ -13,7 +13,6 @@ class FriendList extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         // query friends and pass to FriendsList
         if(this.props.currentUser.friends.length > 0) {
             let counter = 0;

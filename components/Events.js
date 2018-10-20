@@ -16,7 +16,7 @@ class Events extends React.Component {
         //fetch both user and friends events
         this.fetchUserEvents()
         console.log(this.props)
-        if(this.props.friends) {
+        if(this.props.currentUser.friends) {
             console.log('has friends! calling fetchFriendsEvents')
             this.fetchFriendsEvents()
         } else {
@@ -140,12 +140,17 @@ class Events extends React.Component {
                     else return null
                     break;
                 case 'All Activity':
-                    if(userEventsExists && friendsEventsExists) events = [...this.props.events.user, ...this.props.events.friends]
+                    if(userEventsExists && friendsEventsExists) {
+                        events = [...this.props.events.user, ...this.props.events.friends]
+                        // filter for only unique events
+                        events = events.filter((e, i) => events.findIndex(a => a.id === e.id) === i);
+                    }
                     else if(userEventsExists && !friendsEventsExists) events = this.props.events.user;
                     else if(!userEventsExists && friendsEventsExists) events = this.props.events.friends;
                     else return null
                     break;
             }
+
             let timelineData = events.map(event => {
                 let participants = event.participants.map(p=>p.displayName).join(", ")
                 return {
@@ -162,7 +167,7 @@ class Events extends React.Component {
                     innerCircle='icon'
                     circleColor='black'
                     rowContainerStyle={{minWidth: 250}}
-                    timeContainerStyle={{maxWidth: 75}}
+                    timeContainerStyle={{minWidth: 72}}
                     timeStyle={{textAlign: 'center', backgroundColor:'#FAFAFA', color:'#4B4B4B', padding:5, borderRadius:13}}
 
                 />
@@ -193,7 +198,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, props) => ({
     currentUser: state.currentUser,
     events: state.events,
-    loading: state.loading
+    loading: state.loading,
 })
 
 export default connect(mapStateToProps)(Events);

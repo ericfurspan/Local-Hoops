@@ -145,12 +145,12 @@ class Explore extends React.Component {
                     animationType="slide"
                     transparent={false}
                     visible={this.state.modalVisible}>
-                    <View style={[styles.container, styles.center, {marginTop: 22}]}>
+                    <View style={[styles.container, {marginTop: 22}]}>
                         <Card
                             title={activeCourtName}
                             containerStyle={styles.cardContainer}
                             titleStyle={styles.text}
-                            image={require('../assets/img/ballhoop.jpg')}>
+                           >
                             <Text style={[styles.cardDescription, styles.text]}>{activeCourtLocation}</Text>
                             <Button
                                 onPress={() => this.openExternalMap(lat, long)}
