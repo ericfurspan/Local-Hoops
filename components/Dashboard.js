@@ -19,7 +19,7 @@ class Dashboard extends React.Component {
   }
   static navigationOptions = {
     title: 'Dashboard',
-  };
+  }
 
   setEventFormModalVisible = (visible) => {
     this.setState({

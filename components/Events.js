@@ -6,6 +6,7 @@ import { updateEvents, updateEventsRequest } from '../actions';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import Timeline from 'react-native-timeline-listview'
+import { sortByDateDesc } from '../assets/helper';
 
 class Events extends React.Component {
     constructor() {
@@ -132,11 +133,19 @@ class Events extends React.Component {
             this.props.events.friends ? friendsEventsExists = true : friendsEventsExists = false
             switch(this.props.activityType) {
                 case 'My Activity':
-                    if(userEventsExists) events = this.props.events.user
+                    if(userEventsExists) {
+                        events = this.props.events.user
+                        // todo sort events by date
+                        console.log(events)
+                    }
                     else return null
                     break;
                 case 'Friends Activity':
-                    if(friendsEventsExists) events = this.props.events.friends
+                    if(friendsEventsExists) {
+                        // todo sort events by date
+                        events = this.props.events.friends
+                        console.log(events)
+                    } 
                     else return null
                     break;
                 case 'All Activity':
@@ -145,8 +154,12 @@ class Events extends React.Component {
                         // filter for only unique events
                         events = events.filter((e, i) => events.findIndex(a => a.id === e.id) === i);
                     }
-                    else if(userEventsExists && !friendsEventsExists) events = this.props.events.user;
-                    else if(!userEventsExists && friendsEventsExists) events = this.props.events.friends;
+                    else if(userEventsExists && !friendsEventsExists) {
+                        events = this.props.events.user;
+                    }
+                    else if(!userEventsExists && friendsEventsExists) {
+                        events = this.props.events.friends;
+                    }
                     else return null
                     break;
             }
@@ -160,6 +173,9 @@ class Events extends React.Component {
                     icon: require('../assets/img/ball.png')
                 }
             })
+            // sort by date descending
+            timelineData.sort(sortByDateDesc)
+
             return (
                 <Timeline
                     data={timelineData}
