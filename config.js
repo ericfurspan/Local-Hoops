@@ -1,0 +1,2 @@
+export const GOOGLE_API_KEY = 'AIzaSyBrOtbO2EJJwHUWSZzWy_Lxa0_pXlcuThA';
+export const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoicXVhbmRhIiwiYSI6ImNqZTd2eTRrbjBpMXQycW16eTd0ODJncjEifQ.ZFdf44K2KF8UtZBsSac0wA';
