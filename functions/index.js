@@ -36,10 +36,28 @@ exports.sendEventNotification = functions.firestore.document('/events/{eventId}'
     });
 });
 */
+
+// monitors friend requests and dispatches notifications
+exports.handleFriendRequests = functions.firestore.document('users/${userId}/friendRequests')
+  .onUpdate(async (change, context) => {
+    const userId = context.params.userId; // The userId in the Path.
+
+    const beforeFriends = change.before.data();
+    const afterFriends = change.after.data();
+
+    console.log(beforeFriends)
+    console.log(afterFriends)
+
+    console.log(context)
+    console.log(change)
+
+  })
+
+
 // sends notification to user when they have been followed or unfollowed
 exports.sendFollowerNotification = functions.firestore.document('/users/{userId}')
   .onWrite(async (change, context) => {
-    const userId = context.params.userId; // The eventId in the Path.
+    const userId = context.params.userId; // The userId in the Path.
 
     const beforeFollowers = change.before.data().followers;
     const afterFollowers = change.after.data().followers;
@@ -86,7 +104,8 @@ exports.sendFollowerNotification = functions.firestore.document('/users/{userId}
                 "content-available": 1,
                 "alert": {
                   "body": body,
-                }                      
+                },
+                "badge": 0                      
               }
             }
           },
