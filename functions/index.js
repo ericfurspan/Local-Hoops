@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-let helper = require('./helper');
+const helper = require('./helper');
 
 admin.initializeApp();
 // // Create and Deploy Your First Cloud Functions
@@ -38,7 +38,7 @@ exports.sendEventNotification = functions.firestore.document('/events/{eventId}'
 */
 
 // monitors friend requests and dispatches notifications
-exports.handleFriendRequests = functions.firestore.document('users/${userId}/friendRequests')
+exports.handleFriendRequests = functions.firestore.document('users/${userId}/friendRequestsPending')
   .onUpdate(async (change, context) => {
     const userId = context.params.userId; // The userId in the Path.
 
