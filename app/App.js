@@ -1,12 +1,11 @@
 import React from 'react';
 import Dashboard from './components/Dashboard';
 import Explore from './components/Explore';
-import FCM from './components/FCM';
+//import FCM from './components/FCM';
 import Me from './components/Me';
 import AuthLoading from './components/AuthLoading';
 import Login from './components/Login';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import { YellowBox, Image } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import store from '../store';
 import { Provider } from 'react-redux'
@@ -20,7 +19,7 @@ const AppStack = createBottomTabNavigator({
 },
 {
   navigationOptions: ({ navigation }) => ({
-    tabBarIcon: ({ focused, tintColor }) => {
+    tabBarIcon: ({ focused }) => {
       const { routeName } = navigation.state;
       let iconName;
       let iconColor = '#4B4B4B'
@@ -64,7 +63,7 @@ const Nav = createSwitchNavigator(
   }
 );
 
-export default App = () => {
+export default function App() {
   return (
       <Provider store={store}>
           <Nav />

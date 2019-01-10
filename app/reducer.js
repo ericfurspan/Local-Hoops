@@ -32,11 +32,11 @@ import {
 } from './actions/Event';
 import { eventTypes } from '../app/components/CreateEvent/EventForm';
 // COURT
-import { 
+/*import { 
     SAVE_COURT, 
     SAVE_COURT_SUCCESS 
 } from './actions/Court';
-
+*/
 // FIREBASE MESSAGING
 //import {  } from './actions/Messaging';
 
@@ -63,7 +63,7 @@ const initialState = {
     error: null
 };
 
-export default reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     if (action.type === LOGIN_REQUEST) {
         return Object.assign({}, state, {
             error: null,
@@ -98,7 +98,6 @@ export default reducer = (state = initialState, action) => {
                             user: action.events
                         }
                     });
-                    break;
                 case 'friends':
                     return Object.assign({}, state, {
                         events: {
@@ -106,7 +105,6 @@ export default reducer = (state = initialState, action) => {
                             friends: action.events
                         }
                     });
-                    break;
                 case 'all':
                     return Object.assign({}, state, {
                         events: {
@@ -114,7 +112,6 @@ export default reducer = (state = initialState, action) => {
                             all: [...state.events.user, ...state.events.friends]
                         }
                     });
-                    break;
          }
     } else if (action.type === UPDATE_TEMPEVENT_FRIENDS) {
         return Object.assign({}, state, {
@@ -244,3 +241,5 @@ export default reducer = (state = initialState, action) => {
     }
     return state;
 }
+
+export default reducer;

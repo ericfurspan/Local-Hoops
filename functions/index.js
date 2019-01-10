@@ -45,6 +45,7 @@ exports.handleFriendRequests = functions.firestore.document('users/${userId}/fri
     const beforeFriends = change.before.data();
     const afterFriends = change.after.data();
 
+    console.log(userId)
     console.log(beforeFriends)
     console.log(afterFriends)
 
@@ -113,7 +114,7 @@ exports.sendFollowerNotification = functions.firestore.document('/users/{userId}
         };
 
         // send notification
-        const response = await admin.messaging().send(notification);
+        await admin.messaging().send(notification);
         console.log(`Successfully sent notification: ${{...notification}}`);
       } else {
         throw new Error(`No fcmToken found for ${name}`);
