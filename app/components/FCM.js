@@ -1,13 +1,9 @@
-// @flow
-
 import React from 'react';
-import { View, Text } from 'react-native';
-import styles from './styles/main';
 import { connect } from 'react-redux'; 
 import firebase from 'react-native-firebase';
 
 class FCM extends React.Component {
-    enableNotificationListener = (fcmToken) => {
+    enableNotificationListener = () => {
         firebase.notifications().onNotification(notification => {
             const testmsg = new firebase.notifications.Notification()
             .setNotificationId(notification.notificationId)
@@ -57,7 +53,7 @@ class FCM extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     fcm: state.fcm,
     currentUser: state.currentUser
 })

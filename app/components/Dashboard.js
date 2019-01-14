@@ -1,19 +1,15 @@
 import React from 'react';
-import { ImageBackground, Text, View, TouchableOpacity, Modal, ScrollView, Picker, Dimensions, PushNotificationIOS } from 'react-native';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import Login from './Login';
-import { Avatar, Button, Divider, Header, ButtonGroup } from 'react-native-elements';
+import { Text, View, Modal, Dimensions } from 'react-native';
+import { Button, Header, ButtonGroup } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import Events from './Events';
-import firebase from 'react-native-firebase'
 import EventForm from './CreateEvent/EventForm';
 import { Dropdown } from 'react-native-material-dropdown';
 import { getFriends, updateUserLoc } from '../actions/User';
 import ErrorMessage from './ErrorMessage';
 import { Cancel } from './navButtons';
 import styles from './styles/main';
-import { listenForNotifications } from '../actions/Messaging';
 import FCM from './FCM';
 
 let deviceWidth = Dimensions.get('window').width;
@@ -53,11 +49,12 @@ class Dashboard extends React.Component {
   getUserLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       this.props.dispatch(updateUserLoc(position.coords));
-    }, err => console.error(error.message)),
+    }, err => console.error(err.message)),
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
   }
 
   render() {
+    let eventViewType0, eventViewType1;
     if(this.props.error) {
       return <ErrorMessage message={this.props.error}/>
     }
@@ -150,7 +147,7 @@ class Dashboard extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
   loggedIn: state.loggedIn,
   friends: state.friends,

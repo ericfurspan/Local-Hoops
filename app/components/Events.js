@@ -1,16 +1,13 @@
 import React from 'react';
-import { View, Text, RefreshControl, ScrollView, Dimensions, Modal, FlatList, Image, AlertIOS } from 'react-native';
-import { ListItem, Card, Button, Avatar } from 'react-native-elements';
+import { RefreshControl, ScrollView, Dimensions, FlatList} from 'react-native';
+import { ListItem } from 'react-native-elements';
 import firebase from 'react-native-firebase'
-import { updateEvents, updateEventsRequest } from '../actions/Event';
+import { updateEvents } from '../actions/Event';
 import { connect } from 'react-redux';
-import Loading from './Loading';
 import Timeline from 'react-native-timeline-listview'
 import { sortByDateDesc } from '../../assets/helper';
 import BallIcon from '../../assets/img/nyk.png';
-import { Cancel } from './navButtons';
 import styles from './styles/main';
-import { deleteEvent } from '../actions/Event';
 import FacePile from 'react-native-face-pile'
 import { MAPBOX_ACCESS_TOKEN } from '../../config';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
@@ -19,7 +16,6 @@ import EventModal from './EventModal';
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 let deviceWidth = Dimensions.get('window').width;
-let deviceHeight= Dimensions.get('window').height;
 
 class Events extends React.Component {
     constructor(props) {
@@ -292,7 +288,7 @@ class Events extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
     events: state.events,
     friends: state.friends,

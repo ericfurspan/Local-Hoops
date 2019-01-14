@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, AlertIOS } from 'react-native';
-import Login from './Login';
+import { View, AlertIOS } from 'react-native';
 import { clearError } from '../actions/Misc';
 import { connect } from 'react-redux';
 import styles from './styles/main';

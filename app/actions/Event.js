@@ -79,7 +79,7 @@ export const saveEvent = (event) => (dispatch, getState) => {
             .then(doc => {
                 return doc.data().displayName
             })
-            .then(displayName => {
+            .then(() => {
                 // update users' events array
                 firebase.firestore().collection('users').doc(uid)
                 .update({

@@ -1,10 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Dimensions, List } from 'react-native';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import { Avatar, SearchBar, ListItem } from 'react-native-elements';
+import { ScrollView, Dimensions } from 'react-native';
+import { SearchBar, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
 
 class SelectableFriendList extends React.Component {
@@ -45,7 +43,7 @@ class SelectableFriendList extends React.Component {
             if(this.props.tempEvent && this.props.tempEvent.friends && this.props.tempEvent.friends.includes(friend.uid)) {
                 listIcon = {name:'md-checkmark',type:'ionicon',size:20,color:'green'}
             } else {
-                listicon = {name:'md-add',type:'ionicon',size:20}
+                listIcon = {name:'md-add',type:'ionicon',size:20}
             }
             return (
                 <ListItem
@@ -76,7 +74,7 @@ class SelectableFriendList extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     friends: state.friends,
     tempEvent: state.tempEvent
 })

@@ -1,14 +1,12 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Dimensions, Modal } from 'react-native';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import { List, ListItem, Icon } from 'react-native-elements';
+import { View, ScrollView, Dimensions, Modal } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Cancel } from '../navButtons';
 import PinToMap from './PinToMap';
 import { updateUserLoc } from '../../actions/User';
 import styles from '../styles/main';
 
-let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
 
 const selectTypes = [ {val: 'Pin to Map', key: 'pin'}, {val: 'Select from Saved Courts', key: 'saved'}, {val: 'Use my current location', key: 'userloc'}];
@@ -101,7 +99,4 @@ class SelectLocation extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
-
-})
-export default connect(mapStateToProps)(SelectLocation);
+export default connect()(SelectLocation);

@@ -134,7 +134,7 @@ class Explore extends React.Component {
     }
 
     render() {
-        let lat, long, activeCourtName, activeCourtLocation, modal, activeCourtGoogleUrl;
+        let lat, long, activeCourtName, activeCourtLocation, modal;
         if(this.state.userLocation !== null) {
             lat = this.state.userLocation.latitude
             long = this.state.userLocation.longitude
@@ -147,7 +147,6 @@ class Explore extends React.Component {
             if(this.state.activeCourt) {
                 activeCourtName = this.state.activeCourt.name;
                 activeCourtLocation = this.state.activeCourt.location;
-                activeCourtGoogleUrl = this.state.activeCourt.gMapsUrl;
             }
             modal = 
                 <Modal
@@ -185,7 +184,6 @@ class Explore extends React.Component {
                             }}
                         />          
                         <FlatList
-                            //ListHeaderComponent={<Text style={styles.header}>Nearby Basketball Courts</Text>}
                             data={this.state.nearbyCourts}
                             renderItem={({item}) => (
                                 <ListItem
@@ -244,7 +242,7 @@ class Explore extends React.Component {
 
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     userLocation: state.currentUser ? state.currentUser.location : null,
 })
 

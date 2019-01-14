@@ -1,4 +1,4 @@
-import React, { StyleSheet, Dimensions } from "react-native"
+import { StyleSheet, Dimensions } from "react-native"
 let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
 
@@ -63,7 +63,7 @@ export default StyleSheet.create({
     fullCenterContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',  
+        alignItems: 'center'
     },
     divider: {
         backgroundColor:'#FAFAFA',  //'#EFEFEF'

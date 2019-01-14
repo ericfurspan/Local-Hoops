@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, Dimensions, AlertIOS } from 'react-native';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import { SearchBar, List, ListItem, Header } from 'react-native-elements';
+import { View, AlertIOS } from 'react-native';
+import { SearchBar, ListItem, Header } from 'react-native-elements';
 import firebase from 'react-native-firebase'
 import { connect } from 'react-redux';
 import styles from '../styles/main';
@@ -78,7 +77,7 @@ class AddFriend extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
     friends: state.friends
 })
