@@ -10,7 +10,14 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import store from '../store';
 import { Provider } from 'react-redux'
 
-const AuthStack = createStackNavigator({ SignIn: Login });
+const AuthStack = createStackNavigator(
+  { 
+    SignIn: Login 
+  },
+  {
+    headerMode: 'none'
+  }
+);
 const AppStack = createBottomTabNavigator({
   Dashboard: { screen: Dashboard },
   Explore: { screen: Explore },
