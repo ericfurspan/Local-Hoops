@@ -1,15 +1,13 @@
 import React from 'react';
-import { View, Picker, TouchableOpacity, DatePickerIOS, Dimensions, TextInput, ProgressViewIOS } from 'react-native';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import { Input, FormValidationMessage, Button, Text, Header, Icon } from 'react-native-elements'
-import { BackButton, NextButton, Checkmark } from '../navButtons';
+import { View, Picker, DatePickerIOS, Dimensions, ProgressViewIOS } from 'react-native';
+import { Input, Text, Header, Icon } from 'react-native-elements'
 import SelectableFriendList from '../Friends/SelectableFriendList';
 import SelectLocation from './SelectLocation';
 import SaveCourt from './SaveCourt';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config'
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { connect } from 'react-redux';
-import { updateTempEventType, updateTempEvent, saveEvent, clearTempEvent, updateTempEventFriends } from '../../actions/Event';
+import { updateTempEventType, updateTempEvent, saveEvent, updateTempEventFriends } from '../../actions/Event';
 import styles from '../styles/main';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
@@ -76,6 +74,7 @@ class EventForm extends React.Component {
         // compile selected friends into string
         let friends = this.props.tempEvent ? this.props.tempEvent.friends : null;
         let friendsListTemp = [];
+        let friendsList;
         if(friends) {                    
             this.props.friends.forEach(f => {
                 if(friends.includes(f.uid)) {
@@ -345,7 +344,7 @@ class EventForm extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     friends: state.friends,
     tempEvent: state.tempEvent,
     currentUser: state.currentUser

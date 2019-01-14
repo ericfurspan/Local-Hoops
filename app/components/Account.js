@@ -1,12 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
-import { logout, logoutRequest } from '../actions/Auth';
-import IonIcon from 'react-native-vector-icons/Ionicons';
+import { logoutRequest } from '../actions/Auth';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase'
 import Loading from './Loading';
-import Friends from './Friends/Friends';
 import styles from './styles/main';
 
 class Account extends React.Component {
@@ -58,7 +55,7 @@ class Account extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     currentUser: state.currentUser
 })
 export default connect(mapStateToProps)(Account);

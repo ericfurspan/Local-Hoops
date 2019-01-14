@@ -1,13 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, AlertIOS, Dimensions, RefreshControl, Modal } from 'react-native';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import { ListItem, Card, Button, Avatar } from 'react-native-elements';
+import { View, Text, ScrollView, TouchableOpacity, AlertIOS, Dimensions, RefreshControl } from 'react-native';
+import { Avatar } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 import { sortByDateDesc } from '../../../assets/helper';
 import BallIcon from '../../../assets/img/nyk.png';
 import Timeline from 'react-native-timeline-listview';
-import { connect } from 'react-redux';
-import { Cancel } from '../navButtons';
 import styles from '../styles/main';
 import EventModal from '../EventModal';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';

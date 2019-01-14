@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, Dimensions, Modal, AlertIOS } from 'react-native';
 import { Avatar, Button, Card } from 'react-native-elements';
-import IonIcon from 'react-native-vector-icons/Ionicons';
 import styles from './styles/main';
 import { connect } from 'react-redux';
 import { deleteEvent } from '../actions/Event';
@@ -11,7 +10,6 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
-let deviceWidth = Dimensions.get('window').width;
 let deviceHeight= Dimensions.get('window').height;
 
 class EventModal extends React.Component {
@@ -108,7 +106,7 @@ class EventModal extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     currentUser: state.currentUser
 })
 

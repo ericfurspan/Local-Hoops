@@ -1,9 +1,6 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, Modal } from 'react-native';
 import { Button } from 'react-native-elements';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import Loading from '../Loading';
-import IonIcon from 'react-native-vector-icons/Ionicons';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { findLocationByQuery } from '../../api-calls/googleplaces';
@@ -82,7 +79,7 @@ class PinToMap extends React.Component {
         }
     }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     userLocation: state.currentUser.location,
 })
   

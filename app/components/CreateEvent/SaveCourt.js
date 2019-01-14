@@ -1,14 +1,11 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, Modal, Dimensions, AlertIOS } from 'react-native';
-import { Button, Input, Header, Icon } from 'react-native-elements';
-import Loading from '../Loading';
-import IonIcon from 'react-native-vector-icons/Ionicons';
-import { BackButton, NextButton, Checkmark, Save, Saved } from '../navButtons';
+import { Text, View, Dimensions, AlertIOS } from 'react-native';
+import { Button, Input, Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { saveCourt } from '../../actions/Court';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config'
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import { updateTempEvent, clearTempEvent } from '../../actions/Event';
+import { clearTempEvent } from '../../actions/Event';
 import styles from '../styles/main';
 
 let deviceWidth = Dimensions.get('window').width;
@@ -39,7 +36,7 @@ class SaveCourt extends React.Component {
             </Mapbox.PointAnnotation>
         )  
     }
-    confirmSaveCourt = (court) => {
+    confirmSaveCourt = () => {
         AlertIOS.alert(
             'Save Court',
             `Are you sure you want to save this court?`,
@@ -107,7 +104,7 @@ class SaveCourt extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     currentUser: state.currentUser
 })
 

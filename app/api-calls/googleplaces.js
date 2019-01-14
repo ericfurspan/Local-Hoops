@@ -62,9 +62,10 @@ const addCourtDetail = (courtData, callback) => {
     })
 }
 
+/*
 // Return City, State from latlong
 const getCityAndState = (lat, long) => {
-    const searchUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&keyword=basketballcourt&radius=${searchRadius}&rankby=prominence&key=${GOOGLE_API_KEY}`
+    //const searchUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&keyword=basketballcourt&radius=${searchRadius}&rankby=prominence&key=${GOOGLE_API_KEY}`
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchQuery}&key=${GOOGLE_API_KEY}`
     fetch(geocodeUrl)
         .then(res => res.json())
@@ -74,3 +75,4 @@ const getCityAndState = (lat, long) => {
         })
         .catch(err => {console.error(err)})
 }
+*/

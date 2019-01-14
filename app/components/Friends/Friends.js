@@ -1,10 +1,8 @@
 import React from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Modal, ScrollView } from 'react-native';
+import { View, Text, Dimensions, Modal, ScrollView } from 'react-native';
 import { ListItem, SearchBar, Button } from 'react-native-elements';
-import IonIcon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase'
-import { updateFriends, addFriend, removeFriend, getFriends } from '../../actions/User';
+import { addFriend, removeFriend } from '../../actions/User';
 import AddFriend from './AddFriend';
 import ViewFriend from './ViewFriend';
 import { Cancel } from '../navButtons';
@@ -131,7 +129,7 @@ class Friends extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
     friends: state.friends
 })

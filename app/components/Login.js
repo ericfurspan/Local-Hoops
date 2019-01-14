@@ -1,12 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Button, SocialIcon } from 'react-native-elements';
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
-import { GoogleLogin, GoogleLogout, FacebookLogin } from '../actions/Auth'
-import { setupMessagingPermissions, listenForNotifications } from '../actions/Messaging';
+import { SocialIcon } from 'react-native-elements';
+import { GoogleLogin, FacebookLogin } from '../actions/Auth'
+//import { setupMessagingPermissions, listenForNotifications } from '../actions/Messaging';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase'
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Loading from './Loading';
 import ErrorMessage from './ErrorMessage';
 import styles from './styles/main';
@@ -18,9 +15,6 @@ class Login extends React.Component {
     triggerFacebookSignIn = () => {
         this.props.dispatch(FacebookLogin())
     }
-    /*forceCrash = () => {
-        firebase.crashlytics().crash()
-    }*/
 
     render() {
         if(this.props.authLoading) {
@@ -31,7 +25,7 @@ class Login extends React.Component {
         }
         return (
             <View style={[styles.fullCenterContainer,{backgroundColor:'#3578E5'}]}>
-                
+              
                 <Text style={{color:'#FFFFFF',fontSize:22,marginBottom:10}}>Sign in with</Text>
                 <View style={styles.row}>
                     <SocialIcon 
@@ -50,7 +44,7 @@ class Login extends React.Component {
     }
 }
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
     authLoading: state.authLoading,
     error: state.error
 })
