@@ -32,7 +32,7 @@ class Account extends React.Component {
                                         size={30}
                                         color='red'
                                         iconStyle={{marginRight:10}}
-                                        onPress={()=> this.props.cancelFriendRequest(pendingFriend.uid)}
+                                        onPress={()=> this.props.denyFriendRequest(pendingFriend.uid)}
                                     />                                
                                     <Icon name='md-checkmark'
                                         type='ionicon'
@@ -80,7 +80,7 @@ class Account extends React.Component {
                             }}
                         >                       
                             <Button
-                                title={this.props.currentUser.friends ? `${this.props.currentUser.friends.length}` : 0}
+                                title={this.props.friends ? `${this.props.friends.length}` : '0'}
                                 icon={{name:'md-people',type:'ionicon',size:23,color:'#FFFFFF'}}
                                 buttonStyle={{backgroundColor:'transparent'}}
                                 disabled
@@ -118,6 +118,7 @@ class Account extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    friends: state.friends
 })
 export default connect(mapStateToProps)(Account);

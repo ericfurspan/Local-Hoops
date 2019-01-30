@@ -5,7 +5,7 @@ import Account from './Account';
 import { connect } from 'react-redux';
 import styles from './styles/main';
 import firebase from 'react-native-firebase'
-import { addFriendSuccess, getFriends } from '../actions/User';
+import { createFriends, getFriends, cancelFriendRequest } from '../actions/User';
 
 class Me extends React.Component {
     constructor(props) {
@@ -57,21 +57,12 @@ class Me extends React.Component {
         })
         .catch(e => console.error(e))
     }
-    cancelFriendRequest = (prospectiveFriendId) => {
-        // delete document from friendRequests collection
-        firebase.firestore().collection('friendRequests')
-        .where('requesteeId', '==', this.props.currentUser.uid)
-        .where('requestorId', '==', prospectiveFriendId)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                doc.ref.update({
-                    status: 'declined'
-                })
-            })
-        })
+    denyFriendRequest = (prospectiveFriendId) => {
 
-        // hide modal
+        // Cancel the request
+        this.props.dispatch(cancelFriendRequest(this.props.currentUser.uid, prospectiveFriendId))
+
+        // Hide modal
         this.setModalVisible(false);
 
         // update state to remove friend request where uid === prospectiveFriendId
@@ -82,47 +73,28 @@ class Me extends React.Component {
         this.setState({friendRequestsReceived: updatedRequests})
     }
     acceptFriendRequest = (prospectiveFriendId) => {
-        
-        // add users to each others friends array
-        firebase.firestore().doc(`users/${this.props.currentUser.uid}`)
-        .update({
-            friends: firebase.firestore.FieldValue.arrayUnion(prospectiveFriendId)
-        })
-        .then(() => {
-            firebase.firestore().doc(`users/${prospectiveFriendId}`)
-            .update({
-                friends: firebase.firestore.FieldValue.arrayUnion(this.props.currentUser.uid)
-            })            
-        })        
-        // update status of document in friendRequests collection
-        firebase.firestore().collection('friendRequests')
-        .where('requesteeId', '==', this.props.currentUser.uid)
-        .where('requestorId', '==', prospectiveFriendId)
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-                doc.ref.update({
-                    status: 'accepted'
-                })
-            })
-        })
 
-        // hide modal
+        // Accept the request and create friends
+        this.props.dispatch(createFriends(this.props.currentUser.uid, prospectiveFriendId))
+
+        // Hide modal
         this.setModalVisible(false);
 
-        // update state to remove friend request where uid === prospectiveFriendId
+        // Remove friend request where uid === prospectiveFriendId
         let updatedRequests = this.state.friendRequestsReceived.filter(request => {
             return request.uid !== prospectiveFriendId
         })
 
+        // Update state
         this.setState({friendRequestsReceived: updatedRequests})
 
-        //this.props.dispatch(addFriendSuccess(prospectiveFriendId));
-        this.props.dispatch(getFriends([...this.props.friends, prospectiveFriendId]));
+        // Update friends list
+        this.props.dispatch(getFriends([...this.props.currentUser.friends, prospectiveFriendId]));
     }
 
     render() {
         console.log(this.state)
+        console.log(this.props.currentUser.friends.length)
         return (
             <View style={styles.container}>
                 <View style={styles.account}>
@@ -131,7 +103,7 @@ class Me extends React.Component {
                         friendRequests={this.state.friendRequestsReceived}
                         setModalVisible={visible => this.setModalVisible(visible)}
                         acceptFriendRequest={uid => this.acceptFriendRequest(uid)}
-                        cancelFriendRequest={uid => this.cancelFriendRequest(uid)}
+                        denyFriendRequest={uid => this.denyFriendRequest(uid)}
                     />
                 </View>
                 <Friends />
@@ -143,6 +115,5 @@ class Me extends React.Component {
 
 const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
-    friends: state.currentUser.friends
 })
 export default connect(mapStateToProps)(Me);

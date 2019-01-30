@@ -85,31 +85,47 @@ export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch, get
 }
 
 // Add friend
-export const addFriend = (userId, friendId) => (dispatch, getState) => {
-    dispatch(addFriendRequest());
+export const createFriends = (requesteeId, requestorId) => () => {
     
-    // add a document with status flag set to pending 
-    // to users/{uid}/friendRequestsReceived/{requestorUid}/ 
-    // as well as to users/{requestorUid}/friendRequestsSent/{uid}/
-
-    firebase.firestore().doc(`users/${userId}`)
+    // add users to each others friends array
+    firebase.firestore().doc(`users/${requesteeId}`)
     .update({
-        friends: firebase.firestore.FieldValue.arrayUnion(friendId)
+        friends: firebase.firestore.FieldValue.arrayUnion(requestorId)
     })
     .then(() => {
-        firebase.firestore().doc(`users/${friendId}`)
+        firebase.firestore().doc(`users/${requestorId}`)
         .update({
-            followers: firebase.firestore.FieldValue.arrayUnion(userId)
+            friends: firebase.firestore.FieldValue.arrayUnion(requesteeId)
+        })            
+    })        
+    // update status of document in friendRequests collection
+    firebase.firestore().collection('friendRequests')
+    .where('requesteeId', '==', requesteeId)
+    .where('requestorId', '==', requestorId)
+    .get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            doc.ref.update({
+                status: 'accepted'
+            })
+        })
+    })    
+}
+
+export const cancelFriendRequest = (requesteeId, requestorId) => () => {
+
+    // delete document from friendRequests collection
+    firebase.firestore().collection('friendRequests')
+    .where('requesteeId', '==', requesteeId)
+    .where('requestorId', '==', requestorId)
+    .get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            doc.ref.update({
+                status: 'declined'
+            })
         })
     })
-    .then(() => {
-        dispatch(addFriendSuccess(friendId));
-        dispatch(getFriends(getState().currentUser.friends))
-    })
-    .catch( error => {
-        console.error(`Error updating document: ${error}`);
-        dispatch(addFriendError());
-    });
 }
 
 // Remove friend
