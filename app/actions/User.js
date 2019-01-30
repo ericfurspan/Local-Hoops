@@ -40,10 +40,58 @@ export const removeFriendError = (error) => ({
     error
 })
 
+// Send friend request
+export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch, getState) => {
+    try {
+        firebase.firestore().collection('friendRequests')
+        .add({
+            requestorId: userId,
+            requesteeId: prospectiveFriendId,
+            status: 'pending'
+        })
+    } catch(e) {
+        console.error(e)
+    }
+
+    /*
+    // get info about prospective friend
+    firebase.firestore().doc(`users/${prospectiveFriendId}`)
+    .get()
+    .then(doc => {
+        return {
+            displayName: doc.data().displayName,
+            photoURL: doc.data().photoURL
+        }
+    }) 
+    .then(prospectiveFriend => { // add prospective friends info to users friendRequestsSent collection
+        firebase.firestore().doc(`users/${userId}/friendRequestsSent/${prospectiveFriendId}`)
+        .set({
+            status: 'pending',
+            displayName: prospectiveFriend.displayName,
+            photoURL: prospectiveFriend.photoURL,
+            uid: prospectiveFriendId
+        })
+        .then(() => { // add current users info to prospective friends friendRequestsSent collection
+            firebase.firestore().doc(`users/${prospectiveFriendId}/friendRequestsReceived/${userId}`)
+            .set({
+                status: 'pending',
+                displayName: getState().currentUser.displayName,
+                photoURL: getState().currentUser.photoURL,
+                uid: userId
+            })
+        })
+    }).catch(e => console.error(e))
+    */
+}
+
 // Add friend
 export const addFriend = (userId, friendId) => (dispatch, getState) => {
     dispatch(addFriendRequest());
     
+    // add a document with status flag set to pending 
+    // to users/{uid}/friendRequestsReceived/{requestorUid}/ 
+    // as well as to users/{requestorUid}/friendRequestsSent/{uid}/
+
     firebase.firestore().doc(`users/${userId}`)
     .update({
         friends: firebase.firestore.FieldValue.arrayUnion(friendId)
@@ -75,7 +123,7 @@ export const removeFriend = (userId, friendId) => (dispatch, getState) => {
     .then(() => {
         firebase.firestore().doc(`users/${friendId}`)
         .update({
-            followers: firebase.firestore.FieldValue.arrayRemove(userId)
+            friends: firebase.firestore.FieldValue.arrayRemove(userId)
         })
     })
     .then(() => {
@@ -89,7 +137,7 @@ export const removeFriend = (userId, friendId) => (dispatch, getState) => {
 }
 
 // Get Friends
-export const getFriends = (friendIds) => (dispatch, getState) => {
+export const getFriends = (friendIds) => (dispatch) => {
     let counter = 0;
     let friends = [];
     friendIds.forEach(uid => {

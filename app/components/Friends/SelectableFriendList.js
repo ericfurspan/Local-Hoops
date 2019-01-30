@@ -9,15 +9,17 @@ class SelectableFriendList extends React.Component {
     state = {
         friends: null,
         filter: false,
-        selectedFriends: null
+        selectedFriends: null,
+        search: ''
     }
-    filterFriends = (input) => {
+    filterFriends = (search) => {
         const friends = this.props.friends.filter(f => {
-            return f.displayName.includes(input);
+            return f.displayName.includes(search);
         })
         this.setState({
             friends,
-            filter: true
+            filter: true,
+            search
         })
     }
     onSelectFriend = (uid) => {
@@ -65,8 +67,9 @@ class SelectableFriendList extends React.Component {
                     lightTheme
                     containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
                     inputStyle={{color: '#222'}}
-                    onChangeText={(e) => this.filterFriends(e)}
+                    onChangeText={this.filterFriends}
                     placeholder='Filter Friends...'
+                    value={this.state.search}
                 />
                     {friendList}
             </ScrollView>

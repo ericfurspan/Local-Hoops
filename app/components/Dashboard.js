@@ -97,7 +97,7 @@ class Dashboard extends React.Component {
                   onPress={() => this.setEventFormModalVisible(true)}
                   icon={{name:'md-add',type:'ionicon',size:16,color:'#3578E5'}}
                   title='New Event'
-                  titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500',marginLeft:-5}}
+                  titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
                   buttonStyle={{backgroundColor:'transparent'}}
                 />
               </View>

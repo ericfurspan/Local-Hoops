@@ -1,96 +1,140 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const helper = require('./helper');
+//const helper = require('./helper');
 
 admin.initializeApp();
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
 
-/*
-exports.sendEventNotification = functions.firestore.document('/events/{eventId}')
-  .onWrite((change, context) => {
-    const beforeData = change.before.data(); // data before the write
-    const afterData = change.after.data(); // data after the write
-    const eventId = context.params.eventId; // The eventId in the Path.
-    console.log(beforeData)
-    console.log(afterData)
-    console.log(eventId)
 
-    let message = {
-        data: {
-          score: '123',
-          time: '2:45'
-        },
-        topic: 'nyc'
+exports.sendFriendRequestNotification = functions.firestore.document('friendRequests/{requestId}')
+.onWrite(async (change, context) => {
+
+  const requestId = context.params.requestId;
+  const beforeData = change.before.exists ? change.before.data() : null;
+  const afterData = change.after.exists ? change.after.data() : null;
+
+  let notificationRecipientId, title, body;  
+
+  // get name of requestee
+  const nameSnapshot = await admin.firestore().doc(`users/${afterData.requesteeId}`).get();
+  const requesteeName = nameSnapshot.data().displayName;
+
+  if(afterData && afterData.status === 'pending') {
+
+    notificationRecipientId = afterData.requesteeId;
+    title = `New friend request`;
+    body = `${requesteeName} has requested to be friends`;
+
+  } else if(beforeData && beforeData.status === 'pending' && afterData) {
+    // delete document
+    admin.firestore().doc(`friendRequests/${requestId}`)
+    .delete();
+
+    if(afterData.status === 'accepted') {
+
+      notificationRecipientId = afterData.requestorId;
+      title = `New friend`;
+      body = `${requesteeName} has accepted your friend request`;
+
+    } else if(afterData.status === 'declined') {
+
+      notificationRecipientId = afterData.requestorId;
+      title = `Declined friend request`;
+      body = `${requesteeName} has declined your friend request`;
+    }
+  }
+  
+  // get fcmToken for notification recipient
+  const tokenSnapshot = await admin.firestore().doc(`users/${notificationRecipientId}`).get();
+  const fcmToken = tokenSnapshot.data().fcmToken;
+
+  if(fcmToken) {
+    // build the notification
+    const notification = {
+      "notification": {
+        "title": title,
+        "body": body,
+      },
+      "apns": {
+        "payload": {
+          "aps": {
+            "content-available": 1,
+            "alert": {
+              "body": body,
+            },
+            "badge": 0                      
+          }
+        }
+      },
+      "token": fcmToken
     };
 
-    return admin.messaging().send(message)
-    .then((response) => {
-      // Response is a message ID string.
-      console.log('Successfully sent message:', response);
-      return true
-    })
-    .catch((error) => {
-      console.log('Error sending message:', error);
-    });
-});
-*/
+    // send notification
+    await admin.messaging().send(notification);
+    console.log(`Successfully sent notification: ${{...notification}}`);
+  }
+})
 
 // monitors friend requests and dispatches notifications
-exports.handleFriendRequests = functions.firestore.document('users/${userId}/friendRequestsPending')
-  .onUpdate(async (change, context) => {
-    const userId = context.params.userId; // The userId in the Path.
-
-    const beforeFriends = change.before.data();
-    const afterFriends = change.after.data();
-
-    console.log(userId)
-    console.log(beforeFriends)
-    console.log(afterFriends)
-
-    console.log(context)
-    console.log(change)
-
-  })
-
-
-// sends notification to user when they have been followed or unfollowed
-exports.sendFollowerNotification = functions.firestore.document('/users/{userId}')
+exports.handleFriendRequests = functions.firestore.document('users/{userId}/{collectionType}/{prospectiveFriendId}')
   .onWrite(async (change, context) => {
     const userId = context.params.userId; // The userId in the Path.
-
-    const beforeFollowers = change.before.data().followers;
-    const afterFollowers = change.after.data().followers;
-
-    if(beforeFollowers === afterFollowers) {
-      return 0 // exit because nothing changed
-    }
-
-    // determine what changed
-    let diffUID = helper.diff(beforeFollowers, afterFollowers);
+    const collectionType = context.params.collectionType;
+    const prospectiveFriendId = context.params.prospectiveFriendId;
+    const newStatus = change.after.data().status;
+    
+    let tokenSnapshot, fcmToken, title, body, prospectiveFriendName;
 
     try {
-      let title, body;
-
-      const nameSnapshot = await admin.firestore().doc(`users/${diffUID}`).get();
-      const name = nameSnapshot.data().displayName;
-
-      if(beforeFollowers.length < afterFollowers.length) {
-          // follower added
-          title = `You have a new follower`;
-          body = `${name} has followed you on LocalBall`;
-      } else if(beforeFollowers.length > afterFollowers.length) {
-          // follower removed
-          title = `You have been unfollowed`;
-          body = `${name} has unfollowed you on LocalBall`;
-      } else {
-        return 0;
+      // get name of prospective friend
+      const nameSnapshot = await admin.firestore().doc(`users/${prospectiveFriendId}`).get();
+      prospectiveFriendName = nameSnapshot.data().displayName;
+    
+      let notificationRecipientId;
+      if(collectionType === 'friendRequestsSent') {
+        notificationRecipientId = prospectiveFriendId;
+      } else if(collectionType === 'friendRequestsReceived') {
+        notificationRecipientId = userId;
       }
 
-      // get fcmToken of the user who has been followed/unfollowed
-      const tokenSnapshot = await admin.firestore().doc(`users/${userId}`).get();
-      const fcmToken = tokenSnapshot.data().fcmToken;
+      if(newStatus === 'pending') {                // REQUEST PENDING
+        // build notification to userId that prospectiveFriendId has requested to be friends
+        title = `New friend request`;
+        body = `${prospectiveFriendName} wants to be friends`;
+      } else if(newStatus === 'accepted') {        // REQUEST ACCEPTED
+        // delete both users friend request documents
+        await admin.firestore().doc(`users/${prospectiveFriendId}/friendRequestsReceived/${userId}`)
+        .delete();
+        await admin.firestore().doc(`users/${userId}/friendRequestsSent/${prospectiveFriendId}`)
+        .delete();
+
+        // add both users to each others `friends` array
+        await admin.firestore().doc(`users/${prospectiveFriendId}`)
+        .update({
+          friends: admin.firestore.FieldValue.arrayUnion(userId)
+        })
+        await admin.firestore().doc(`users/${userId}`)
+        .update({
+          friends: admin.firestore.FieldValue.arrayUnion(prospectiveFriendId)
+        })     
+
+        // build notification to userId that prospectiveFriendId has accepted friend request
+        title = `New friend`;
+        body = `${prospectiveFriendName} has accepted your friend request`;
+      } else if(newStatus === 'cancelled') {        // REQUEST CANCELLED
+        // delete friend request docs
+        await admin.firestore().doc(`users/${prospectiveFriendId}/friendRequestsSent/${prospectiveFriendId}`)
+        .delete();
+        await admin.firestore().doc(`users/${userId}/friendRequestsReceived/${userId}`)
+        .delete();
+        
+        // build notification to userId that prospectiveFriendId has denied friend request
+        title = `Declined friend request`;
+        body = `${prospectiveFriendName} has declined your friend request`;
+      }
+
+      // get fcmToken for notification recipient
+      tokenSnapshot = await admin.firestore().doc(`users/${notificationRecipientId}`).get();
+      fcmToken = tokenSnapshot.data().fcmToken;
 
       if(fcmToken) {
         // build the notification
@@ -116,25 +160,9 @@ exports.sendFollowerNotification = functions.firestore.document('/users/{userId}
         // send notification
         await admin.messaging().send(notification);
         console.log(`Successfully sent notification: ${{...notification}}`);
-      } else {
-        throw new Error(`No fcmToken found for ${name}`);
       }
-    } catch(error) { // handle any errors
-      console.log(error)
-      return error;
+    } catch(error) {
+      console.error(error);
     }
-});
     
-/*
-const notification = new firebase.notifications.Notification()
-  .setNotificationId('notificationId')
-  .setTitle('My notification title')
-  .setBody('My notification body')
-  .setData({
-    key1: 'value1',
-    key2: 'value2',
-  });
-
-  firebase.notifications().displayNotification(notification)
-
-  */
+  })
