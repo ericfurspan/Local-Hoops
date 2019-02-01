@@ -316,7 +316,7 @@ class EventForm extends React.Component {
 
                                 <Text style={styles.modalHeader}>Date</Text>
                                 <View style={styles.evenSpacedRow}>
-                                    <Text>{this.props.tempEvent.date.toLocaleDateString()}</Text>
+                                    <Text>{this.props.tempEvent.date.toLocaleDateString('en-US',{year:'2-digit',month:'2-digit',day:'2-digit'})}</Text>
                                 </View> 
 
                                 <Text style={styles.modalHeader}>Friends</Text>

@@ -65,7 +65,7 @@ export const saveEvent = (event) => (dispatch, getState) => {
     firebase.firestore().collection('events')
     .add({
         comment: event.comment || 'No comment',
-        date: event.date,
+        date: (new Date(event.date)).toLocaleDateString('en-US',{year:'2-digit',month:'2-digit',day:'2-digit'}),
         event_author: getState().currentUser.uid,
         type: event.type,
         court: event.court,
