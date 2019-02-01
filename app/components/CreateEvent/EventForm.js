@@ -99,7 +99,7 @@ class EventForm extends React.Component {
                                         color='#FFFFFF'
                                         size={60}
                                         underlayColor='#3578E5'
-                                        containerStyle={{width:50}} 
+                                        containerStyle={{height:deviceHeight*.10,marginRight:10}} 
                                         onPress={()=> {this.nextStep()}}
                                     />
                             }
@@ -127,7 +127,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{width:50}} 
+                                    containerStyle={{height:deviceHeight*.10,marginLeft:10}} 
                                     onPress={()=> {this.previousStep()}}
                                 />
                             }                            
@@ -137,7 +137,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{width:50}} 
+                                    containerStyle={{height:deviceHeight*.10,marginRight:10}} 
                                     onPress={()=> {{!this.props.friends || this.props.friends.length === 0 ? this.skipStep() : this.nextStep()} }}
                                 />
                             }
@@ -164,7 +164,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{width:50}} 
+                                    containerStyle={{height:deviceHeight*.10,marginLeft:10}} 
                                     onPress={()=> {this.previousStep()}}
                                 />
                             }                            
@@ -174,7 +174,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{width:50}} 
+                                    containerStyle={{height:deviceHeight*.10,marginRight:10}} 
                                     onPress={()=> this.nextStep() }
                                 />
                             }
@@ -196,7 +196,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{marginRight:5}} 
+                                    containerStyle={{height:deviceHeight*.10,marginLeft:10}} 
                                     onPress={()=> {{!this.props.friends || this.props.friends.length === 0 ? this.backTwoSteps() : this.previousStep()}}}
                                 />
                             }                            
@@ -206,7 +206,7 @@ class EventForm extends React.Component {
                                     color={this.props.tempEvent && !this.props.tempEvent.court ? '#444' : '#FFFFFF'}
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{marginRight:5}} 
+                                    containerStyle={{height:deviceHeight*.10,marginRight:10}} 
                                     disabledStyle={{backgroundColor:'#3578E5'}}
                                     disabled={this.props.tempEvent && !this.props.tempEvent.court}
                                     onPress={()=> {{!this.props.friends || this.props.friends.length === 0 ? this.skipStep() : this.nextStep()} }}
@@ -235,7 +235,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{marginRight:5}} 
+                                    containerStyle={{height:deviceHeight*.10,marginLeft:10}} 
                                     onPress={()=> { this.previousStep() }}
                                 />
                             }                            
@@ -245,7 +245,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{marginRight:5}} 
+                                    containerStyle={{height:deviceHeight*.10,marginRight:10}} 
                                     onPress={()=> { this.nextStep() }}
                                 />
                             }
@@ -260,7 +260,7 @@ class EventForm extends React.Component {
                             numberOfLines={5}
                             maxLength={75}
                             value={this.props.tempEvent.comment}
-                            leftIcon={{name:'md-quote',type:'ionicon',size:20}}
+                            leftIcon={{name:'md-quote',type:'ionicon',size:20,marginRight:5,color:'#111'}}
                             inputStyle={{color: '#444'}}
                         />
                     </View>                   
@@ -277,7 +277,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={60}
                                     underlayColor='#3578E5'
-                                    containerStyle={{marginRight:5}} 
+                                    containerStyle={{height:deviceHeight*.10,marginLeft:10}} 
                                     onPress={()=> { this.previousStep() }}
                                 />
                             }                            
@@ -287,7 +287,7 @@ class EventForm extends React.Component {
                                     color='#FFFFFF'
                                     size={40}
                                     underlayColor='#3578E5'
-                                    containerStyle={{marginRight:5}} 
+                                    containerStyle={{height:deviceHeight*.10,marginRight:10}} 
                                     onPress={()=> { this.completeEvent() }}
                                 />
                             }
@@ -295,7 +295,7 @@ class EventForm extends React.Component {
                         />  
                         <ProgressViewIOS progress={progressPercent} style={[styles.progressBar,{marginBottom:0}]} progressTintColor='green'/>
                         <View style={{justifyContent:'space-evenly'}}>
-                            <View style={{height:deviceHeight*.20, width: deviceWidth,marginBottom:10}}>
+                            <View style={{height:deviceHeight*.20,width:deviceWidth*.98,marginBottom:10}}>
                                 <Mapbox.MapView
                                     styleURL={Mapbox.StyleURL.Light}
                                     zoomLevel={15}

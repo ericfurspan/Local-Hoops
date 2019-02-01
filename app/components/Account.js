@@ -99,12 +99,14 @@ class Account extends React.Component {
                         animationType="slide"
                         transparent={false}
                         visible={this.props.modalVisible}>
-                        <View style={[styles.centeredContainer]}>
-                            <Header
-                                centerComponent={{ text: 'Friend Requests', style: { color: '#FFFFFF', fontSize:20 } }}
-                                containerStyle={styles.headerContainer}
-                            />
-                               {pendingFriends}       
+                        <View style={styles.modalBackground}>
+                            <View style={[styles.modalContent]}>
+                                <Header
+                                    centerComponent={{ text: 'Friend Requests', style: { color: '#FFFFFF', fontSize:20 } }}
+                                    containerStyle={styles.headerContainer}
+                                />
+                                {pendingFriends}       
+                            </View>
                             <Cancel onCancel={() => this.props.setModalVisible(false)} />
                         </View>
                     </Modal>

@@ -22,7 +22,7 @@ exports.sendFriendRequestNotification = functions.firestore.document('friendRequ
 
     notificationRecipientId = afterData.requesteeId;
     title = `New friend request`;
-    body = `${requesteeName} has requested to be friends`;
+    body = `${requesteeName} wants to be friends`;
 
   } else if(beforeData && beforeData.status === 'pending' && afterData) {
     // delete document

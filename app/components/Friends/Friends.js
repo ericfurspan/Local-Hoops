@@ -100,32 +100,36 @@ class Friends extends React.Component {
                         animationType="slide"
                         transparent={false}
                         visible={this.state.showAddFriendModal}>
-                        <View style={[styles.centeredContainer]}>
-                            <AddFriend onAddFriend={(uid,fid) => {
-                                this.setModalVisible(false, 'Add Friend');
-                                this.props.dispatch(sendFriendRequest(uid,fid));
-                            }}/>
-                            <Cancel onCancel={() => this.setModalVisible(false, 'Add Friend')} />
+                        <View style={styles.modalBackground}>
+                            <View style={[styles.modalContent]}>
+                                <AddFriend onAddFriend={(uid,fid) => {
+                                    this.setModalVisible(false, 'Add Friend');
+                                    this.props.dispatch(sendFriendRequest(uid,fid));
+                                }}/>
+                            </View>
                         </View>
+                        <Cancel onCancel={() => this.setModalVisible(false, 'Add Friend')} />
                     </Modal>
                     {/* VIEW FRIEND */}
                     <Modal
                         animationType="slide"
                         transparent={false}
                         visible={this.state.showViewFriendModal}>
-                        <View style={[styles.centeredContainer,{marginTop:50}]}>
-                            {/* show users timeline activity
-                                and options to remove friend or send message (rev2)*/}
-                            <ViewFriend 
-                                currentUser={this.props.currentUser}
-                                friend={this.state.selectedFriend}
-                                onRemoveFriend={(uid,fid) => {
-                                    this.setModalVisible(false, 'View Friend');
-                                    this.props.dispatch(removeFriend(uid,fid))
-                                }} 
-                            />
-                        <Cancel onCancel={() => this.setModalVisible(false, 'View Friend')} />
+                        <View style={styles.modalBackground}>
+                            <View style={[styles.modalContent]}>
+                                {/* show users timeline activity
+                                    and options to remove friend or send message (rev2)*/}
+                                <ViewFriend 
+                                    currentUser={this.props.currentUser}
+                                    friend={this.state.selectedFriend}
+                                    onRemoveFriend={(uid,fid) => {
+                                        this.setModalVisible(false, 'View Friend');
+                                        this.props.dispatch(removeFriend(uid,fid))
+                                    }} 
+                                />
+                            </View>
                         </View>
+                        <Cancel onCancel={() => this.setModalVisible(false, 'View Friend')} />
                     </Modal>
                 </View>
             )

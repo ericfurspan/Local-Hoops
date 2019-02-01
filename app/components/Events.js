@@ -72,7 +72,7 @@ class Events extends React.Component {
                         event_author,
                         participants: [],
                         court,
-                        date: date.toLocaleDateString('en-US',{year:'2-digit',month:'2-digit',day:'2-digit'}),
+                        date: date ? date.toLocaleDateString() : null,//.toLocaleDateString('en-US',{year:'2-digit',month:'2-digit',day:'2-digit'}),
                         comment,
                     } 
                     firebase.firestore().doc(`events/${event.id}`)
@@ -133,7 +133,7 @@ class Events extends React.Component {
                                     event_author,
                                     participants: [],
                                     court,
-                                    date: date.toLocaleDateString('en-US',{year:'2-digit',month:'2-digit',day:'2-digit'}),
+                                    date: date ? date.toLocaleDateString() : null,//.toLocaleDateString('en-US',{year:'2-digit',month:'2-digit',day:'2-digit'}),
                                     comment,
                                 }
                                 let participants = doc.data().participants;

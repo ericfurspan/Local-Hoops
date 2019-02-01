@@ -51,9 +51,9 @@ class Cancel extends React.Component {
             <View style={styles.bottomCenter}>
                 <TouchableOpacity
                     onPress={() => this.props.onCancel()}>
-                    <IonIcon name='md-close-circle-outline' size={35} color='#444'/>
+                    <IonIcon name='md-close-circle-outline' size={30} color='#fff'/> 
                 </TouchableOpacity>
-                <Text>{this.props.title || 'Cancel'}</Text>
+                <Text style={{color:'#fff'}}>{this.props.title || 'Cancel'}</Text>
             </View>
         )
     }
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     },
     bottomCenter: {
         position: 'absolute',
-        bottom: '5%',
+        bottom: '1.5%',
         left: 0,
         right: 0,
         alignItems: 'center',

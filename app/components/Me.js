@@ -19,13 +19,11 @@ class Me extends React.Component {
     componentDidMount() {
         this.getFriendRequestsReceived();
     }
-    
     setModalVisible = (visible) => {
         this.setState({
             showModal: visible
         })
     }
-
     getFriendRequestsReceived = () => {
         firebase.firestore().collection('friendRequests')
         .where('requesteeId', '==', this.props.currentUser.uid)
@@ -89,12 +87,17 @@ class Me extends React.Component {
         this.setState({friendRequestsReceived: updatedRequests})
 
         // Update friends list
-        this.props.dispatch(getFriends([...this.props.currentUser.friends, prospectiveFriendId]));
+        let updatedFriendIds;
+        if(this.props.currentUser.friends) {
+            updatedFriendIds = [...this.props.currentUser.friends, prospectiveFriendId];
+        } else {
+            updatedFriendIds = [prospectiveFriendId]
+        }
+
+        this.props.dispatch(getFriends(updatedFriendIds));
     }
 
     render() {
-        console.log(this.state)
-        console.log(this.props.currentUser.friends.length)
         return (
             <View style={styles.container}>
                 <View style={styles.account}>
