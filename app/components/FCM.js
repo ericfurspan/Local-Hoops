@@ -17,12 +17,15 @@ class FCM extends React.Component {
         .update({fcmToken})
     }
     componentDidMount() {
+        console.log('componentDidMount, checking permissions')
         firebase.messaging().hasPermission()
         .then(enabled => {
           if (enabled) {
+            console.log(`enabled? ${enabled}`)
             return firebase.messaging().getToken()
             .then(fcmToken => {
               if(fcmToken) {
+                console.log(fcmToken)
                 this.updateToken(fcmToken)
                 this.enableNotificationListener(fcmToken)    
               }
@@ -46,6 +49,14 @@ class FCM extends React.Component {
             }).catch(error => console.log(error));
           }
         }).catch(error => console.error(error));
+
+        this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+            console.log(`onTokenRefreshListener: ${fcmToken}`)
+            this.updateToken(fcmToken);
+        })
+    }
+    componentWillUnmount() {
+        this.onTokenRefreshListener();
     }
 
     render() {

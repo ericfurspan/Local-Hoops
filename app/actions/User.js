@@ -41,13 +41,35 @@ export const removeFriendError = (error) => ({
 })
 
 // Send friend request
-export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch, getState) => {
+export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch) => {
     try {
-        firebase.firestore().collection('friendRequests')
-        .add({
-            requestorId: userId,
-            requesteeId: prospectiveFriendId,
-            status: 'pending'
+        // first check if a friend request document already exists
+        firebase.firestore().collection(`friendRequests`)
+        .where("requesteeId", "==", userId)
+        .where("requestorId", "==", prospectiveFriendId)
+        .get()
+        .then(doc => {
+            if(doc.empty) {
+                firebase.firestore().collection(`friendRequests`)
+                .where("requesteeId", "==", prospectiveFriendId)
+                .where("requestorId", "==", userId)
+                .get()
+                .then(doc => {
+                    if(doc.empty) {
+                        // no friend request exists yet
+                        firebase.firestore().collection('friendRequests')
+                        .add({
+                            requestorId: userId,
+                            requesteeId: prospectiveFriendId,
+                            status: 'pending'
+                        })
+                    } else {
+                        dispatch(addFriendError({message: `A friend request already exists`}));
+                    }
+                })
+            } else {
+                dispatch(addFriendError({message: `A friend request already exists`}));
+            }
         })
     } catch(e) {
         console.error(e)
@@ -86,7 +108,7 @@ export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch, get
 
 // Add friend
 export const createFriends = (requesteeId, requestorId) => () => {
-    
+
     // add users to each others friends array
     firebase.firestore().doc(`users/${requesteeId}`)
     .update({

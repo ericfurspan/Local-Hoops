@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
@@ -51,9 +51,8 @@ class Cancel extends React.Component {
             <View style={styles.bottomCenter}>
                 <TouchableOpacity
                     onPress={() => this.props.onCancel()}>
-                    <IonIcon name='md-close-circle-outline' size={30} color='#fff'/> 
+                    <IonIcon name='md-close-circle-outline' size={40} color='#fff'/> 
                 </TouchableOpacity>
-                <Text style={{color:'#fff'}}>{this.props.title || 'Cancel'}</Text>
             </View>
         )
     }

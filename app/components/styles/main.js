@@ -22,13 +22,14 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 16,
         marginLeft: 20,
+        color: '#333',
         marginTop:5
     },
     modalBackground: {
         height: deviceHeight,
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: '#111',
+        backgroundColor: '#333',
         color: '#fff'
     },
     modalContent: {
@@ -177,7 +178,13 @@ export default StyleSheet.create({
         fontWeight: 'bold'
     },
     account: {
-        height: deviceHeight*.4,
-        backgroundColor: '#3578E5'
+        height: deviceHeight*.45,
+        backgroundColor: '#3578E5' //3578E5
+    },
+    accountText: {
+        fontSize: 24,
+        color: '#fff',
+        fontWeight: 'bold',
+        marginTop: 5
     }
 })

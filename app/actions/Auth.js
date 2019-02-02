@@ -22,7 +22,7 @@ export const loginError = (message) => ({
 });
 
 // Facebook Login
-export const FacebookLogin = () => (dispatch, getState) => {
+export const FacebookLogin = () => (dispatch) => {
     dispatch(loginRequest());
     LoginManager.logInWithReadPermissions(['public_profile', 'email'])
     .then((result) => {
@@ -59,7 +59,7 @@ export const FacebookLogin = () => (dispatch, getState) => {
   }
 
 // Google Login
-export const GoogleLogin = () => (dispatch, getState) => {
+export const GoogleLogin = () => (dispatch) => {
     dispatch(loginRequest());
 
     GoogleSignin.configure();
@@ -80,16 +80,15 @@ export const GoogleLogin = () => (dispatch, getState) => {
     .catch(error => {
         if(error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
-                console.log('user cancelled the login flow')
                 dispatch(logout());
                 dispatch(loginError(`Unable to login with Google\nUser cancelled sign in`));
             } else if(error.code === statusCodes.IN_PROGRESS) {
                 // operation (f.e. sign in) is in progress already
-                console.log('operation (f.e. sign in) is in progress already')
+                console.error('operation (f.e. sign in) is in progress already')
                 dispatch(logout());
                 dispatch(loginError(`Unable to login with Google\nSign in already in progress`));
             } else {
-                console.log(error)
+                console.error(error)
                 dispatch(logout());
                 dispatch(loginError(`Unable to login with Google\n${error}`));
             }
@@ -108,7 +107,7 @@ export const GoogleLogin = () => (dispatch, getState) => {
         .catch(e => console.error(e))
   };
 */
-  export const logoutRequest = () => (dispatch, getState) => {
+  export const logoutRequest = () => (dispatch) => {
     firebase.auth().signOut();
     dispatch(logout());
   };

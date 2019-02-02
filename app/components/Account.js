@@ -22,23 +22,23 @@ class Account extends React.Component {
                 pendingFriends = this.props.friendRequests.map((pendingFriend) => {
                     return (
                         <ListItem
-                            containerStyle={{width: 300}}
+                            //containerStyle={{width:}}
                             disabled
                             leftAvatar={{ rounded:true, source: {uri:pendingFriend.photoURL} }}
                             rightElement={
                                 <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
                                     <Icon name='md-close'
                                         type='ionicon'
-                                        size={30}
+                                        size={35}
                                         color='red'
-                                        iconStyle={{marginRight:10}}
+                                        iconStyle={{marginRight:15}}
                                         onPress={()=> this.props.denyFriendRequest(pendingFriend.uid)}
                                     />                                
                                     <Icon name='md-checkmark'
                                         type='ionicon'
-                                        size={30}
+                                        size={35}
                                         color='green'
-                                        iconStyle={{marginLeft:10}}
+                                        iconStyle={{marginLeft:15}}
                                         onPress={()=> this.props.acceptFriendRequest(pendingFriend.uid)}
                                     />
                                 </View>
@@ -59,14 +59,14 @@ class Account extends React.Component {
                         icon={{name:'md-log-out',type:'ionicon',size:25,color:'red'}}
                         buttonStyle={{backgroundColor:'transparent',alignSelf:'flex-end',marginRight:10}}
                     />
-                    <View style={{alignItems:'center',marginBottom:20}}>
+                    <View style={{alignItems:'center',paddingBottom:20}}>
                         <Avatar
                             size='large'
                             rounded
                             source={{uri: this.props.currentUser.photoURL,rounded:true}}
                             activeOpacity={0.7}
                         />
-                        <Text style={styles.text}>{this.props.currentUser.displayName}</Text>
+                        <Text style={styles.accountText}>{this.props.currentUser.displayName}</Text>
                     </View>
                     
                     {// friend Button with notification Badge
