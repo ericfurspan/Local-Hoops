@@ -159,7 +159,11 @@ const reducer = (state = initialState, action) => {
         });
     } else if (action.type === UPDATE_FRIENDS) {
         return Object.assign({}, state, {
-            friends: action.friends
+            friends: action.friends,
+            currentUser: {
+                ...state.currentUser,
+                friends: action.friends.map(f=>f.uid)
+            }
         });
     } else if (action.type === ADD_FRIEND_REQUEST) {
         return Object.assign({}, state, {   
