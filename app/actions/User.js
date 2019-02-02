@@ -5,7 +5,11 @@ export const updateUserLoc = userLoc => ({
     type: UPDATE_USERLOC,
     userLoc
 });
-
+export const UPDATE_STATUS = 'UPDATE_STATUS';
+export const updateStatus = (status) => ({
+    type: UPDATE_STATUS,
+    status
+})
 export const UPDATE_FRIENDS = 'UPDATE_FRIENDS';
 export const updateFriends = (friends) => ({
     type: UPDATE_FRIENDS,
@@ -192,4 +196,15 @@ export const getFriends = (friendIds) => (dispatch) => {
         })
         .catch(e => console.error(e))
     })
+}
+
+export const updateUserStatus = (status) => (dispatch, getState) => {
+    firebase.firestore().doc(`users/${getState().currentUser.uid}`)
+    .update({
+        status
+    })
+    .then(() => {
+        return dispatch(updateStatus(status))
+    })
+    .catch(e => console.error(e))
 }

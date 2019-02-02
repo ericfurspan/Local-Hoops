@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, AlertIOS, Dimensions, RefreshControl } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import { Avatar, Badge } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 import { sortByDateDesc } from '../../../assets/helper';
 import BallIcon from '../../../assets/img/nyk.png';
@@ -108,6 +108,22 @@ class ViewFriend extends React.Component {
     render() {
         let modal, eventsView;
 
+        // determine badge status
+        let badgeStatus;
+        switch(this.props.friend.status) {
+            case 'Looking to hoop' :
+                badgeStatus = 'success'
+                break;
+            case 'Available' :
+                badgeStatus = 'primary';
+                break;
+            case 'Unavailable' :
+                badgeStatus = 'warning'
+                break;
+            default :
+                badgeStatus = 'error'
+        }
+
         if(this.state.events) {
 
             // determine how events will be rendered  
@@ -161,9 +177,10 @@ class ViewFriend extends React.Component {
                     activeOpacity={0.7}
                 />
                 <Text style={styles.text}>{this.props.friend.displayName}</Text> 
-                <TouchableOpacity style={{marginTop:10}}>
-                    <Text style={styles.smallRed} onPress={() => this.confirmRemove(this.props.friend)}>Remove Friend</Text>
-                </TouchableOpacity>                 
+                <View style={[styles.centeredRow, {marginTop:5}]}>
+                    <Text>{this.props.friend.status} </Text>
+                    <Badge status={badgeStatus} />
+                </View>                 
                 <ScrollView contentContainerStyle={{height:deviceHeight*.4,marginTop:30}}
                     refreshControl={
                         <RefreshControl 
@@ -175,6 +192,9 @@ class ViewFriend extends React.Component {
                     {modal}
                     {eventsView}
                 </ScrollView>
+                <TouchableOpacity style={{padding:10}}>
+                    <Text style={styles.smallRed} onPress={() => this.confirmRemove(this.props.friend)}>Remove Friend</Text>
+                </TouchableOpacity>
             </View>
         )
     }

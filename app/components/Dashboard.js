@@ -58,8 +58,7 @@ class Dashboard extends React.Component {
     if(this.props.error) {
       return <ErrorMessage message={this.props.error}/>
     }
-    if(this.props.currentUser) {
-      console.log('rendering Dashboard')
+    if(this.props.currentUser) { 
 
       eventViewType0 = () => <Text>Timeline</Text>
       eventViewType1 = () => <Text>List</Text>
@@ -68,7 +67,7 @@ class Dashboard extends React.Component {
 
       return (
         <View style={styles.container}>
-          <StatusBar barStyle="light-content" translucent/>
+          <StatusBar barStyle="light-content" />
           <Header
               centerComponent={{ text: 'LocalBall', style: { color: '#FFFFFF', fontSize:24, fontFamily: 'ArchitectsDaughter-Regular' } }}
               containerStyle={{

@@ -82,6 +82,11 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    fullScreen: {
+        width: deviceWidth,
+        height: deviceHeight,
+        backgroundColor: '#fff'
+    },
     divider: {
         backgroundColor:'#FAFAFA',  //'#EFEFEF'
         height:8,
@@ -147,7 +152,6 @@ export default StyleSheet.create({
     centeredRow: {
         flexDirection: 'row',
         justifyContent: 'center',
-        margin:10
     },
     evenSpacedRow: {
         flexDirection: 'row',
@@ -162,7 +166,7 @@ export default StyleSheet.create({
     flexEndRow: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        margin:10
+        width: deviceWidth
     },
     listTitle: {
         fontSize: 18,
@@ -172,6 +176,9 @@ export default StyleSheet.create({
     listSubtext: {
         paddingLeft: 5,
         marginTop: 5
+    },
+    whiteText: {
+        color: '#fff'
     },
     text: {
         fontSize: 24,
@@ -183,8 +190,9 @@ export default StyleSheet.create({
     },
     accountText: {
         fontSize: 24,
-        color: '#fff',
+        color: '#333',
         fontWeight: 'bold',
-        marginTop: 5
+        marginTop: 5,
+        marginBottom: 10
     }
 })

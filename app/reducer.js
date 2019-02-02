@@ -8,6 +8,7 @@ import {
 //USER
 import { 
     UPDATE_USERLOC,
+    UPDATE_STATUS,
     UPDATE_FRIENDS,
     ADD_FRIEND_REQUEST,
     ADD_FRIEND_SUCCESS,
@@ -89,6 +90,13 @@ const reducer = (state = initialState, action) => {
             friends: null,
             authLoading: false
         });   
+    } else if(action.type === UPDATE_STATUS) {
+        return Object.assign({}, state, {
+            currentUser: {
+                ...state.currentUser,
+                status: action.status
+            }
+        });
     } else if (action.type === UPDATE_EVENTS) {
          switch(action.category) {
                 case 'user':

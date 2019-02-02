@@ -118,7 +118,8 @@ export const GoogleLogin = () => (dispatch) => {
         displayName: newUser.user._user.displayName,
         photoURL: newUser.user._user.photoURL,
         email: newUser.additionalUserInfo.profile.email,
-        friends: []
+        friends: [],
+        status: 'Available'
     }
     return firebase.firestore().doc(`users/${userObj.uid}`)
       .set(userObj)

@@ -1,19 +1,63 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Modal, Picker } from 'react-native';
 import { Avatar, Button, Badge, Header, ListItem, Icon } from 'react-native-elements';
 import { logoutRequest } from '../actions/Auth';
 import { Cancel } from './navButtons';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import styles from './styles/main';
+import { updateUserStatus } from '../actions/User';
+
+let userStatusTypes = [{value: 'Looking to hoop'}, {value: 'Available'}, {value: 'Unavailable'}];
 
 class Account extends React.Component {
+    state = {
+        showStatusPicker: false
+    }
+    updateStatusPicker = (visible) => {
+        this.setState({showStatusPicker: visible})
+    }
     logout = () => {
         this.props.dispatch(logoutRequest())
     }
     render() {
         let pendingFriends, friendsBadge;
         if(this.props.currentUser) {
+            let userStatusPicker;
+            if(this.state.showStatusPicker) {
+                userStatusPicker = 
+                <View style={styles.fullScreen}>
+                    <Picker
+                        selectedValue={this.props.currentUser.status}
+                        //style={{ width: deviceWidth*.75,height:deviceHeight*.40}}
+                        onValueChange={value => {
+                            this.props.dispatch(updateUserStatus(value))
+                            this.updateStatusPicker(false)
+                        }}
+                    >
+                        {userStatusTypes.map(t => {
+                            return (
+                                <Picker.Item key={t.value} label={t.value} value={t.value} />
+                            )
+                        })}
+                    </Picker> 
+                </View>
+            }
+            // determine badge status
+            let badgeStatus;
+            switch(this.props.currentUser.status) {
+                case 'Looking to hoop' :
+                    badgeStatus = 'success'
+                    break;
+                case 'Available' :
+                    badgeStatus = 'primary';
+                    break;
+                case 'Unavailable' :
+                    badgeStatus = 'warning'
+                    break;
+                default :
+                    badgeStatus = 'error'
+            }
             let courtCount = this.props.currentUser.saved_courts ? this.props.currentUser.saved_courts.length : 0;
 
             if(this.props.friendRequests && this.props.friendRequests.length > 0) {
@@ -53,6 +97,7 @@ class Account extends React.Component {
     
             return (
                 <ScrollView contentContainerStyle={[styles.container,{marginTop:50}]}>
+                    {userStatusPicker}
                     <Button
                         onPress={() => this.logout()}
                         title=''
@@ -67,6 +112,13 @@ class Account extends React.Component {
                             activeOpacity={0.7}
                         />
                         <Text style={styles.accountText}>{this.props.currentUser.displayName}</Text>
+                        <TouchableOpacity 
+                            style={styles.centeredRow}
+                            onPress={() => this.updateStatusPicker(true)}
+                        >
+                            <Text style={[styles.whiteText]}>{this.props.currentUser.status} </Text>
+                            <Badge status={badgeStatus} />
+                        </TouchableOpacity>
                     </View>
                     
                     {// friend Button with notification Badge
