@@ -75,7 +75,7 @@ class SaveCourt extends React.Component {
                     }
                     containerStyle={styles.headerContainer}
                 />
-                <View style={{height:deviceHeight*.20, width: deviceWidth}}>                
+                <View style={{height:deviceHeight*.20, width: deviceWidth*.98}}>                
                     <Mapbox.MapView
                         styleURL={Mapbox.StyleURL.Light}
                         zoomLevel={15}

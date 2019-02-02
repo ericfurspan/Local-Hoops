@@ -1,4 +1,4 @@
-import firebase, { Firebase } from 'react-native-firebase'
+import firebase from 'react-native-firebase'
 
 export const SAVE_COURT_SUCCESS = 'SAVE_COURT_SUCCESS';
 export const saveCourtSuccess = () => ({

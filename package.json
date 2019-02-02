@@ -14,7 +14,7 @@
     "prop-types": "^15.6.2",
     "react": "16.6.1",
     "react-native": "^0.57.8",
-    "react-native-elements": "^1.0.0-beta7",
+    "react-native-elements": "1.0.0",
     "react-native-face-pile": "^1.9.0",
     "react-native-fbsdk": "^0.8.0",
     "react-native-firebase": "^5.1.1",

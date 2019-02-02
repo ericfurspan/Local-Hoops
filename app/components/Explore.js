@@ -153,20 +153,22 @@ class Explore extends React.Component {
                     animationType="slide"
                     transparent={false}
                     visible={this.state.modalVisible}>
-                    <View style={[styles.fullCenterContainer, {marginTop: 22}]}>
-                        <Card
-                            title={activeCourtName}
-                            containerStyle={styles.cardContainer}
-                           >
-                            <Text>{activeCourtLocation}</Text>
-                            <Button
-                                onPress={() => this.openExternalMap(lat, long)}
-                                icon={{name:'md-map',type:'ionicon',size:25,color:'#FFFFFF'}}
-                                backgroundColor='transparent'
-                                buttonStyle={{backgroundColor:'#3578E5'}}
-                                title='Get Directions'
-                            />
-                        </Card>
+                    <View style={styles.modalBackground}>
+                        <View style={[styles.fullCenterContainer, {marginTop: 22}]}>
+                            <Card
+                                title={activeCourtName}
+                                containerStyle={styles.cardContainer}
+                            >
+                                <Text>{activeCourtLocation}</Text>
+                                <Button
+                                    onPress={() => this.openExternalMap(lat, long)}
+                                    icon={{name:'md-map',type:'ionicon',size:25,color:'#FFFFFF'}}
+                                    backgroundColor='transparent'
+                                    buttonStyle={{backgroundColor:'#3578E5'}}
+                                    title='Get Directions'
+                                />
+                            </Card>
+                        </View>
                         <Cancel onCancel={() => this.setModalVisible(!this.state.modalVisible)} />
                     </View>
                 </Modal>
@@ -220,7 +222,7 @@ class Explore extends React.Component {
                             {this.renderAnnotations()}
                             <SearchBar
                                 lightTheme
-                                containerStyle={{marginTop: 30, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+                                containerStyle={{marginTop: deviceHeight*.03, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
                                 onChangeText={(e) => this.updateSearchText(e)}
                                 inputStyle={{color: '#333'}}
                                 onSubmitEditing={() => this.updateUserLocationByQuery()}

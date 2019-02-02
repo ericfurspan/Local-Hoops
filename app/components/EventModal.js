@@ -48,57 +48,59 @@ class EventModal extends React.Component {
                 animationType="slide"
                 transparent={false}
                 visible={true}>
-                <View style={[styles.fullCenterContainer,{backgroundColor:'#FAFAFA'}]}>
-                    <Card
-                        title={`${this.props.event.title} - ${this.props.event.time}`}
-                        containerStyle={styles.cardContainer}
-                    >
+                <View style={styles.modalBackground}>
+                    <View style={[styles.fullCenterContainer,styles.modalContent,{backgroundColor:'#FAFAFA'}]}>
+                        <Card
+                            title={`${this.props.event.title} - ${this.props.event.time}`}
+                            containerStyle={styles.cardContainer}
+                        >
 
-                        <Text style={styles.modalHeader}>Participants</Text>
-                        <View style={[styles.centeredRow,{marginBottom:20}]}>
-                            {this.props.event.participants.map((p,i) => {
-                                return (
-                                    <Avatar
-                                        size='small'
-                                        rounded
-                                        source={{uri: p.photoURL}}
-                                        activeOpacity={0.7}
-                                        containerStyle={{margin:5}}
-                                        key={i}
-                                    />
-                                )
-                            })}                                  
-                        </View>
-    
-                        <Text style={styles.modalHeader}>Comment</Text>
-                        <View style={styles.evenSpacedRow}>
-                            <Text>{this.props.event.comment}</Text>
-                        </View>  
+                            <Text style={styles.modalHeader}>Participants</Text>
+                            <View style={[styles.centeredRow,{marginBottom:20}]}>
+                                {this.props.event.participants.map((p,i) => {
+                                    return (
+                                        <Avatar
+                                            size='small'
+                                            rounded
+                                            source={{uri: p.photoURL}}
+                                            activeOpacity={0.7}
+                                            containerStyle={{margin:5}}
+                                            key={i}
+                                        />
+                                    )
+                                })}                                  
+                            </View>
+        
+                            <Text style={styles.modalHeader}>Comment</Text>
+                            <View style={styles.evenSpacedRow}>
+                                <Text>{this.props.event.comment}</Text>
+                            </View>  
 
-                        <Text style={styles.modalHeader}>Court</Text> 
-                        <View style={[styles.evenSpacedRow,{height:deviceHeight*.20}]}>
-                            <Mapbox.MapView
-                                styleURL={Mapbox.StyleURL.Light}
-                                zoomLevel={15}
-                                centerCoordinate={[this.props.event.court.long, this.props.event.court.lat]}
-                                showUserLocation={false}
-                                style={{flex: 1}}
-                                logoEnabled={false}
-                            >
-                                {this.returnAnnotation({lat: this.props.event.court.lat, long: this.props.event.court.long})}
-                            </Mapbox.MapView> 
-                        </View>
-                        {this.props.currentUser.uid === this.props.event.event_author && 
-                        <View style={styles.centeredRow}>
-                            <Button
-                                onPress={() => this.confirmDeleteEvent()}
-                                icon={{name:'md-remove',type:'ionicon',size:16,color:'red'}}
-                                title='Delete Event'
-                                titleStyle={{color:'red',fontSize:14,fontWeight:'500',marginLeft:-5}}
-                                buttonStyle={{backgroundColor:'transparent'}}
-                            />                        
-                        </View>}
-                    </Card>
+                            <Text style={styles.modalHeader}>Court</Text> 
+                            <View style={[styles.evenSpacedRow,{height:deviceHeight*.20}]}>
+                                <Mapbox.MapView
+                                    styleURL={Mapbox.StyleURL.Light}
+                                    zoomLevel={15}
+                                    centerCoordinate={[this.props.event.court.long, this.props.event.court.lat]}
+                                    showUserLocation={false}
+                                    style={{flex: 1}}
+                                    logoEnabled={false}
+                                >
+                                    {this.returnAnnotation({lat: this.props.event.court.lat, long: this.props.event.court.long})}
+                                </Mapbox.MapView> 
+                            </View>
+                            {this.props.currentUser.uid === this.props.event.event_author && 
+                            <View style={styles.centeredRow}>
+                                <Button
+                                    onPress={() => this.confirmDeleteEvent()}
+                                    icon={{name:'md-remove',type:'ionicon',size:16,color:'red'}}
+                                    title='Delete Event'
+                                    titleStyle={{color:'red',fontSize:14,fontWeight:'500'}}
+                                    buttonStyle={{backgroundColor:'transparent'}}
+                                />                        
+                            </View>}
+                        </Card>
+                    </View>
                     <Cancel onCancel={() => this.props.setModalVisible(false)} />
                 </View>
             </Modal>

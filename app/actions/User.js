@@ -40,28 +40,114 @@ export const removeFriendError = (error) => ({
     error
 })
 
+// Send friend request
+export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch) => {
+    try {
+        // first check if a friend request document already exists
+        firebase.firestore().collection(`friendRequests`)
+        .where("requesteeId", "==", userId)
+        .where("requestorId", "==", prospectiveFriendId)
+        .get()
+        .then(doc => {
+            if(doc.empty) {
+                firebase.firestore().collection(`friendRequests`)
+                .where("requesteeId", "==", prospectiveFriendId)
+                .where("requestorId", "==", userId)
+                .get()
+                .then(doc => {
+                    if(doc.empty) {
+                        // no friend request exists yet
+                        firebase.firestore().collection('friendRequests')
+                        .add({
+                            requestorId: userId,
+                            requesteeId: prospectiveFriendId,
+                            status: 'pending'
+                        })
+                    } else {
+                        dispatch(addFriendError({message: `A friend request already exists`}));
+                    }
+                })
+            } else {
+                dispatch(addFriendError({message: `A friend request already exists`}));
+            }
+        })
+    } catch(e) {
+        console.error(e)
+    }
+
+    /*
+    // get info about prospective friend
+    firebase.firestore().doc(`users/${prospectiveFriendId}`)
+    .get()
+    .then(doc => {
+        return {
+            displayName: doc.data().displayName,
+            photoURL: doc.data().photoURL
+        }
+    }) 
+    .then(prospectiveFriend => { // add prospective friends info to users friendRequestsSent collection
+        firebase.firestore().doc(`users/${userId}/friendRequestsSent/${prospectiveFriendId}`)
+        .set({
+            status: 'pending',
+            displayName: prospectiveFriend.displayName,
+            photoURL: prospectiveFriend.photoURL,
+            uid: prospectiveFriendId
+        })
+        .then(() => { // add current users info to prospective friends friendRequestsSent collection
+            firebase.firestore().doc(`users/${prospectiveFriendId}/friendRequestsReceived/${userId}`)
+            .set({
+                status: 'pending',
+                displayName: getState().currentUser.displayName,
+                photoURL: getState().currentUser.photoURL,
+                uid: userId
+            })
+        })
+    }).catch(e => console.error(e))
+    */
+}
+
 // Add friend
-export const addFriend = (userId, friendId) => (dispatch, getState) => {
-    dispatch(addFriendRequest());
-    
-    firebase.firestore().doc(`users/${userId}`)
+export const createFriends = (requesteeId, requestorId) => () => {
+
+    // add users to each others friends array
+    firebase.firestore().doc(`users/${requesteeId}`)
     .update({
-        friends: firebase.firestore.FieldValue.arrayUnion(friendId)
+        friends: firebase.firestore.FieldValue.arrayUnion(requestorId)
     })
     .then(() => {
-        firebase.firestore().doc(`users/${friendId}`)
+        firebase.firestore().doc(`users/${requestorId}`)
         .update({
-            followers: firebase.firestore.FieldValue.arrayUnion(userId)
+            friends: firebase.firestore.FieldValue.arrayUnion(requesteeId)
+        })            
+    })        
+    // update status of document in friendRequests collection
+    firebase.firestore().collection('friendRequests')
+    .where('requesteeId', '==', requesteeId)
+    .where('requestorId', '==', requestorId)
+    .get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            doc.ref.update({
+                status: 'accepted'
+            })
+        })
+    })    
+}
+
+export const cancelFriendRequest = (requesteeId, requestorId) => () => {
+
+    // delete document from friendRequests collection
+    firebase.firestore().collection('friendRequests')
+    .where('requesteeId', '==', requesteeId)
+    .where('requestorId', '==', requestorId)
+    .get()
+    .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+            doc.ref.update({
+                status: 'declined'
+            })
         })
     })
-    .then(() => {
-        dispatch(addFriendSuccess(friendId));
-        dispatch(getFriends(getState().currentUser.friends))
-    })
-    .catch( error => {
-        console.error(`Error updating document: ${error}`);
-        dispatch(addFriendError());
-    });
 }
 
 // Remove friend
@@ -75,7 +161,7 @@ export const removeFriend = (userId, friendId) => (dispatch, getState) => {
     .then(() => {
         firebase.firestore().doc(`users/${friendId}`)
         .update({
-            followers: firebase.firestore.FieldValue.arrayRemove(userId)
+            friends: firebase.firestore.FieldValue.arrayRemove(userId)
         })
     })
     .then(() => {
@@ -89,7 +175,7 @@ export const removeFriend = (userId, friendId) => (dispatch, getState) => {
 }
 
 // Get Friends
-export const getFriends = (friendIds) => (dispatch, getState) => {
+export const getFriends = (friendIds) => (dispatch) => {
     let counter = 0;
     let friends = [];
     friendIds.forEach(uid => {

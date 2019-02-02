@@ -7,16 +7,21 @@ import styles from '../styles/main';
 
 class AddFriend extends React.Component {
     state = {
-        users: []
+        users: [],
+        search: ''
+    }
+    updateSearch = search => {
+        this.setState({search})
+        this.getNonFriends(search)
     }
     // gets users that are not already friends
-    getNonFriends = (input) => {
+    getNonFriends = (search) => {
         let results = [];
         firebase.firestore().collection('users')
         .get()
         .then(docs => {
             docs.forEach(doc => {
-                if(doc.data().displayName.includes(input) && this.props.currentUser.uid !== doc.data().uid) {
+                if(doc.data().displayName.includes(search) && this.props.currentUser.uid !== doc.data().uid) {
                     if(!this.props.currentUser.friends) {
                         results.push(doc.data())
                     } else {
@@ -34,7 +39,7 @@ class AddFriend extends React.Component {
     confirmAdd = (friend) => {
         AlertIOS.alert(
             'Please Confirm',
-            `Are you sure you want to follow ${friend.displayName}?`,
+            `Are you sure you want to add ${friend.displayName} as a friend?`,
             [
               {
                 text: 'Cancel',
@@ -58,8 +63,9 @@ class AddFriend extends React.Component {
                     lightTheme
                     containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
                     inputStyle={{color: '#222'}}
-                    onChangeText={(e) => this.getNonFriends(e)}
+                    onChangeText={this.updateSearch}
                     placeholder='Search by Name'
+                    value={this.state.search}
                 />
                 {this.state.users.map((f) => (
                     <ListItem

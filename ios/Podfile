@@ -39,6 +39,7 @@ target 'LocalBall' do
   pod 'Firebase/Auth'#, '~> 5.11.0'
   pod 'Firebase/Firestore'#, '~> 5.11.0'
   pod 'Firebase/Messaging'#, '~> 5.11.0'
+  pod 'Firebase/Functions'#, '~> 5.11.0'
 
   # Facebook login
   pod 'FBSDKCoreKit', '~> 4.38.1'

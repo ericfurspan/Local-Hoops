@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Modal, Dimensions } from 'react-native';
+import { Text, View, Modal, Dimensions, StatusBar } from 'react-native';
 import { Button, Header, ButtonGroup } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Loading from './Loading';
@@ -68,6 +68,7 @@ class Dashboard extends React.Component {
 
       return (
         <View style={styles.container}>
+          <StatusBar barStyle="light-content" translucent/>
           <Header
               centerComponent={{ text: 'LocalBall', style: { color: '#FFFFFF', fontSize:24, fontFamily: 'ArchitectsDaughter-Regular' } }}
               containerStyle={{
@@ -97,7 +98,7 @@ class Dashboard extends React.Component {
                   onPress={() => this.setEventFormModalVisible(true)}
                   icon={{name:'md-add',type:'ionicon',size:16,color:'#3578E5'}}
                   title='New Event'
-                  titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500',marginLeft:-5}}
+                  titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
                   buttonStyle={{backgroundColor:'transparent'}}
                 />
               </View>
@@ -105,9 +106,11 @@ class Dashboard extends React.Component {
                 animationType="slide"
                 transparent={false}
                 visible={this.state.showEventFormModal}>
-                <View style={styles.centeredContainer}>
-                    <EventForm onClose={() => this.setEventFormModalVisible(false)} currentUser={this.props.currentUser}/>
-                    <Cancel onCancel={() => this.setEventFormModalVisible(false)} title="Cancel"/>
+                <View style={styles.modalBackground}>
+                  <View style={styles.modalContent}>
+                      <EventForm onClose={() => this.setEventFormModalVisible(false)} currentUser={this.props.currentUser}/>
+                  </View>
+                  <Cancel onCancel={() => this.setEventFormModalVisible(false)} title="Cancel"/>
                 </View>
               </Modal>
 

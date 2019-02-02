@@ -58,7 +58,7 @@ class ViewFriend extends React.Component {
                     court: court,
                     event_author,
                     participants: [],
-                    date: date.toLocaleDateString('en-US',{year:'2-digit',month:'2-digit',day:'2-digit'}),
+                    date,
                     comment,
                 } 
                 firebase.firestore().doc(`events/${event.id}`)

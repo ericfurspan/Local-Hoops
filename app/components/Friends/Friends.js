@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Dimensions, Modal, ScrollView } from 'react-native';
 import { ListItem, SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { addFriend, removeFriend } from '../../actions/User';
+import { sendFriendRequest, removeFriend } from '../../actions/User';
 import AddFriend from './AddFriend';
 import ViewFriend from './ViewFriend';
 import { Cancel } from '../navButtons';
@@ -15,9 +15,14 @@ class Friends extends React.Component {
     state = {
         friends: [],
         filter: false,
+        search: '',
         showAddFriendModal: false,
         showViewFriendModal: false,
         selectedFriend: null
+    }
+    updateSearch = search => {
+        this.setState({search})
+        this.filterFriends(search)
     }
     setModalVisible = (visible, type) => {
         switch(type) {
@@ -75,7 +80,7 @@ class Friends extends React.Component {
                             onPress={() => this.setModalVisible(true, 'Add Friend')}
                             icon={{name:'md-person-add',type:'ionicon',size:16,color:'#3578E5'}}
                             title='Add Friend'
-                            titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500',marginLeft:-5}}
+                            titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
                             buttonStyle={{backgroundColor:'transparent'}}
                         />
                     </View>
@@ -84,8 +89,9 @@ class Friends extends React.Component {
                         lightTheme
                         containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
                         inputStyle={{color: '#222'}}
-                        onChangeText={(e) => this.filterFriends(e)}
+                        onChangeText={this.updateSearch}
                         placeholder='Filter by Name...'
+                        value={this.state.search}
                     />
                         <ScrollView>
                             {friendList}
@@ -94,32 +100,36 @@ class Friends extends React.Component {
                         animationType="slide"
                         transparent={false}
                         visible={this.state.showAddFriendModal}>
-                        <View style={[styles.centeredContainer]}>
-                            <AddFriend onAddFriend={(uid,fid) => {
-                                this.setModalVisible(false, 'Add Friend');
-                                this.props.dispatch(addFriend(uid,fid));
-                            }}/>
-                            <Cancel onCancel={() => this.setModalVisible(false, 'Add Friend')} />
+                        <View style={styles.modalBackground}>
+                            <View style={[styles.modalContent]}>
+                                <AddFriend onAddFriend={(uid,fid) => {
+                                    this.setModalVisible(false, 'Add Friend');
+                                    this.props.dispatch(sendFriendRequest(uid,fid));
+                                }}/>
+                            </View>
                         </View>
+                        <Cancel onCancel={() => this.setModalVisible(false, 'Add Friend')} />
                     </Modal>
                     {/* VIEW FRIEND */}
                     <Modal
                         animationType="slide"
                         transparent={false}
                         visible={this.state.showViewFriendModal}>
-                        <View style={[styles.centeredContainer,{marginTop:50}]}>
-                            {/* show users timeline activity
-                                and options to remove friend or send message (rev2)*/}
-                            <ViewFriend 
-                                currentUser={this.props.currentUser}
-                                friend={this.state.selectedFriend}
-                                onRemoveFriend={(uid,fid) => {
-                                    this.setModalVisible(false, 'View Friend');
-                                    this.props.dispatch(removeFriend(uid,fid))
-                                }} 
-                            />
-                        <Cancel onCancel={() => this.setModalVisible(false, 'View Friend')} />
+                        <View style={styles.modalBackground}>
+                            <View style={[styles.modalContent]}>
+                                {/* show users timeline activity
+                                    and options to remove friend or send message (rev2)*/}
+                                <ViewFriend 
+                                    currentUser={this.props.currentUser}
+                                    friend={this.state.selectedFriend}
+                                    onRemoveFriend={(uid,fid) => {
+                                        this.setModalVisible(false, 'View Friend');
+                                        this.props.dispatch(removeFriend(uid,fid))
+                                    }} 
+                                />
+                            </View>
                         </View>
+                        <Cancel onCancel={() => this.setModalVisible(false, 'View Friend')} />
                     </Modal>
                 </View>
             )

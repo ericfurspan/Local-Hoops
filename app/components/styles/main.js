@@ -7,24 +7,41 @@ export default StyleSheet.create({
         flex: 1,
     },
     centeredContainer: {
-        flex: 1,
-        alignItems: 'center',        
+        alignItems: 'center', 
+        flex: 1       
     },
     headerContainer: {
         backgroundColor: '#3578E5',
+        height: deviceHeight*.12,
         justifyContent: 'space-around',
-        height:deviceHeight*.15
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        paddingBottom: 10
     },
     header: {
         fontWeight: 'bold',
         fontSize: 16,
         marginLeft: 20,
+        color: '#333',
         marginTop:5
+    },
+    modalBackground: {
+        height: deviceHeight,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: '#333',
+        color: '#fff'
+    },
+    modalContent: {
+        height: deviceHeight*.85,
+        width: deviceWidth*.98,
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        top: deviceHeight*.05
     },
     modalHeader: {
         fontSize: 16,
         fontWeight:'bold',
-        marginBottom:5,
         alignSelf:'center',
         textAlign:'center',
         width:'100%',
@@ -38,8 +55,8 @@ export default StyleSheet.create({
     },
     progressBar: {
         transform: [{ scaleX: 1.0 }, { scaleY: 3.5 }],
-        width: deviceWidth,
-        marginBottom:20 
+        width: deviceWidth*.98,
+        marginBottom: 20,
     },
     saveCourtButton: {
         position: 'absolute',
@@ -161,7 +178,13 @@ export default StyleSheet.create({
         fontWeight: 'bold'
     },
     account: {
-        height: deviceHeight*.4,
-        backgroundColor: '#3578E5'
+        height: deviceHeight*.45,
+        backgroundColor: '#3578E5' //3578E5
+    },
+    accountText: {
+        fontSize: 24,
+        color: '#fff',
+        fontWeight: 'bold',
+        marginTop: 5
     }
 })
