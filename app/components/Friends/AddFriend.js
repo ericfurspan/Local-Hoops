@@ -61,7 +61,7 @@ class AddFriend extends React.Component {
                 />            
                 <SearchBar
                     lightTheme
-                    containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+                    containerStyle={{width: 300,marginBottom: 10, marginTop: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
                     inputStyle={{color: '#222'}}
                     onChangeText={this.updateSearch}
                     placeholder='Search by Name'

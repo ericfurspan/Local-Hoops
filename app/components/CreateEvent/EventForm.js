@@ -94,14 +94,14 @@ class EventForm extends React.Component {
                         <Header
                             centerComponent={{ text: 'Event', style: { color: '#FFFFFF', fontSize:20 } }}
                             rightComponent={
-                                    <Icon name='md-arrow-dropright'
-                                        type='ionicon'
-                                        color='#FFFFFF'
-                                        size={60}
-                                        underlayColor='#3578E5'
-                                        containerStyle={{height:deviceHeight*.10,marginRight:10}} 
-                                        onPress={()=> {this.nextStep()}}
-                                    />
+                                <Icon name='md-arrow-dropright'
+                                    type='ionicon'
+                                    color='#FFFFFF'
+                                    size={60}
+                                    underlayColor='#3578E5'
+                                    containerStyle={{height:deviceHeight*.10,marginRight:10}} 
+                                    onPress={()=> {this.nextStep()}}
+                                />
                             }
                             containerStyle={styles.headerContainer}
                         />

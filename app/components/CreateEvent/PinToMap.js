@@ -73,7 +73,7 @@ class PinToMap extends React.Component {
                         this.props.onPinSelect(this.state.center);
                     }}
                     buttonStyle={{backgroundColor: '#3578E5', borderColor: '#F6F8FA', borderWidth: 1, borderRadius: 10}}
-                    />
+                />
                 </Mapbox.MapView>    
             )
         }

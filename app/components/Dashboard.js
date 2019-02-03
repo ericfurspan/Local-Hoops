@@ -81,12 +81,17 @@ class Dashboard extends React.Component {
 
           <View style={[styles.centeredContainer,{paddingTop:20}]}>
 
-            {/* SAVED COURTS
-            
+            {/* CHANGE LOCATION   
             <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between'}}>
-                <Text style={styles.header}>Saved Courts</Text>
+                <Text style={styles.header}>City, State</Text>
+                <Button
+                  //onPress={() => this.setEventFormModalVisible(true)}
+                  icon={{name:'md-paper-plane',type:'ionicon',size:16,color:'#3578E5'}}
+                  title='Change my location'
+                  titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
+                  buttonStyle={{backgroundColor:'transparent'}}
+                />
             </View>
-            <Divider style={styles.divider}/>
             */}
 
             {// RECENT ACTIVITY
@@ -100,43 +105,59 @@ class Dashboard extends React.Component {
                   titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
                   buttonStyle={{backgroundColor:'transparent'}}
                 />
-              </View>
-              <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.showEventFormModal}>
-                <View style={styles.modalBackground}>
-                  <View style={styles.modalContent}>
-                      <EventForm onClose={() => this.setEventFormModalVisible(false)} currentUser={this.props.currentUser}/>
-                  </View>
-                  <Cancel onCancel={() => this.setEventFormModalVisible(false)} title="Cancel"/>
-                </View>
-              </Modal>
+            </View>
 
-              <View style={{alignSelf:'flex-start',marginLeft:25}}>
-                <Dropdown
-                  data={activityTypes}
-                  value={this.state.activityType}
-                  containerStyle={{width: 100,backgroundColor:'transparent'}}
-                  itemColor='#333'
-                  onChangeText={val => this.setState({activityType: val})}
-                />
+            {/* SAVED COURTS
+            <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between'}}>
+                <Text style={styles.header}>Saved Courts</Text>
+            </View>
+            <Divider style={styles.divider}/>
+            */}
+
+            {// NEW EVENT MODAL
+            }
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={this.state.showEventFormModal}>
+              <View style={styles.modalBackground}>
+                <View style={styles.modalContent}>
+                    <EventForm onClose={() => this.setEventFormModalVisible(false)} currentUser={this.props.currentUser}/>
+                </View>
+                <Cancel onCancel={() => this.setEventFormModalVisible(false)} title="Cancel"/>
               </View>
-              
-              <View style={{alignSelf:'center',width:200,marginBottom:10}}>
-                <ButtonGroup
-                  onPress={this.updateEventViewIndex}
-                  selectedIndex={this.state.eventViewIndex}
-                  buttons={eventViewTypeButtons}
-                  buttonStyle={{backgroundColor:'#FAFAFA'}}
-                  selectedButtonStyle={{backgroundColor:'#FFFFFF'}}
-                />
-              </View>
-              
-              <Events 
-                activityType={this.state.activityType}
-                eventViewIndex={this.state.eventViewIndex}
+            </Modal>
+
+            {// ACTIVITY TYPE
+            }
+            <View style={{alignSelf:'flex-start',marginLeft:25}}>
+              <Dropdown
+                data={activityTypes}
+                value={this.state.activityType}
+                containerStyle={{width: 100,backgroundColor:'transparent'}}
+                itemColor='#333'
+                onChangeText={val => this.setState({activityType: val})}
               />
+            </View>
+
+            {// TIMELINE / LIST OPTION
+            }              
+            <View style={{alignSelf:'center',width:200,marginBottom:10}}>
+              <ButtonGroup
+                onPress={this.updateEventViewIndex}
+                selectedIndex={this.state.eventViewIndex}
+                buttons={eventViewTypeButtons}
+                buttonStyle={{backgroundColor:'#FAFAFA'}}
+                selectedButtonStyle={{backgroundColor:'#FFFFFF'}}
+              />
+            </View>
+
+            {// EVENTS
+            }              
+            <Events 
+              activityType={this.state.activityType}
+              eventViewIndex={this.state.eventViewIndex}
+            />
           </View>
         </View>
       );

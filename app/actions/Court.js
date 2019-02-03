@@ -15,7 +15,7 @@ export const saveCourt = (data) => (dispatch, getState) => {
     .add({
         coords: {latitude: data.lat, longitude: data.long},
         name: data.name,
-        discovered_by: {uid:getState().currentUser.uid,displayName:getState().currentUser.displayName},
+        discovered_by: getState().currentUser.uid,
         verified: false,
         pinDate: new Date()
     })

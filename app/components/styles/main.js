@@ -20,7 +20,7 @@ export default StyleSheet.create({
     },
     header: {
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 18,
         marginLeft: 20,
         color: '#333',
         marginTop:5
@@ -75,7 +75,7 @@ export default StyleSheet.create({
         height: 35
     },
     annotation: {
-        tintColor: 'red'
+        tintColor: '#EF8333'
     },
     fullCenterContainer: {
         flex: 1,
@@ -124,6 +124,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#333',
         borderRadius: 50,
+        marginBottom: 10,
     },
     buttonBottomRight: {
         bottom: '8%',

@@ -4,7 +4,7 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { findNearbyCourtsByLatLong, findLocationByQuery } from '../api-calls/googleplaces';
 import PointIcon from '../../assets/img/point.png';
 import Loading from './Loading';
-import { Card, Button, ListItem, SearchBar, Header} from 'react-native-elements';
+import { Card, Button, ListItem, SearchBar, Header, Icon } from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Cancel } from './navButtons';
 import { updateUserLoc } from '../actions/User';
@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import styles from './styles/main';
 
 let deviceHeight= Dimensions.get('window').height;
+let deviceWidth = Dimensions.get('window').width;
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
@@ -21,9 +22,15 @@ class Explore extends React.Component {
         userLocation: null,
         nearbyCourts: null,
         viewMode: 'map',
+        zoomLevel: 10,
+        discoverMode: false,
+        discoverForm: {
+            coords: null,
+            name: null
+        },
         modalVisible: false,
         activeCourt: null,
-        searchText: null,
+        search: null,
         error: null
     }
     static navigationOptions = {
@@ -42,11 +49,19 @@ class Explore extends React.Component {
             nearbyCourts: courtData
         })
     }
+    zoomIn = () => {
+        this.setState({zoomLevel:this.state.zoomLevel+2})
+    }
+    zoomOut = () => {
+        this.setState({zoomLevel:this.state.zoomLevel-2})
+    }
     openExternalMap = (lat, long) => {
         const url = `http://maps.apple.com/?daddr=${lat},${long}`
         Linking.openURL(url).catch(err => console.error('An error occurred opening Apple Map', err));
     }
     updateUserLocation = (lat, long) => {
+        console.log(lat)
+        console.log(long)
         this.setState({
             userLocation: {
                 latitude: lat,
@@ -55,7 +70,14 @@ class Explore extends React.Component {
               error: null
         }, () => findNearbyCourtsByLatLong(this.state.userLocation.latitude, this.state.userLocation.longitude, 15000, this.updateNearbyCourts)
     )}
-
+    updateDiscoverForm = (field, data) => {
+        this.setState({
+            discoverForm: {
+                ...this.state.discoverForm,
+                [field]: data
+            }
+        })
+    }
     // Finds user location, finds nearby courts, adds courts to state via callback (updateNearbyCourts)
     getUserLocation = () => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -75,9 +97,22 @@ class Explore extends React.Component {
     }
 
     updateUserLocationByQuery = () => {
-         findLocationByQuery(this.state.searchText, this.updateUserLocation)
+         findLocationByQuery(this.state.search, this.updateUserLocation)
     }
-
+    updateSearch = search => {
+        this.setState({search})
+    }
+    returnDiscoverAnnotation = (coords) => {
+        return (
+            <Mapbox.PointAnnotation
+                key={"1"}
+                id={"1"}
+                coordinate={[coords.long, coords.lat]}
+                title="annotation title"
+            >
+            </Mapbox.PointAnnotation>
+        )  
+    } 
     // Returns a single annotation via an index of state.nearbyCourts
     returnAnnotation = (counter) => {
         const item = this.state.nearbyCourts[counter];
@@ -114,16 +149,15 @@ class Explore extends React.Component {
             return annotations;
         }
     }
-    updateSearchText = (e) => {
-        this.setState({
-            searchText: e
-        })
-    }
     // toggles between list and map views
     toggleView = (mode) => {
         this.setState({
             viewMode: mode
         })
+    }
+    // toggle special modes (i.e discover)
+    toggleDiscoverMode = () => {
+        this.setState({discoverMode: !this.state.discoverMode})
     }
     // changes visibility of modal
     setModalVisible = (visible, item) => {
@@ -134,6 +168,7 @@ class Explore extends React.Component {
     }
 
     render() {
+        console.log(this.state)
         let lat, long, activeCourtName, activeCourtLocation, modal;
         if(this.state.userLocation !== null) {
             lat = this.state.userLocation.latitude
@@ -207,32 +242,105 @@ class Explore extends React.Component {
                     </View>
                 )
             } else if(this.state.viewMode === 'map') {
+                let discoverForm,discoverAnnotation;
+                let searchBarMargin = deviceHeight*.02;
+                if(this.state.discoverMode === true) {
+                    searchBarMargin = 0;
+                    discoverForm = 
+                    <View style={{justifyContent:'center',alignItems:'center',height:deviceHeight*.25,width:deviceWidth,zIndex:1000,backgroundColor:'#EEF0EF',borderBottomColor:'#CAD2D3',borderBottomWidth:2}}>
+                        <Text style={[styles.text,{marginBottom:5}]}>Discover a new Court</Text>
+                        <Text style={{marginBottom:5}}>Drag the red pin to a location and hit Select</Text>
+                        <Button
+                            title='Select Location'
+                            onPress={() => {
+                                this.updateDiscoverForm('coords',this.state.userLocation)
+                            }}
+                            buttonStyle={{backgroundColor: '#3578E5', borderColor: '#F6F8FA', borderWidth: 1, borderRadius: 10}}
+                        />                        
+                    </View>
+                    discoverAnnotation = this.returnDiscoverAnnotation({long,lat});
+                }
                 return (
                     <View style={[styles.container]}>
                         {modal}
+                        {discoverForm}
                         <Mapbox.MapView
                             onLongPress={(e) => {
                                 this.updateUserLocation(e.geometry.coordinates[1], e.geometry.coordinates[0])
                             }}
                             styleURL={Mapbox.StyleURL.Light}
-                            zoomLevel={10}
+                            zoomLevel={this.state.zoomLevel}
                             centerCoordinate={[long, lat]}
                             showUserLocation={true}
-                            style={styles.container}>
-                            {this.renderAnnotations()}
+                            style={styles.container}
+                            onRegionDidChange={(e) => {
+                                if(this.state.discoverMode === true) {
+                                    this.updateUserLocation(e.geometry.coordinates[1],e.geometry.coordinates[0])}
+                                }
+                            }
+                        >
                             <SearchBar
                                 lightTheme
-                                containerStyle={{marginTop: deviceHeight*.03, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
-                                onChangeText={(e) => this.updateSearchText(e)}
+                                containerStyle={{marginTop:searchBarMargin, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+                                onChangeText={this.updateSearch}
                                 inputStyle={{color: '#333'}}
                                 onSubmitEditing={() => this.updateUserLocationByQuery()}
-                                placeholder='Search Location...' />
-                            <TouchableOpacity style={styles.buttonBottomLeft} onPress={() => this.getUserLocation()}>
-                              <IonIcon name='md-locate' size={30} color='#0090F7'/>
-                            </TouchableOpacity>                            
-                            <TouchableOpacity style={[styles.buttonBr, styles.buttonBottomRight]} onPress={() => this.toggleView('list')}>
-                              <IonIcon name='md-menu' size={30} color='white'/>
-                            </TouchableOpacity>
+                                placeholder='Search Location...' 
+                                value={this.state.search}
+                            />
+                                                    
+                            {this.renderAnnotations()}
+                            
+                            {discoverAnnotation}
+
+                            <View style={{
+                                flex: 1,
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
+                                justifyContent: 'center',
+                                marginRight: 5
+                            }}>                                    
+                                <TouchableOpacity style={[styles.buttonBr]} onPress={() => this.toggleDiscoverMode()}>
+                                    <Icon
+                                        name='add-location'
+                                        color={this.state.discoverMode ? '#3578E5' : 'white'}
+                                        size={30}
+                                    />
+                                </TouchableOpacity>                            
+                                <TouchableOpacity style={[styles.buttonBr]} onPress={() => this.toggleView('list')}>
+                                    <IonIcon name='md-menu' size={30} color='white'/>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
+                                justifyContent: 'flex-end',
+                                marginBottom: 50,
+                                marginRight: 5
+                            }}> 
+                                <TouchableOpacity style={{backgroundColor:'#fff',padding:5,marginBottom:4}} onPress={() => this.getUserLocation()}>
+                                    <Icon
+                                        name='gps-fixed'
+                                        color='#0090F7'
+                                        size={30}
+                                    />                                    
+                                </TouchableOpacity>                            
+                                <TouchableOpacity style={{backgroundColor:'#fff',padding:5,borderBottomColor:'#333',borderBottomWidth:.5}} onPress={() => this.zoomIn()}>
+                                    <Icon
+                                        name='zoom-in'
+                                        color='#333'
+                                        size={30}
+                                    />
+                                </TouchableOpacity> 
+                                <TouchableOpacity style={{backgroundColor:'#fff',padding:5}} onPress={() => this.zoomOut()}>
+                                    <Icon
+                                        name='zoom-out'
+                                        color='#333'
+                                        size={30}
+                                    />
+                                </TouchableOpacity>  
+                            </View>                                                       
                         </Mapbox.MapView>
                     </View>
                 )
