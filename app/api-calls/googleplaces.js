@@ -6,6 +6,9 @@ export const findNearbyCourtsByLatLong = (lat, long, searchRadius, callback) => 
     fetch(searchUrl)
         .then(res => res.json())
         .then(json => {
+            // use next page token to add results
+            
+            console.log(json)
             let courtData = json.results.map(court => {
                 return {
                     lat: court.geometry.location.lat,
@@ -20,7 +23,7 @@ export const findNearbyCourtsByLatLong = (lat, long, searchRadius, callback) => 
         .then((courtData) => {
             //return callback(courtData)
 
-            // get details - UNCOMMENT TO GRAB DETAILS
+            // get details
             return addCourtDetail(courtData, callback)
         })
         .catch(err => {console.error(err)})
@@ -32,7 +35,7 @@ export const findLocationByQuery = (query, callback) => {
     fetch(geocodeUrl)
         .then(res => res.json())
         .then(json => {
-            callback(json.results[0].geometry.location.lat, json.results[0].geometry.location.lng)
+            callback({latitude:json.results[0].geometry.location.lat, longitude: json.results[0].geometry.location.lng}, true)
         })
         .catch(err => {console.error(err)})
 }

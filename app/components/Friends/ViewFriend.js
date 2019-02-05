@@ -86,8 +86,8 @@ class ViewFriend extends React.Component {
                 })
             })
         }, error => {
-            console.log('snapshot error!')
-            console.log(error);
+            console.error('snapshot error!')
+            console.error(error);
         })
     }
     confirmRemove = (friend) => {

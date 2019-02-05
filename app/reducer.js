@@ -166,11 +166,14 @@ const reducer = (state = initialState, action) => {
             }
         });
     } else if (action.type === UPDATE_FRIENDS) {
+        let friends = state.friends ? state.friends.filter(f => f.uid !== action.friend.uid) : [];
+        friends.push(action.friend);
+        const friendIds = friends.map(f=>f.uid);
         return Object.assign({}, state, {
-            friends: action.friends,
+            friends,
             currentUser: {
                 ...state.currentUser,
-                friends: action.friends.map(f=>f.uid)
+                friends: friendIds
             }
         });
     } else if (action.type === ADD_FRIEND_REQUEST) {
@@ -200,7 +203,7 @@ const reducer = (state = initialState, action) => {
                 ...state.currentUser,
                 friends: state.currentUser.friends.filter(id => id !== action.friendId)
             },
-            friends: state.friends.filter(f => f.uid != action.friendId),
+            friends: state.friends ? state.friends.filter(f => f.uid != action.friendId) : [],
             error: null,
             loading: false
         });

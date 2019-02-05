@@ -54,22 +54,23 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    let eventViewType0, eventViewType1;
     if(this.props.error) {
       return <ErrorMessage message={this.props.error}/>
     }
+
+    let eventViewType0, eventViewType1;
     if(this.props.currentUser) { 
 
+      // set view type options for Events
       eventViewType0 = () => <Text>Timeline</Text>
       eventViewType1 = () => <Text>List</Text>
-
       const eventViewTypeButtons = [{ element: eventViewType0 }, { element: eventViewType1 }]
 
       return (
         <View style={styles.container}>
           <StatusBar barStyle="light-content" />
           <Header
-              centerComponent={{ text: 'LocalBall', style: { color: '#FFFFFF', fontSize:24, fontFamily: 'ArchitectsDaughter-Regular' } }}
+              centerComponent={{ text: 'Local Hoops', style: { color: '#FFFFFF', fontSize:24, fontFamily: 'ArchitectsDaughter-Regular' } }} //ArchitectsDaughter-Regular
               containerStyle={{
                   backgroundColor: '#3578E5',
                   justifyContent: 'space-around',

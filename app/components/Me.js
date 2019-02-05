@@ -27,33 +27,34 @@ class Me extends React.Component {
     getFriendRequestsReceived = () => {
         firebase.firestore().collection('friendRequests')
         .where('requesteeId', '==', this.props.currentUser.uid)
-        .get()
-        .then(querySnapshot => {
+        .onSnapshot(querySnapshot => {
             let friendRequestsReceived = [];
             let counter = 0;
             let snapshotSize = querySnapshot.size;
             querySnapshot.forEach(doc => {
-                firebase.firestore().doc(`users/${doc.data().requestorId}`)
-                .get()
-                .then(doc => {
-                    const { photoURL, displayName, uid } = doc.data();
-                    let data = {
-                        photoURL,
-                        displayName,
-                        uid
-                    }
-                    friendRequestsReceived.push(data);
-                    counter++;
-                    return counter;
-                })
-                .then((counter) => {
-                    if(snapshotSize === counter) {
-                        this.setState({friendRequestsReceived})
-                    }
-                })
-            })
+                if(doc.data().status === 'pending') {
+                    firebase.firestore().doc(`users/${doc.data().requestorId}`)
+                    .get()
+                    .then(doc => {
+                        const { photoURL, displayName, uid } = doc.data();
+                        let data = {
+                            photoURL,
+                            displayName,
+                            uid
+                        }
+                        friendRequestsReceived.push(data);
+                        counter++;
+                        return counter;
+                    })
+                    .then((counter) => {
+                        if(snapshotSize === counter) {
+                            this.setState({friendRequestsReceived})
+                        }
+                    })
+                }
+
+            })            
         })
-        .catch(e => console.error(e))
     }
     denyFriendRequest = (prospectiveFriendId) => {
 

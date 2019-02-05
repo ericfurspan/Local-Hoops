@@ -103,8 +103,8 @@ class Events extends React.Component {
                 this.props.dispatch(updateEvents('user', null))
             }
         }, error => {
-            console.log('snapshot error!')
-            console.log(error);
+            console.error('snapshot error!')
+            console.error(error);
         })
     }
     fetchFriendsEvents = () => {
@@ -125,7 +125,6 @@ class Events extends React.Component {
                         .then(doc => {
                             if(doc.exists) {
                                 const { type, date, event_author, comment, court } = doc.data();
-                                console.log(date)
                                 let event = {
                                     doc, 
                                     uid,

@@ -126,16 +126,6 @@ export default StyleSheet.create({
         borderRadius: 50,
         marginBottom: 10,
     },
-    buttonBottomRight: {
-        bottom: '8%',
-        right: 10,
-        position: 'absolute'
-    },
-    buttonBottomLeft: {
-        bottom: '10%',
-        left: 10,
-        position: 'absolute'
-    },
     row: {
         flexDirection: 'row',
     },

@@ -11,9 +11,9 @@ export const updateStatus = (status) => ({
     status
 })
 export const UPDATE_FRIENDS = 'UPDATE_FRIENDS';
-export const updateFriends = (friends) => ({
+export const updateFriends = (friend) => ({
     type: UPDATE_FRIENDS,
-    friends
+    friend
 })
 export const ADD_FRIEND_REQUEST = 'ADD_FRIEND_REQUEST';
 export const addFriendRequest = () => ({
@@ -179,22 +179,18 @@ export const removeFriend = (userId, friendId) => (dispatch, getState) => {
 }
 
 // Get Friends
-export const getFriends = (friendIds) => (dispatch) => {
-    let counter = 0;
-    let friends = [];
+export const getFriends = (friendIds) => (dispatch, getState) => {
     friendIds.forEach(uid => {
         firebase.firestore().collection('users').doc(uid)
-        .get()
-        .then(doc => {
-            friends.push(doc.data());
-            counter++;
-            if(counter === friendIds.length) {
-                dispatch(updateFriends(friends))
+        .onSnapshot(doc => {
+            // make sure friend was not removed before updating
+            let stillFriends = doc.data().friends.find(uid=>uid===getState().currentUser.uid);
+            if(stillFriends) {
+                dispatch(updateFriends(doc.data()))
             } else {
-                console.log(friends.length)
+                dispatch(removeFriendSuccess(doc.data().uid));
             }
         })
-        .catch(e => console.error(e))
     })
 }
 

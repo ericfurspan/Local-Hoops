@@ -26,7 +26,7 @@ class AuthLoadingScreen extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-        <Loading message='LocalBall' indicator={false}/>
+        <Loading message='Local Hoops' indicator={false}/>
     );
   }
 }

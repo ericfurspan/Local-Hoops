@@ -21,7 +21,8 @@ class Account extends React.Component {
         this.props.dispatch(logoutRequest())
     }
     render() {
-        let pendingFriends, friendsBadge;
+        let pendingFriends = <Text style={{alignSelf:'center',marginTop:30}}>No pending friend requests</Text>
+        let friendsBadge;
         if(this.props.currentUser) {
             let userStatusPicker;
             if(this.state.showStatusPicker) {
@@ -29,7 +30,6 @@ class Account extends React.Component {
                 <View style={styles.fullScreen}>
                     <Picker
                         selectedValue={this.props.currentUser.status}
-                        //style={{ width: deviceWidth*.75,height:deviceHeight*.40}}
                         onValueChange={value => {
                             this.props.dispatch(updateUserStatus(value))
                             this.updateStatusPicker(false)
@@ -47,13 +47,13 @@ class Account extends React.Component {
             let badgeStatus;
             switch(this.props.currentUser.status) {
                 case 'Looking to hoop' :
-                    badgeStatus = 'success'
+                    badgeStatus = 'success';
                     break;
                 case 'Available' :
                     badgeStatus = 'primary';
                     break;
                 case 'Unavailable' :
-                    badgeStatus = 'warning'
+                    badgeStatus = 'warning';
                     break;
                 default :
                     badgeStatus = 'error'

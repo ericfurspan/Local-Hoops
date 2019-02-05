@@ -48,21 +48,21 @@ class Friends extends React.Component {
             })
         }
     }
-    handleViewFriend = (friend) => {
+    handleViewFriend = (uid) => {
         this.setModalVisible(true, 'View Friend');
         this.setState({
-            selectedFriend: friend
+            selectedFriend: uid
         })
     }
     render() {
         let friendList;
-        if(this.props.friends) { 
+        if(this.props.friends && this.props.friends.length > 0) { 
             let friends = this.state.filter ? this.state.friends : this.props.friends;
             friendList =
                 friends.map((friend) => (
                     <ListItem
                         containerStyle={{width: 300}}
-                        onPress={() => this.handleViewFriend(friend)}
+                        onPress={() => this.handleViewFriend(friend.uid)}
                         leftAvatar={{rounded:true, source:{uri:friend.photoURL} }}
                         key={friend.uid}
                         title={friend.displayName}
@@ -84,7 +84,7 @@ class Friends extends React.Component {
                             buttonStyle={{backgroundColor:'transparent'}}
                         />
                     </View>
-                {/* FRIENDS */}
+                    {/* FRIENDS */}
                     <SearchBar
                         lightTheme
                         containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
@@ -121,7 +121,7 @@ class Friends extends React.Component {
                                     and options to remove friend or send message (rev2)*/}
                                 <ViewFriend 
                                     currentUser={this.props.currentUser}
-                                    friend={this.state.selectedFriend}
+                                    friend={this.state.selectedFriend ? this.props.friends.find(f=>f.uid===this.state.selectedFriend) : null}
                                     onRemoveFriend={(uid,fid) => {
                                         this.setModalVisible(false, 'View Friend');
                                         this.props.dispatch(removeFriend(uid,fid))
