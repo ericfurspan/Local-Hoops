@@ -146,6 +146,7 @@ class Explore extends React.Component {
                 key={`pointAnnotation${counter}`}
                 id={`pointAnnotation${counter}`}
                 coordinate={[long, lat]}
+                onSelected={() => this.flyTo({latitude:lat,longitude:long})}
                 title="Basketball court">
                 <Image source={PointIcon} style={styles.annotation}/>
     
@@ -188,7 +189,6 @@ class Explore extends React.Component {
     }
 
     render() {
-        console.log(this.state.loading)
         let lat, long, activeCourtName, activeCourtLocation, modal;
         if(this.state.centerLocation) {
             lat = this.state.centerLocation.latitude
@@ -251,11 +251,19 @@ class Explore extends React.Component {
                                     />
                                 )}
                             />
-                            <TouchableOpacity
-                                style={[styles.buttonBr, styles.buttonBottomRight]}
-                                onPress={() => this.toggleView('map')}>
-                                <IonIcon name='md-map' size={30} color='white'/>
-                            </TouchableOpacity>
+                            <View style={{
+                                flex: 1,
+                                flexDirection: 'column',
+                                alignItems: 'flex-end',
+                                justifyContent: 'flex-end',
+                                marginRight: 5
+                            }}>
+                                <TouchableOpacity
+                                    style={[styles.buttonBr]}
+                                    onPress={() => this.toggleView('map')}>
+                                    <IonIcon name='md-map' size={30} color='white'/>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     )
                 } else if(this.state.viewMode === 'map') {
@@ -315,10 +323,10 @@ class Explore extends React.Component {
                             <Mapbox.MapView
                                 ref={(c) => this._mapView = c}
                                 onLongPress={(e) => {
-                                    this.updateCenterLocation({latitude: e.geometry.coordinates[1],longitude: e.geometry.coordinates[0]})
+                                    this.updateCenterLocation({latitude: e.geometry.coordinates[1],longitude: e.geometry.coordinates[0]}, true)
                                 }}
                                 styleURL={Mapbox.StyleURL.Light}
-                                zoomLevel={12}
+                                zoomLevel={10}
                                 centerCoordinate={[long, lat]}
                                 showUserLocation={true}
                                 style={styles.container}

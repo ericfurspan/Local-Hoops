@@ -99,8 +99,8 @@ export default StyleSheet.create({
         borderColor: 'transparent'
     },
     calloutContainer: {
-        backgroundColor: '#fffdfd',
-        width: 250,
+        backgroundColor: '#EEF0EF', //CAD2D3, FAFAFA
+        width: 275,
         height: 150,
         alignItems: 'center',
         position: 'relative',
