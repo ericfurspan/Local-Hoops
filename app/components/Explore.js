@@ -27,7 +27,8 @@ class Explore extends React.Component {
         addCourtMode: false,
         addCourtForm: {
             coords: null,
-            name: null
+            name: null,
+            error: null,
         },
         modalVisible: false,
         activeCourt: null,
@@ -89,10 +90,15 @@ class Explore extends React.Component {
         }
     )}
     updateAddCourtForm = (field, data) => {
+        let error;
+        if(field === 'name' && data.length < 3) {
+            error = `Please enter a longer name`
+        }
         this.setState({
             addCourtForm: {
                 ...this.state.addCourtForm,
-                [field]: data
+                [field]: data,
+                error
             }
         })
     }
@@ -273,8 +279,8 @@ class Explore extends React.Component {
                         searchBarMargin = 0;
                         if(!this.state.addCourtForm.coords) {
                             addCourtForm = 
-                                <View style={{justifyContent:'space-evenly',height:deviceHeight*.35,paddingTop:25,width:deviceWidth,zIndex:1000,backgroundColor:'#EEF0EF',borderBottomColor:'#CAD2D3',borderBottomWidth:2}}>
-                                    <Text style={[styles.text,{marginBottom:5,textAlign:'center'}]}>Add a Court</Text>
+                                <View style={{justifyContent:'space-evenly',alignItems:'center',height:deviceHeight*.35,paddingTop:25,zIndex:1000,backgroundColor:'#EEF0EF',borderBottomColor:'#CAD2D3',borderBottomWidth:2}}>
+                                    <Text style={[styles.text,{marginBottom:5}]}>Add a Court</Text>
                                     <Text style={{marginBottom:5,textAlign:'center'}}>Drag the map to move the pin to the location of a court, then tap Select Location</Text>
                                     <Button
                                         title='Select Location'
@@ -282,7 +288,11 @@ class Explore extends React.Component {
                                             let center = await this._mapView.getCenter();
                                             this.updateAddCourtForm('coords',center)
                                         }}
-                                        buttonStyle={{backgroundColor: '#3578E5', borderColor: '#F6F8FA', borderWidth: 1, borderRadius: 10}}
+                                        raised
+                                        type='outline'
+                                        titleStyle={{color:'#3578E5',fontSize:18,fontWeight:'500',marginLeft:5}}
+                                        icon={{name:'md-pin',type:'ionicon',size:18,color:'#3578E5'}}
+                                        buttonStyle={{backgroundColor:'#fff'}}
                                     />   
                                 </View>
                         } else if(this.state.addCourtForm.coords) {
@@ -295,22 +305,32 @@ class Explore extends React.Component {
                                     onChangeText={val => this.updateAddCourtForm('name',val)}
                                     containerStyle={{alignSelf:'center',width:deviceWidth*.85,marginTop:10,marginBottom:20}}
                                     maxLength={25}
+                                    errorMessage={this.state.addCourtForm.error}
                                     value={this.state.addCourtForm.name}
                                     inputStyle={{color: '#333'}}
                                 />
-                                <View style={styles.centeredRow}>
+                                <View style={[styles.spaceAroundRow,{alignItems:'center'}]}>
                                     <Button
-                                        title='Go Back'
+                                        title='Back'
                                         onPress={() => {
                                             this.setState({addCourtForm: {coords: null}})
                                         }}
-                                        buttonStyle={{backgroundColor: '#3578E5', borderColor: '#F6F8FA', borderWidth: 1, borderRadius: 10,padding:10}}
-                                    />
+                                        raised
+                                        type='outline'
+                                        titleStyle={{color:'#3578E5',fontSize:18,fontWeight:'500',marginLeft:5}}
+                                        icon={{name:'ios-arrow-back',type:'ionicon',size:18,color:'#3578E5'}}
+                                        buttonStyle={{backgroundColor:'#fff'}}
+                                    />                               
                                     <Button
-                                        title='Save Court'
+                                        title='Save'
+                                        raised
+                                        type='outline'
+                                        disabled={!this.state.addCourtForm.name || this.state.addCourtForm.error}
                                         onPress={() => this.handleSaveCourt()}
-                                        buttonStyle={{backgroundColor: '#3578E5', borderColor: '#F6F8FA', borderWidth: 1, borderRadius: 10,padding:10}}
-                                    />
+                                        icon={{name:'ios-save',type:'ionicon',size:18,color:'#3578E5'}}
+                                        titleStyle={{color:'#3578E5',fontSize:18,fontWeight:'500',marginLeft:5}}
+                                        buttonStyle={{backgroundColor:'#fff'}}
+                                    />                                  
                                 </View>
                             </View>
                         }
@@ -376,11 +396,11 @@ class Explore extends React.Component {
                                         <IonIcon name='md-menu' size={30} color='white'/>
                                     </TouchableOpacity>   
                                     <TouchableOpacity 
-                                        style={{backgroundColor:'#fff',padding:10,marginTop:25}} 
+                                        style={{backgroundColor:'white',padding:10,marginTop:25,borderRadius:50}} 
                                         onPress={() => this.getUserLocation()}>
                                         <Icon
                                             name='gps-fixed'
-                                            color='#0090F7'
+                                            color='#3578E5'
                                             size={30}
                                         />                                    
                                     </TouchableOpacity>                                                           

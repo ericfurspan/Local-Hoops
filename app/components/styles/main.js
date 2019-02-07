@@ -8,22 +8,22 @@ export default StyleSheet.create({
     },
     centeredContainer: {
         alignItems: 'center', 
-        flex: 1       
+        flex: 1
     },
     headerContainer: {
         backgroundColor: '#3578E5',
-        height: deviceHeight*.12,
+        height: deviceHeight*.15,
         justifyContent: 'space-around',
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
-        paddingBottom: 10
+        //flexDirection:'row',
+        alignItems:'center'
     },
     header: {
         fontWeight: 'bold',
         fontSize: 18,
         marginLeft: 20,
         color: '#333',
-        marginTop:5
     },
     modalBackground: {
         height: deviceHeight,
@@ -37,7 +37,7 @@ export default StyleSheet.create({
         width: deviceWidth*.98,
         backgroundColor: '#fff',
         borderRadius: 5,
-        top: deviceHeight*.05
+        top: deviceHeight*.04
     },
     modalHeader: {
         fontSize: 16,
@@ -147,7 +147,17 @@ export default StyleSheet.create({
     evenSpacedRow: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        margin:10
+        margin:10,
+    },
+    spaceAroundRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        margin:10,
+    },
+    spaceBetweenRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        margin:10,
     },
     flexStartRow: {
         flexDirection: 'row',

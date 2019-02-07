@@ -6,7 +6,7 @@ import { sortByDateDesc } from '../../../assets/helper';
 import BallIcon from '../../../assets/img/nyk.png';
 import Timeline from 'react-native-timeline-listview';
 import styles from '../styles/main';
-import EventModal from '../EventModal';
+import EventModal from '../Event/EventModal';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 
@@ -115,7 +115,7 @@ class ViewFriend extends React.Component {
                 badgeStatus = 'success'
                 break;
             case 'Available' :
-                badgeStatus = 'primary';
+                badgeStatus = 'success';
                 break;
             case 'Unavailable' :
                 badgeStatus = 'warning'
@@ -133,6 +133,8 @@ class ViewFriend extends React.Component {
                     title: event.type,
                     description: `${event.comment}`,
                     icon: BallIcon,
+                    type: event.type,
+                    date: event.date,
                     event_author: event.event_author,
                     participants: event.participants,
                     comment: event.comment,

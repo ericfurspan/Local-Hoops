@@ -3,9 +3,9 @@ import { Button } from 'react-native-elements';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { findLocationByQuery } from '../../api-calls/googleplaces';
-import { MAPBOX_ACCESS_TOKEN } from '../../../config';
-import styles from '../styles/main';
+import { findLocationByQuery } from '../../../api-calls/googleplaces';
+import { MAPBOX_ACCESS_TOKEN } from '../../../../config';
+import styles from '../../styles/main';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 

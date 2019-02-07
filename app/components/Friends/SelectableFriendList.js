@@ -9,7 +9,7 @@ class SelectableFriendList extends React.Component {
     state = {
         friends: null,
         filter: false,
-        selectedFriends: null,
+        selectedParticipants: null,
         search: ''
     }
     filterFriends = (search) => {
@@ -23,26 +23,26 @@ class SelectableFriendList extends React.Component {
         })
     }
     onSelectFriend = (uid) => {
-        let friends = [];
-        if(this.state.selectedFriends) {
-            if(this.state.selectedFriends.includes(uid)) {
-                friends = this.state.selectedFriends.filter(id => id !== uid)
+        let participants = [];
+        if(this.state.selectedParticipants) {
+            if(this.state.selectedParticipants.includes(uid)) {
+                participants = this.state.selectedParticipants.filter(id => id !== uid)
             } else {
-                friends = [...this.state.selectedFriends, uid]
+                participants = [...this.state.selectedParticipants, uid]
             }
         } else {
-            friends = [uid]
+            participants = [uid]
         }
         this.setState({
-            selectedFriends: friends
+            selectedParticipants: participants
         })
-        this.props.onFriendsChange(friends)
+        this.props.onParticipantsChange(participants)
     }
     render() {
         let friends = this.state.filter ? this.state.friends : this.props.friends;
         let friendList = friends.map((friend) => {
             let listIcon;
-            if(this.props.tempEvent && this.props.tempEvent.friends && this.props.tempEvent.friends.includes(friend.uid)) {
+            if(this.props.tempEvent && this.props.tempEvent.participants && this.props.tempEvent.participants.includes(friend.uid)) {
                 listIcon = {name:'md-checkmark',type:'ionicon',size:20,color:'green'}
             } else {
                 listIcon = {name:'md-add',type:'ionicon',size:20}

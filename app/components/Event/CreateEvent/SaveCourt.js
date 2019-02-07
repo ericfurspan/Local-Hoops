@@ -2,11 +2,11 @@ import React from 'react';
 import { Text, View, Dimensions, AlertIOS } from 'react-native';
 import { Button, Input, Header } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { saveCourt } from '../../actions/Court';
-import { MAPBOX_ACCESS_TOKEN } from '../../../config'
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import { clearTempEvent } from '../../actions/Event';
-import styles from '../styles/main';
+import { clearTempEvent } from '../../../actions/Event'
+import styles from '../../styles/main';
+import { saveCourt } from '../../../actions/Court';
+import { MAPBOX_ACCESS_TOKEN } from '../../../../config';
 
 let deviceWidth = Dimensions.get('window').width;
 let deviceHeight = Dimensions.get('window').height;
@@ -63,7 +63,7 @@ class SaveCourt extends React.Component {
         return (
             <View style={styles.centeredContainer}>
                 <Header
-                    centerComponent={{ text: 'Save this Court', style: { color: '#FFFFFF', fontSize:20 } }}
+                    centerComponent={{ text: 'Save this Court', style: { color: '#FFFFFF', fontSize:26 } }}
                     rightComponent={
                         <Text 
                             onPress={() => {

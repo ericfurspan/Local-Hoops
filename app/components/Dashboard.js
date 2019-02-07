@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, View, Modal, Dimensions, StatusBar } from 'react-native';
-import { Button, Header, ButtonGroup } from 'react-native-elements';
+import { View, Modal, Dimensions, StatusBar } from 'react-native';
+import { Button, Header, ButtonGroup, Text } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Loading from './Loading';
-import Events from './Events';
-import EventForm from './CreateEvent/EventForm';
+import Events from './Event/Events';
+import EventForm from './Event/CreateEvent/EventForm';
 import { Dropdown } from 'react-native-material-dropdown';
 import { getFriends, updateUserLoc } from '../actions/User';
 import ErrorMessage from './ErrorMessage';
@@ -21,7 +21,7 @@ class Dashboard extends React.Component {
   state = {
     showEventFormModal: false,
     activityType: 'All',
-    eventViewIndex: 0,
+    selectedIndex: 0,
   }
   static navigationOptions = {
     title: 'Dashboard',
@@ -42,8 +42,8 @@ class Dashboard extends React.Component {
       showEventFormModal: visible
     })
   }
-  updateEventViewIndex = (eventViewIndex) => {
-    this.setState({eventViewIndex})
+  updateSelectedIndex = (selectedIndex) => {
+    this.setState({selectedIndex})
   }
   // Finds user location
   getUserLocation = () => {
@@ -58,13 +58,9 @@ class Dashboard extends React.Component {
       return <ErrorMessage message={this.props.error}/>
     }
 
-    let eventViewType0, eventViewType1;
-    if(this.props.currentUser) { 
+    const eventViewBtns = ['Timeline', 'List'];
 
-      // set view type options for Events
-      eventViewType0 = () => <Text>Timeline</Text>
-      eventViewType1 = () => <Text>List</Text>
-      const eventViewTypeButtons = [{ element: eventViewType0 }, { element: eventViewType1 }]
+    if(this.props.currentUser) { 
 
       return (
         <View style={styles.container}>
@@ -80,7 +76,7 @@ class Dashboard extends React.Component {
             <FCM />
           
 
-          <View style={[styles.centeredContainer,{paddingTop:20}]}>
+          <View style={styles.centeredContainer}>
 
             {/* CHANGE LOCATION   
             <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between'}}>
@@ -97,14 +93,16 @@ class Dashboard extends React.Component {
 
             {// RECENT ACTIVITY
             }
-            <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between'}}>
+            <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between',marginTop:15}}>
                 <Text style={styles.header}>Recent Activity</Text>
                 <Button
                   onPress={() => this.setEventFormModalVisible(true)}
                   icon={{name:'md-add',type:'ionicon',size:16,color:'#3578E5'}}
                   title='New Event'
+                  type='outline'
+                  raised
+                  containerStyle={{marginRight:10}}
                   titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
-                  buttonStyle={{backgroundColor:'transparent'}}
                 />
             </View>
 
@@ -145,11 +143,13 @@ class Dashboard extends React.Component {
             }              
             <View style={{alignSelf:'center',width:200,marginBottom:10}}>
               <ButtonGroup
-                onPress={this.updateEventViewIndex}
-                selectedIndex={this.state.eventViewIndex}
-                buttons={eventViewTypeButtons}
+                onPress={this.updateSelectedIndex}
+                selectedIndex={this.state.selectedIndex}
+                buttons={eventViewBtns}
                 buttonStyle={{backgroundColor:'#FAFAFA'}}
                 selectedButtonStyle={{backgroundColor:'#FFFFFF'}}
+                textStyle={{color:'#777'}}
+                selectedTextStyle={{color:'#333'}}
               />
             </View>
 
@@ -157,7 +157,7 @@ class Dashboard extends React.Component {
             }              
             <Events 
               activityType={this.state.activityType}
-              eventViewIndex={this.state.eventViewIndex}
+              selectedIndex={this.state.selectedIndex}
             />
           </View>
         </View>

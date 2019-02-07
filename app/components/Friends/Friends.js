@@ -74,20 +74,22 @@ class Friends extends React.Component {
             return (
                 <View style={styles.centeredContainer}>
                     {/* ADD FRIEND */}
-                    <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between'}}>
+                    <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between',marginBottom:15,marginTop:15}}>
                         <Text style={styles.header}>Friends</Text>
                         <Button
                             onPress={() => this.setModalVisible(true, 'Add Friend')}
                             icon={{name:'md-person-add',type:'ionicon',size:16,color:'#3578E5'}}
                             title='Add Friend'
+                            type='outline'
+                            raised
+                            containerStyle={{marginRight:10}}
                             titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
-                            buttonStyle={{backgroundColor:'transparent'}}
                         />
                     </View>
                     {/* FRIENDS */}
                     <SearchBar
                         lightTheme
-                        containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+                        containerStyle={{width: 300,marginBottom:5,backgroundColor:'transparent',borderBottomColor:'transparent',borderTopColor:'transparent'}}
                         inputStyle={{color: '#222'}}
                         onChangeText={this.updateSearch}
                         placeholder='Filter by Name...'

@@ -50,7 +50,7 @@ class Account extends React.Component {
                     badgeStatus = 'success';
                     break;
                 case 'Available' :
-                    badgeStatus = 'primary';
+                    badgeStatus = 'success';
                     break;
                 case 'Unavailable' :
                     badgeStatus = 'warning';

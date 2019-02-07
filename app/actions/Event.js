@@ -6,10 +6,10 @@ export const updateEvents = (category, events) => ({
     events,
     category
 })
-export const UPDATE_TEMPEVENT_FRIENDS = 'UPDATE_TEMPEVENT_FRIENDS';
-export const updateTempEventFriends = (friends) => ({
-    type: UPDATE_TEMPEVENT_FRIENDS,
-    friends
+export const UPDATE_TEMPEVENT_PARTICIPANTS = 'UPDATE_TEMPEVENT_PARTICIPANTS';
+export const updateTempEventParticipants = (participants) => ({
+    type: UPDATE_TEMPEVENT_PARTICIPANTS,
+    participants
 })
 export const UPDATE_TEMPEVENT_TYPE = 'UPDATE_TEMPEVENT_TYPE';
 export const updateTempEventType = (data) => ({

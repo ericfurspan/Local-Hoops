@@ -2,14 +2,14 @@ import React from 'react';
 import { View, ScrollView, Dimensions, Modal } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { Cancel } from '../navButtons';
+import { Cancel } from '../../navButtons';
 import PinToMap from './PinToMap';
-import { updateUserLoc } from '../../actions/User';
-import styles from '../styles/main';
+import { updateUserLoc } from '../../../actions/User';
+import styles from '../../styles/main';
 
 let deviceHeight = Dimensions.get('window').height;
 
-const selectTypes = [ {val: 'Pin to Map', key: 'pin'}, {val: 'Select from Saved Courts', key: 'saved'}, {val: 'Use my current location', key: 'userloc'}];
+const selectTypes = [ /*{val: 'Pin to Map', key: 'pin'}, */{val: 'Select from Saved Courts', key: 'saved'}, {val: 'Use my current location', key: 'userloc'}];
 
 class SelectLocation extends React.Component {
     state = {
@@ -43,13 +43,13 @@ class SelectLocation extends React.Component {
     }
 
     render() {        
-        const iconNames = ['ios-pin','ios-save','ios-man'];
+        const iconNames = ['ios-pin','ios-save','md-locate'];
         return (
             <ScrollView contentContainerStyle={styles.wrapper} style={{maxHeight:deviceHeight*.40}}>
                 {selectTypes.map((type,i) => {
                     let checkedIcon;
                     if(this.props.tempEvent.court && type.key === this.props.tempEvent.court.selType) {
-                        checkedIcon = {name:'md-checkmark',type:'ionicon',size:20,color:'green'}
+                        checkedIcon = {name:'ios-checkmark',type:'ionicon',size:20,color:'green'}
                     }
                     return (
                         <ListItem

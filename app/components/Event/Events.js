@@ -2,16 +2,16 @@ import React from 'react';
 import { RefreshControl, ScrollView, Dimensions, FlatList} from 'react-native';
 import { ListItem } from 'react-native-elements';
 import firebase from 'react-native-firebase'
-import { updateEvents } from '../actions/Event';
 import { connect } from 'react-redux';
 import Timeline from 'react-native-timeline-listview'
-import { sortByDateDesc } from '../../assets/helper';
-import BallIcon from '../../assets/img/nyk.png';
-import styles from './styles/main';
 import FacePile from 'react-native-face-pile'
-import { MAPBOX_ACCESS_TOKEN } from '../../config';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import EventModal from './EventModal';
+import { MAPBOX_ACCESS_TOKEN } from '../../../config';
+import { sortByDateDesc } from '../../../assets/helper';
+import BallIcon from '../../../assets/img/nyk.png';
+import styles from '../styles/main';
+import { updateEvents } from '../../actions/Event';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
@@ -204,6 +204,8 @@ class Events extends React.Component {
                 return {
                     time: event.date,
                     title: event.type,
+                    type: event.type,
+                    date: event.date,
                     description: `${event.comment}`,
                     icon: BallIcon,
                     event_author: event.event_author,
@@ -217,7 +219,7 @@ class Events extends React.Component {
             // sort events by date descending
             eventsData.sort(sortByDateDesc)
 
-            if(this.props.eventViewIndex === 0) {
+            if(this.props.selectedIndex === 0) {
                 eventsView = 
                 <Timeline
                     data={eventsData}
@@ -232,7 +234,7 @@ class Events extends React.Component {
                     timeStyle={{textAlign: 'center', backgroundColor:'transparent', color:'#333', padding:5, borderRadius:13}}
                     onEventPress={event => this.setModalVisible(true,event)}
                 />
-            } else if(this.props.eventViewIndex === 1 || !this.props.eventViewIndex) {
+            } else if(this.props.selectedIndex === 1 || !this.props.selectedIndex) {
                 eventsView = 
                 <FlatList
                     data={eventsData}
@@ -248,11 +250,10 @@ class Events extends React.Component {
                             leftElement={
                                 <FacePile 
                                     numFaces={3}
-                                    circleStyle={{borderWidth:10,borderColor:'black'}}
                                     faces={item.participants.map((p,i)=> {
                                         return {
                                             id:i,
-                                            imageUrl:p.photoURL
+                                            imageUrl:p.photoURL,
                                         }
                                     })} 
                                 />}

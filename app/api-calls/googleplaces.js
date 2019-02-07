@@ -8,7 +8,6 @@ export const findNearbyCourtsByLatLong = (lat, long, searchRadius, callback) => 
         .then(json => {
             // use next page token to add results
             
-            console.log(json)
             let courtData = json.results.map(court => {
                 return {
                     lat: court.geometry.location.lat,

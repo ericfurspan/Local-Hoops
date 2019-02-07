@@ -51,7 +51,7 @@ class Cancel extends React.Component {
             <View style={styles.bottomCenter}>
                 <TouchableOpacity
                     onPress={() => this.props.onCancel()}>
-                    <IonIcon name='md-close-circle-outline' size={40} color='#fff'/> 
+                    <IonIcon name='ios-close-circle-outline' size={40} color='#fff'/> 
                 </TouchableOpacity>
             </View>
         )

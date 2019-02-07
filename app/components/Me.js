@@ -52,7 +52,6 @@ class Me extends React.Component {
                         }
                     })
                 }
-
             })            
         })
     }

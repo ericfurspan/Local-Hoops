@@ -21,7 +21,7 @@ import {
 import { 
     UPDATE_EVENTS,
     UPDATE_TEMPEVENT,
-    UPDATE_TEMPEVENT_FRIENDS,
+    UPDATE_TEMPEVENT_PARTICIPANTS,
     UPDATE_TEMPEVENT_TYPE,
     SAVE_EVENT_REQUEST,
     SAVE_EVENT_SUCCESS,
@@ -31,7 +31,7 @@ import {
     DELETE_EVENT_ERROR,
     CLEAR_TEMP_EVENT
 } from './actions/Event';
-import { eventTypes } from '../app/components/CreateEvent/EventForm';
+import { eventTypes } from '../app/components/Event/CreateEvent/EventForm';
 // COURT
 /*import { 
     SAVE_COURT, 
@@ -121,11 +121,11 @@ const reducer = (state = initialState, action) => {
                         }
                     });
          }
-    } else if (action.type === UPDATE_TEMPEVENT_FRIENDS) {
+    } else if (action.type === UPDATE_TEMPEVENT_PARTICIPANTS) {
         return Object.assign({}, state, {
             tempEvent: {
                 ...state.tempEvent,
-                friends: action.friends
+                participants: action.participants
             }
         })
     } else if (action.type === UPDATE_TEMPEVENT_TYPE) {
