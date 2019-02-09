@@ -4,7 +4,7 @@ import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { Cancel } from '../../navButtons';
 import PinToMap from './PinToMap';
-import { updateUserLoc } from '../../../actions/User';
+import { updateLocation } from '../../../actions/Location';
 import styles from '../../styles/main';
 
 let deviceHeight = Dimensions.get('window').height;
@@ -22,7 +22,7 @@ class SelectLocation extends React.Component {
     }
     getUserLocation = () => {
         navigator.geolocation.getCurrentPosition(position => {
-            this.props.dispatch(updateUserLoc(position.coords));
+            this.props.dispatch(updateLocation(position.coords));
             this.props.onSelect({lat:position.coords.latitude,long:position.coords.longitude},'userloc')
           }, err => console.error(err))
     }

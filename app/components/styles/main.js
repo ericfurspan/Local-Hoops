@@ -80,7 +80,8 @@ export default StyleSheet.create({
     fullCenterContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        zIndex:1000
     },
     fullScreen: {
         width: deviceWidth,
@@ -99,11 +100,9 @@ export default StyleSheet.create({
         borderColor: 'transparent'
     },
     calloutContainer: {
-        backgroundColor: '#EEF0EF', //CAD2D3, FAFAFA
-        width: 275,
-        height: 150,
-        alignItems: 'center',
-        position: 'relative',
+        backgroundColor: 'red',
+        width: deviceWidth,
+        height: 250,
         padding: 10,
     },
     calloutTitle: {
@@ -118,11 +117,11 @@ export default StyleSheet.create({
         color: '#0261ff'
     },
     buttonBr: {
-        height: 55,
-        width: 55,
+        height: 45,
+        width: 45,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#333',
+        backgroundColor: '#fff',
         borderRadius: 50,
         marginBottom: 10,
     },

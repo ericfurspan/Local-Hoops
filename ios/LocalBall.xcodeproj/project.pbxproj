@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -15,8 +14,6 @@
 		748441580D8B428E9EBABABF /* Kodchasan-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E2E057D080844459931B692 /* Kodchasan-Regular.ttf */; };
 		8D1DE442DFE243A293623490 /* Orbitron-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BFD7E1DF4E7404483FBE188 /* Orbitron-Black.ttf */; };
 		901F4CEC21E0507500921667 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 901F4CEB21E0507400921667 /* Images.xcassets */; };
-		90212B932208C5C5009F245B /* NCAA UConn Huskies Rawlings.otf in Resources */ = {isa = PBXBuildFile; fileRef = 90212B912208C5C5009F245B /* NCAA UConn Huskies Rawlings.otf */; };
-		90212B942208C5C5009F245B /* NFL RedZone.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90212B922208C5C5009F245B /* NFL RedZone.ttf */; };
 		903C149121DEA1D800759324 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C146A21DEA1D800759324 /* CoreFoundation.framework */; };
 		903E5B9D21E0119800E1A3F4 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		903E5B9E21E011A900E1A3F4 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -27,6 +24,9 @@
 		903E5BA421E011DF00E1A3F4 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		903E5BA521E011E800E1A3F4 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		903E5BA621E011EE00E1A3F4 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		9061312D220F7DC800E93E8A /* light.png in Resources */ = {isa = PBXBuildFile; fileRef = 9061312A220F7DC800E93E8A /* light.png */; };
+		9061312E220F7DC800E93E8A /* dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9061312B220F7DC800E93E8A /* dark.png */; };
+		9061312F220F7DC800E93E8A /* street.png in Resources */ = {isa = PBXBuildFile; fileRef = 9061312C220F7DC800E93E8A /* street.png */; };
 		907F159821DF649300427F25 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B84C1C21DF057F00850A65 /* libReact.a */; };
 		907F160C21DF73B300427F25 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		9086123B21E01972004FFC68 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -38,6 +38,12 @@
 		BD3E0D8228D249B29D743DE8 /* PermanentMarker-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47FA2F6F0018406390ACAA91 /* PermanentMarker-Regular.ttf */; };
 		C2CF0FA2E898467B9421E669 /* Orbitron-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE7EE41C6C974F6C8AF6EC3C /* Orbitron-Regular.ttf */; };
 		EB2BB3519C114B45B37F4FA3 /* ArchitectsDaughter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B08C3504FF0542D5BF654B44 /* ArchitectsDaughter-Regular.ttf */; };
+		3F414881E5724E26BB2C0E53 /* Icon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 587636A422984A0AABDF3736 /* Icon.tiff */; };
+		F5D03341810944E4961615B8 /* Preview.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3904A14570AC47BC84531B55 /* Preview.tiff */; };
+		BD08BC902D3945F680ED95B3 /* Thumbnail.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 7B7FC3E172C5427892ED9693 /* Thumbnail.tiff */; };
+		551A5ADD43B14D39BF0B6008 /* nyk.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6E6EE570A00F4F42B9B14D00 /* nyk.gif */; };
+		68A3642A244D44618B00CF55 /* nyk.png in Resources */ = {isa = PBXBuildFile; fileRef = 85886574E8FF4FA6A0B098C4 /* nyk.png */; };
+		8B9F1A330CB44DEE8CA0FEC1 /* point.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E8AE825B1434EB2971B595C /* point.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -326,9 +332,10 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8868290EA7524B54A01095DA /* Lobster-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lobster-Regular.ttf"; path = "../assets/fonts/Lobster-Regular.ttf"; sourceTree = "<group>"; };
 		901F4CEB21E0507400921667 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LocalBall/Images.xcassets; sourceTree = "<group>"; };
-		90212B912208C5C5009F245B /* NCAA UConn Huskies Rawlings.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NCAA UConn Huskies Rawlings.otf"; path = "../assets/fonts/NCAA UConn Huskies Rawlings.otf"; sourceTree = "<group>"; };
-		90212B922208C5C5009F245B /* NFL RedZone.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "NFL RedZone.ttf"; path = "../assets/fonts/NFL RedZone.ttf"; sourceTree = "<group>"; };
 		903C146A21DEA1D800759324 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		9061312A220F7DC800E93E8A /* light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = light.png; path = ../assets/mapStyles/light.png; sourceTree = "<group>"; };
+		9061312B220F7DC800E93E8A /* dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dark.png; path = ../assets/mapStyles/dark.png; sourceTree = "<group>"; };
+		9061312C220F7DC800E93E8A /* street.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = street.png; path = ../assets/mapStyles/street.png; sourceTree = "<group>"; };
 		908AA8C8F54A20AD61B169E0 /* Pods-LocalBall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalBall.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LocalBall/Pods-LocalBall.debug.xcconfig"; sourceTree = "<group>"; };
 		90B84C1C21DF057F00850A65 /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		90DC322621DE9D5800FA1BAA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -342,6 +349,12 @@
 		B08C3504FF0542D5BF654B44 /* ArchitectsDaughter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ArchitectsDaughter-Regular.ttf"; path = "../assets/fonts/ArchitectsDaughter-Regular.ttf"; sourceTree = "<group>"; };
 		D7B0BE1A38DB5FCD06AFBCBA /* libPods-LocalBall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LocalBall.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE7EE41C6C974F6C8AF6EC3C /* Orbitron-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Orbitron-Regular.ttf"; path = "../assets/fonts/Orbitron-Regular.ttf"; sourceTree = "<group>"; };
+		587636A422984A0AABDF3736 /* Icon.tiff */ = {isa = PBXFileReference; name = "Icon.tiff"; path = "../assets/img/logo_1.pxd/QuickLook/Icon.tiff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3904A14570AC47BC84531B55 /* Preview.tiff */ = {isa = PBXFileReference; name = "Preview.tiff"; path = "../assets/img/logo_1.pxd/QuickLook/Preview.tiff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7B7FC3E172C5427892ED9693 /* Thumbnail.tiff */ = {isa = PBXFileReference; name = "Thumbnail.tiff"; path = "../assets/img/logo_1.pxd/QuickLook/Thumbnail.tiff"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6E6EE570A00F4F42B9B14D00 /* nyk.gif */ = {isa = PBXFileReference; name = "nyk.gif"; path = "../assets/img/nyk.gif"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		85886574E8FF4FA6A0B098C4 /* nyk.png */ = {isa = PBXFileReference; name = "nyk.png"; path = "../assets/img/nyk.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8E8AE825B1434EB2971B595C /* point.png */ = {isa = PBXFileReference; name = "point.png"; path = "../assets/img/point.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -416,9 +429,10 @@
 		0F2EA6B9014E40FE98F22942 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				90212B912208C5C5009F245B /* NCAA UConn Huskies Rawlings.otf */,
-				90212B922208C5C5009F245B /* NFL RedZone.ttf */,
 				B08C3504FF0542D5BF654B44 /* ArchitectsDaughter-Regular.ttf */,
+				9061312B220F7DC800E93E8A /* dark.png */,
+				9061312A220F7DC800E93E8A /* light.png */,
+				9061312C220F7DC800E93E8A /* street.png */,
 				6E2E057D080844459931B692 /* Kodchasan-Regular.ttf */,
 				8868290EA7524B54A01095DA /* Lobster-Regular.ttf */,
 				9BFD7E1DF4E7404483FBE188 /* Orbitron-Black.ttf */,
@@ -426,6 +440,12 @@
 				47FA2F6F0018406390ACAA91 /* PermanentMarker-Regular.ttf */,
 				A2522BAEB5EB42CBBDD19E76 /* Play-Bold.ttf */,
 				AE49555FF87B443C921B0ED5 /* Play-Regular.ttf */,
+				587636A422984A0AABDF3736 /* Icon.tiff */,
+				3904A14570AC47BC84531B55 /* Preview.tiff */,
+				7B7FC3E172C5427892ED9693 /* Thumbnail.tiff */,
+				6E6EE570A00F4F42B9B14D00 /* nyk.gif */,
+				85886574E8FF4FA6A0B098C4 /* nyk.png */,
+				8E8AE825B1434EB2971B595C /* point.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -973,14 +993,21 @@
 				EB2BB3519C114B45B37F4FA3 /* ArchitectsDaughter-Regular.ttf in Resources */,
 				748441580D8B428E9EBABABF /* Kodchasan-Regular.ttf in Resources */,
 				901F4CEC21E0507500921667 /* Images.xcassets in Resources */,
+				9061312E220F7DC800E93E8A /* dark.png in Resources */,
 				BA1DA2CC7ECF480D823457A9 /* Lobster-Regular.ttf in Resources */,
 				8D1DE442DFE243A293623490 /* Orbitron-Black.ttf in Resources */,
-				90212B932208C5C5009F245B /* NCAA UConn Huskies Rawlings.otf in Resources */,
+				9061312F220F7DC800E93E8A /* street.png in Resources */,
 				C2CF0FA2E898467B9421E669 /* Orbitron-Regular.ttf in Resources */,
+				9061312D220F7DC800E93E8A /* light.png in Resources */,
 				BD3E0D8228D249B29D743DE8 /* PermanentMarker-Regular.ttf in Resources */,
-				90212B942208C5C5009F245B /* NFL RedZone.ttf in Resources */,
 				B69F2CE88640435C931040B2 /* Play-Bold.ttf in Resources */,
 				67EAE6715DA544468FE46346 /* Play-Regular.ttf in Resources */,
+				3F414881E5724E26BB2C0E53 /* Icon.tiff in Resources */,
+				F5D03341810944E4961615B8 /* Preview.tiff in Resources */,
+				BD08BC902D3945F680ED95B3 /* Thumbnail.tiff in Resources */,
+				551A5ADD43B14D39BF0B6008 /* nyk.gif in Resources */,
+				68A3642A244D44618B00CF55 /* nyk.png in Resources */,
+				8B9F1A330CB44DEE8CA0FEC1 /* point.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

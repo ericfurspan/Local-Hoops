@@ -7,7 +7,6 @@ import {
 } from './actions/Auth';
 //USER
 import { 
-    UPDATE_USERLOC,
     UPDATE_STATUS,
     UPDATE_FRIENDS,
     ADD_FRIEND_REQUEST,
@@ -32,12 +31,17 @@ import {
     CLEAR_TEMP_EVENT
 } from './actions/Event';
 import { eventTypes } from '../app/components/Event/CreateEvent/EventForm';
+import {
+    TOGGLE_LOCATION,
+    UPDATE_LOCATION,
+    LOCATION_ERROR,
+} from './actions/Location';
 // COURT
-/*import { 
-    SAVE_COURT, 
-    SAVE_COURT_SUCCESS 
+import { 
+    UPDATE_NEARBY_COURTS,
+    REQUEST_NEARBY_COURTS
 } from './actions/Court';
-*/
+
 // FIREBASE MESSAGING
 //import {  } from './actions/Messaging';
 
@@ -59,12 +63,17 @@ const initialState = {
     friends: null,
     loggedIn: false,
     authLoading: false,
+    nearbyCourts: null,
     loading: false,
     notification: null,
-    error: null
+    error: null,
+    location: null,
+    locationError: null,
+    mapLoading: false,
 };
 
 const reducer = (state = initialState, action) => {
+
     if (action.type === LOGIN_REQUEST) {
         return Object.assign({}, state, {
             error: null,
@@ -97,6 +106,16 @@ const reducer = (state = initialState, action) => {
                 status: action.status
             }
         });
+    } else if (action.type === REQUEST_NEARBY_COURTS) {
+        return Object.assign({}, state, {
+            mapLoading: true
+        });         
+    } 
+    else if (action.type === UPDATE_NEARBY_COURTS) {
+        return Object.assign({}, state, {
+            nearbyCourts: action.courts,
+            mapLoading: false
+        }); 
     } else if (action.type === UPDATE_EVENTS) {
          switch(action.category) {
                 case 'user':
@@ -158,12 +177,19 @@ const reducer = (state = initialState, action) => {
         return Object.assign({}, state, {
             tempEvent: initialState.tempEvent
         });
-    } else if (action.type === UPDATE_USERLOC) {
+    } else if (action.type === UPDATE_LOCATION) {
         return Object.assign({}, state, {
-            currentUser: {
-                ...state.currentUser,
-                location: action.userLoc
-            }
+            location: action.location,
+            locationError: null,
+            locationEnabled: true
+        });
+    } else if (action.type === LOCATION_ERROR) {
+        return Object.assign({}, state, {
+            locationError: action.message
+        })
+    } else if (action.type === TOGGLE_LOCATION) {
+        return Object.assign({}, state, {
+            locationEnabled: action.isEnabled,
         });
     } else if (action.type === UPDATE_FRIENDS) {
         let friends = state.friends ? state.friends.filter(f => f.uid !== action.friend.uid) : [];

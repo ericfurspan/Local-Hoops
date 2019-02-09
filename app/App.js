@@ -15,7 +15,7 @@ const AuthStack = createStackNavigator(
     SignIn: Login 
   },
   {
-    headerMode: 'none'
+    //headerMode: 'none'
   }
 );
 const AppStack = createBottomTabNavigator({
@@ -49,8 +49,6 @@ const AppStack = createBottomTabNavigator({
     style: {
       backgroundColor: '#FAFAFA',
       height: 55
-    },
-    tabStyle: {
     },
     showLabel: true,
     activeTintColor: '#EF8333',

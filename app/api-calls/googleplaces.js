@@ -1,67 +1,76 @@
-// Place Search
+// Place Search - https://developers.google.com/places/web-service/search
+// Place Details - https://developers.google.com/places/web-service/details
+
 import { GOOGLE_API_KEY } from '../../config';
 
-export const findNearbyCourtsByLatLong = (lat, long, searchRadius, callback) => {
-    const searchUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&keyword=basketballcourt&radius=${searchRadius}&rankby=prominence&key=${GOOGLE_API_KEY}`
-    fetch(searchUrl)
-        .then(res => res.json())
-        .then(json => {
-            // use next page token to add results
-            
-            let courtData = json.results.map(court => {
-                return {
-                    lat: court.geometry.location.lat,
-                    long: court.geometry.location.lng,
-                    name: court.name,
-                    location: court.vicinity,
-                    key: court.place_id
-                }
-            })
-            return courtData;
+export const getGoogleCourtsByLatLong = async (coords, searchRadius) => {
+    try {
+        const searchUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coords.latitude},${coords.longitude}&keyword=basketballcourt&radius=${searchRadius}&rankby=prominence&key=${GOOGLE_API_KEY}`
+        let res = await fetch(searchUrl);
+        let json = await res.json();
+        let courtData = json.results.map(court => {
+            return {
+                coords: {
+                    latitude: court.geometry.location.lat,
+                    longitude: court.geometry.location.lng,
+                },
+                name: court.name,
+                location: court.vicinity,
+                id: court.place_id,
+                discovered_by: {
+                    displayName: 'Google Places',
+                    uid: null
+                },
+                verified: true
+            }
         })
-        .then((courtData) => {
-            //return callback(courtData)
-
-            // get details
-            return addCourtDetail(courtData, callback)
-        })
-        .catch(err => {console.error(err)})
+        let updatedCourtData = await addCourtDetail(courtData);
+        return updatedCourtData;
+    } catch(e) {
+        console.error(e);
+    }
 }
 
-export const findLocationByQuery = (query, callback) => {
-    let searchQuery = encodeURIComponent(query.trim())
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchQuery}&key=${GOOGLE_API_KEY}`
-    fetch(geocodeUrl)
-        .then(res => res.json())
-        .then(json => {
-            callback({latitude:json.results[0].geometry.location.lat, longitude: json.results[0].geometry.location.lng}, true)
-        })
-        .catch(err => {console.error(err)})
+export const findLocationByQuery = async (query, callback) => {
+    try {
+        let searchQuery = encodeURIComponent(query.trim())
+        const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchQuery}&key=${GOOGLE_API_KEY}`
+        let res = await fetch(geocodeUrl);
+        let json = await res.json();
+
+        return callback( 
+            {
+              latitude:json.results[0].geometry.location.lat,
+              longitude: json.results[0].geometry.location.lng
+            },
+            true
+        )
+    } catch(e) {
+        console.error(e);
+    }
 }
 
 // Place Details
-const addCourtDetail = (courtData, callback) => {
+const addCourtDetail = async (courtData) => {
 
-    let updatedCourtData = [];
-    courtData.forEach((court, i) => {
-        const searchUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${court.key}&fields=formatted_address,url,photo&key=${GOOGLE_API_KEY}`
-        fetch(searchUrl)
-            .then(res => res.json())
-            .then(json => {
-                let updatedCourt = {
-                    ...court,
-                    address: json.result.formatted_address,
-                    gMapsUrl: json.result.url
-                }            
-                updatedCourtData.push(updatedCourt)
-            })
-            .then(() => {
-                if(i === courtData.length - 1) {
-                    callback(updatedCourtData)
-                }
-            })
-            .catch(err => {console.error(err)})
-    })
+    try {
+        let updatedCourtData = [];
+        
+        for(let i=0;i<courtData.length;i++) {
+            const searchUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${courtData[i].id}&fields=formatted_address,url,photo&key=${GOOGLE_API_KEY}`
+            let res = await fetch(searchUrl);
+            let json = await res.json();
+            let updatedCourt = {
+                ...courtData[i],
+                address: json.result.formatted_address,
+                gMapsUrl: json.result.url
+            }
+            updatedCourtData.push(updatedCourt);
+        }
+        return updatedCourtData
+    } catch(e) {
+        console.error(e)
+    }
 }
 
 /*

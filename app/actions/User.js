@@ -1,10 +1,5 @@
 import firebase from 'react-native-firebase'
 
-export const UPDATE_USERLOC = 'UPDATE_USERLOC';
-export const updateUserLoc = userLoc => ({
-    type: UPDATE_USERLOC,
-    userLoc
-});
 export const UPDATE_STATUS = 'UPDATE_STATUS';
 export const updateStatus = (status) => ({
     type: UPDATE_STATUS,

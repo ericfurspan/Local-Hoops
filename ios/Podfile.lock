@@ -220,15 +220,15 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNFirebase (5.2.0):
+  - RNFirebase (5.2.2):
     - Firebase/Core
     - React
-  - RNGestureHandler (1.0.12):
+  - RNGestureHandler (1.0.15):
     - React
-  - RNGoogleSignin (1.0.2):
+  - RNGoogleSignin (1.1.0):
     - GoogleSignIn
     - React
-  - RNVectorIcons (6.1.0):
+  - RNVectorIcons (6.2.0):
     - React
   - yoga (0.57.8.React)
 
@@ -362,7 +362,7 @@ SPEC CHECKSUMS:
   react-native-fbsdk: d5f98cc5abecbcc463e3c35c04743d716d002d37
   react-native-mapbox-gl: b42480060cdcc515dfa3d8e403fb4dd32466a1b9
   RNFirebase: 57f6c2adb24355b4e6211e028a8e97e473432245
-  RNGestureHandler: 282af6ea58ed8483612365159c58a3ca5f55e7da
+  RNGestureHandler: afde2addc517e85cc97a25bfe119acbee779a7ce
   RNGoogleSignin: 8b08beabff7f3b1373b2821b0944b38de36ba95e
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85

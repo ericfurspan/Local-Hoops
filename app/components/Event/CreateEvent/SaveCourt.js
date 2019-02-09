@@ -18,9 +18,10 @@ class SaveCourt extends React.Component {
         textDisabled: true
     }
     onTextChange = (val) => {
-        this.props.updateName({court_name: val});
         if(val.length > 1) {
-            this.setState({textDisabled:false})
+            this.setState({textDisabled:false},() => {
+                this.props.updateName({court_name: val});
+            })
         } else {
             this.setState({textDisabled:true})
         }
