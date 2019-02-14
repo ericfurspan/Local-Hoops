@@ -43,9 +43,15 @@ class FCM extends React.Component {
                   }
               })
 
-            }).catch(error => console.error(error));
+            }).catch(error => {
+                console.log('firebase messaging error in FCM.js.js!!')
+                console.log(error)
+            });
           }
-        }).catch(error => console.error(error));
+        }).catch(error => {
+            console.log('firebase messaging error in FCM.js.js!!')
+            console.log(error)
+        });
 
         this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
             this.updateToken(fcmToken);

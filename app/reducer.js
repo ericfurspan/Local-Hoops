@@ -1,3 +1,4 @@
+
 // AUTH
 import { 
     LOGIN_REQUEST, 
@@ -14,7 +15,8 @@ import {
     ADD_FRIEND_ERROR,
     REMOVE_FRIEND_REQUEST,
     REMOVE_FRIEND_SUCCESS,
-    REMOVE_FRIEND_ERROR 
+    REMOVE_FRIEND_ERROR,
+    SET_PREFERRED_MAPTYPE
 } from './actions/User';
 // EVENTS
 import { 
@@ -39,7 +41,10 @@ import {
 // COURT
 import { 
     UPDATE_NEARBY_COURTS,
-    REQUEST_NEARBY_COURTS
+    REQUEST_NEARBY_COURTS,
+    SAVE_COURT_SUCCESS,
+    UNSAVE_COURT_SUCCESS,
+    UPDATE_SAVED_COURTS
 } from './actions/Court';
 
 // FIREBASE MESSAGING
@@ -49,12 +54,13 @@ import {
 import { 
     CLEAR_ERROR,
     RENDER_NOTIFICATION,
-    CLEAR_NOTIFICATION
+    CLEAR_NOTIFICATION,
+    DISPLAY_ERROR
 } from './actions/Misc';
 
 const initialState = {
-    currentUser: null,
-    events: null,
+    currentUser: {},
+    events: [],
     tempEvent: {
         step: 1,
         type: eventTypes[0],
@@ -64,6 +70,7 @@ const initialState = {
     loggedIn: false,
     authLoading: false,
     nearbyCourts: null,
+    savedCourts: null,
     loading: false,
     notification: null,
     error: null,
@@ -106,15 +113,50 @@ const reducer = (state = initialState, action) => {
                 status: action.status
             }
         });
+    } else if(action.type === UPDATE_SAVED_COURTS) {
+        return Object.assign({}, state, {
+            savedCourts: action.savedCourts
+        });
+    } else if(action.type === SET_PREFERRED_MAPTYPE) {
+        return Object.assign({}, state, {
+            currentUser: {
+                ...state.currentUser,
+                preferredMapType: action.preferredMapType
+            }
+        });
+    } else if(action.type === DISPLAY_ERROR) {
+        return Object.assign({}, state, {
+            error: action.error.message
+        })
     } else if (action.type === REQUEST_NEARBY_COURTS) {
         return Object.assign({}, state, {
             mapLoading: true
         });         
-    } 
-    else if (action.type === UPDATE_NEARBY_COURTS) {
+    } else if (action.type === UPDATE_NEARBY_COURTS) {
+        // todo filter duplicate ids? if more than 1, only keep one where discovered_by.displayName !== Google Places
         return Object.assign({}, state, {
-            nearbyCourts: action.courts,
+            nearbyCourts: action.courts, 
             mapLoading: false
+        }); 
+    } else if (action.type === SAVE_COURT_SUCCESS) {
+        let courtIds;
+        if(state.currentUser.saved_courts) {
+            courtIds = [...state.currentUser.saved_courts, action.courtId];
+        } else {
+            courtIds = [action.courtId];
+        }
+        return Object.assign({}, state, {
+            currentUser: {
+                ...state.currentUser,
+                saved_courts: courtIds
+            }
+        }); 
+    }  else if (action.type === UNSAVE_COURT_SUCCESS) {
+        return Object.assign({}, state, {
+            currentUser: {
+                ...state.currentUser,
+                saved_courts: state.currentUser.saved_courts.filter(id => id !== action.courtId)
+            }
         }); 
     } else if (action.type === UPDATE_EVENTS) {
          switch(action.category) {

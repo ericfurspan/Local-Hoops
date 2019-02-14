@@ -129,7 +129,7 @@ class EventForm extends React.Component {
                                 />
                             }                            
                             rightComponent={
-                                <Icon name='ios-people'
+                                <Icon name='md-people'
                                     type='ionicon'
                                     color='#FFFFFF'
                                     size={40}
@@ -198,7 +198,7 @@ class EventForm extends React.Component {
                                 />
                             }                            
                             rightComponent={
-                                <Icon name='ios-text'
+                                <Icon name='md-text'
                                     type='ionicon'
                                     color={this.props.tempEvent && !this.props.tempEvent.court ? '#444' : '#FFFFFF'}
                                     size={40}

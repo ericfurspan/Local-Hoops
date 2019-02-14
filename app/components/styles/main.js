@@ -12,12 +12,11 @@ export default StyleSheet.create({
     },
     headerContainer: {
         backgroundColor: '#3578E5',
-        height: deviceHeight*.15,
+        height: deviceHeight*.12,
         justifyContent: 'space-around',
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
-        //flexDirection:'row',
-        alignItems:'center'
+        alignItems:'center',
     },
     header: {
         fontWeight: 'bold',
@@ -37,17 +36,13 @@ export default StyleSheet.create({
         width: deviceWidth*.98,
         backgroundColor: '#fff',
         borderRadius: 5,
-        top: deviceHeight*.04
+        top: deviceHeight*.02
     },
-    modalHeader: {
-        fontSize: 16,
-        fontWeight:'bold',
-        alignSelf:'center',
-        textAlign:'center',
-        width:'100%',
-        color:'#333',
-        padding:5,
-        backgroundColor:'#FAFAFA'
+    dashHeader: {
+        backgroundColor: '#3578E5',
+        height: deviceHeight*.12,
+        justifyContent: 'space-around',
+        alignItems:'center',
     },
     center: {
         alignItems: 'center',
@@ -75,13 +70,12 @@ export default StyleSheet.create({
         height: 35
     },
     annotation: {
-        tintColor: '#EF8333'
+        tintColor: 'red'
     },
     fullCenterContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex:1000
     },
     fullScreen: {
         width: deviceWidth,
@@ -115,6 +109,15 @@ export default StyleSheet.create({
     },
     link: {
         color: '#0261ff'
+    },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 300,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     buttonBr: {
         height: 45,

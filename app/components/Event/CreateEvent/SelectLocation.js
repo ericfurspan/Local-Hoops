@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, ScrollView, Dimensions, Modal } from 'react-native';
+import { View, ScrollView, Dimensions, Modal, Text, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Cancel } from '../../navButtons';
 import PinToMap from './PinToMap';
 import { updateLocation } from '../../../actions/Location';
@@ -9,7 +10,7 @@ import styles from '../../styles/main';
 
 let deviceHeight = Dimensions.get('window').height;
 
-const selectTypes = [ /*{val: 'Pin to Map', key: 'pin'}, */{val: 'Select from Saved Courts', key: 'saved'}, {val: 'Use my current location', key: 'userloc'}];
+const selectTypes = [ {val: 'Pin to Map', key: 'pin'}, {val: 'Select from Saved Courts', key: 'saved'}, {val: 'Use my current location', key: 'userloc'}];
 
 class SelectLocation extends React.Component {
     state = {
@@ -24,7 +25,10 @@ class SelectLocation extends React.Component {
         navigator.geolocation.getCurrentPosition(position => {
             this.props.dispatch(updateLocation(position.coords));
             this.props.onSelect({lat:position.coords.latitude,long:position.coords.longitude},'userloc')
-          }, err => console.error(err))
+          }, err => {
+              console.log('error in getUserLocation - SelectionLocation.js')
+              console.log(err)
+            })
     }
     selectLocType = (visible, type) => {
         if(type == 'userloc') {
@@ -87,10 +91,37 @@ class SelectLocation extends React.Component {
                     animationType="slide"
                     transparent={false}
                     visible={this.state.showModal.saved}>
-                    <View style={[styles.centeredContainer, styles.center]}>
-                         <Cancel onCancel={() => this.setModalVisible(false, 'saved')} />
+                    <View style={styles.modalBackground}>
+                        <View style={[styles.modalContent]}>
+                            <FlatList
+                                data={this.props.nearbyCourts} // get data from /courts for ids in user/uid/saved_courts
+                                keyExtractor={(item,i) => i.toString()}
+                                renderItem={({item}) => (
+                                <ListItem
+                                    title={item.name}
+                                    titleStyle={styles.listTitle}
+                                    subtitle={item.location}
+                                    subtitleStyle={styles.listSubtext}
+                                    bottomDivider
+                                    rightIcon={
+                                        <View style={{alignItems:'center'}}>
+                                            <IonIcon
+                                                name='ios-navigate'
+                                                size={30}
+                                                color='#3578E5'
+                                                onPress={() => this.openExternalMap(item.coords)} 
+                                            />
+                                            <Text style={{fontWeight:'bold',color:'#3578E5',fontSize:14}}>Navigate</Text>
+                                        </View>                                    
+                                    }
+                                />
+                                )}
+                            />
+                        </View>
                     </View>
-                </Modal>  
+                    <Cancel onCancel={() => this.setModalVisible(false, 'saved')} />
+                </Modal>                
+  
                 {// USER LOCATION
                 }
                          

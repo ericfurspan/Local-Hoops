@@ -15,7 +15,7 @@ const AuthStack = createStackNavigator(
     SignIn: Login 
   },
   {
-    //headerMode: 'none'
+    headerMode: 'none'
   }
 );
 const AppStack = createBottomTabNavigator({

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, AlertIOS, Dimensions, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, AlertIOS, Dimensions, RefreshControl, StatusBar } from 'react-native';
 import { Avatar, Badge } from 'react-native-elements';
 import firebase from 'react-native-firebase';
 import { sortByDateDesc } from '../../../assets/helper';
@@ -84,10 +84,14 @@ class ViewFriend extends React.Component {
                         this.setState({events})
                     }
                 })
+                .catch( (e) => {
+                    console.log('firebase error in ViewFriend.js!');
+                    console.log(e);
+                })
             })
         }, error => {
-            console.error('snapshot error!')
-            console.error(error);
+            console.log('snapshot error in ViewFriend.js!!!')
+            console.log(error);
         })
     }
     confirmRemove = (friend) => {
@@ -163,11 +167,14 @@ class ViewFriend extends React.Component {
             />
 
             if(this.state.modalVisible) {
-                modal = 
-                    <EventModal
-                      setModalVisible={this.setModalVisible}
-                      event={this.state.selectedEvent}
-                    />
+                modal =
+                    <View>
+                        <StatusBar hidden />
+                        <EventModal
+                            setModalVisible={this.setModalVisible}
+                            event={this.state.selectedEvent}
+                        />
+                    </View>
             }
         }
         return ( 

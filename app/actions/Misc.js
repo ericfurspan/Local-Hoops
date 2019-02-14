@@ -12,3 +12,8 @@ export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 export const clearNotification = () => ({
     type: CLEAR_NOTIFICATION
 });
+export const DISPLAY_ERROR = 'DISPLAY_ERROR';
+export const displayError = (error) => ({
+    type: DISPLAY_ERROR,
+    error
+});

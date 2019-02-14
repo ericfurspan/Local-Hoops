@@ -34,7 +34,10 @@ class AddFriend extends React.Component {
             return results;
         })
         .then((users) => {this.setState({users})})
-        .catch(error => console.error(error))
+        .catch(error => {
+            console.log('firestore error in AddFriend.js.js!!')
+            console.log(error)
+        })
     }
     confirmAdd = (friend) => {
         AlertIOS.alert(
@@ -62,7 +65,7 @@ class AddFriend extends React.Component {
                 <SearchBar
                     lightTheme
                     containerStyle={{width: 300,marginBottom: 10, marginTop: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
-                    inputStyle={{color: '#222'}}
+                    inputStyle={{color: '#333'}}
                     onChangeText={this.updateSearch}
                     placeholder='Search by Name'
                     value={this.state.search}

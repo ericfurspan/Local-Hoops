@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions, Modal, ScrollView } from 'react-native';
+import { View, Text, Dimensions, Modal, ScrollView, StatusBar } from 'react-native';
 import { ListItem, SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { sendFriendRequest, removeFriend } from '../../actions/User';
@@ -55,42 +55,49 @@ class Friends extends React.Component {
         })
     }
     render() {
-        let friendList;
-        if(this.props.friends && this.props.friends.length > 0) { 
-            let friends = this.state.filter ? this.state.friends : this.props.friends;
-            friendList =
-                friends.map((friend) => (
-                    <ListItem
-                        containerStyle={{width: 300}}
-                        onPress={() => this.handleViewFriend(friend.uid)}
-                        leftAvatar={{rounded:true, source:{uri:friend.photoURL} }}
-                        key={friend.uid}
-                        title={friend.displayName}
-                        subtitle={friend.email}
-                        bottomDivider
-                    />
-                ))
+        if(this.props.currentUser) {
+
+            let friendList;
+            if(this.props.friends && this.props.friends.length > 0) { 
+                let friends = this.state.filter ? this.state.friends : this.props.friends;
+                friendList =
+                    friends.map((friend) => (
+                        <ListItem
+                            containerStyle={{width: 300}}
+                            onPress={() => this.handleViewFriend(friend.uid)}
+                            leftAvatar={{rounded:true, source:{uri:friend.photoURL} }}
+                            key={friend.uid}
+                            title={friend.displayName}
+                            subtitle={friend.email}
+                            bottomDivider
+                        />
+                    ))
             } 
             return (
                 <View style={styles.centeredContainer}>
+                    {this.state.showAddFriendModal || this.state.showViewFriendModal ? 
+                        <StatusBar hidden />
+                        : null
+                    }
                     {/* ADD FRIEND */}
                     <View style={{width:deviceWidth,flexDirection:'row',justifyContent:'space-between',marginBottom:15,marginTop:15}}>
                         <Text style={styles.header}>Friends</Text>
                         <Button
                             onPress={() => this.setModalVisible(true, 'Add Friend')}
-                            icon={{name:'md-person-add',type:'ionicon',size:16,color:'#3578E5'}}
+                            icon={{name:'md-person-add',type:'ionicon',size:16,color:'#fff'}}
                             title='Add Friend'
                             type='outline'
                             raised
+                            buttonStyle={{backgroundColor:'#3578E5'}}
                             containerStyle={{marginRight:10}}
-                            titleStyle={{color:'#3578E5',fontSize:14,fontWeight:'500'}}
+                            titleStyle={{color:'#fff',fontSize:14,fontWeight:'500'}}
                         />
                     </View>
                     {/* FRIENDS */}
                     <SearchBar
                         lightTheme
                         containerStyle={{width: 300,marginBottom:5,backgroundColor:'transparent',borderBottomColor:'transparent',borderTopColor:'transparent'}}
-                        inputStyle={{color: '#222'}}
+                        inputStyle={{color: '#333'}}
                         onChangeText={this.updateSearch}
                         placeholder='Filter by Name...'
                         value={this.state.search}
@@ -135,14 +142,12 @@ class Friends extends React.Component {
                     </Modal>
                 </View>
             )
-       // } else {
-       //     return null
-        //}
+        } else return null;
     }
 }
 
 const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
-    friends: state.friends
+    friends: state.friends,
 })
 export default connect(mapStateToProps)(Friends);

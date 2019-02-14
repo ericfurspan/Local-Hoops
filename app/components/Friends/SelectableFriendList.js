@@ -66,7 +66,7 @@ class SelectableFriendList extends React.Component {
                 <SearchBar
                     lightTheme
                     containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
-                    inputStyle={{color: '#222'}}
+                    inputStyle={{color: '#333'}}
                     onChangeText={this.filterFriends}
                     placeholder='Filter Friends...'
                     value={this.state.search}

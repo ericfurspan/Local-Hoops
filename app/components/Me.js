@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StatusBar} from 'react-native';
 import Friends from './Friends/Friends';
 import Account from './Account';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import { createFriends, getFriends, cancelFriendRequest } from '../actions/User'
 class Me extends React.Component {
     constructor(props) {
         super(props);
+        this.unsubscribeFriendRequestsReceived = null;
         this.state = {
             friendRequestsSent: null,
             friendRequestsReceived: null,
@@ -17,15 +18,18 @@ class Me extends React.Component {
         }
     }
     componentDidMount() {
-        this.getFriendRequestsReceived();
+        //this.getFriendRequestsReceived();
     }
     setModalVisible = (visible) => {
         this.setState({
             showModal: visible
         })
     }
+    componentWillUnmount() {
+        this.unsubscribeFriendRequestsReceived();
+    }
     getFriendRequestsReceived = () => {
-        firebase.firestore().collection('friendRequests')
+        this.unsubscribeFriendRequestsReceived = firebase.firestore().collection('friendRequests')
         .where('requesteeId', '==', this.props.currentUser.uid)
         .onSnapshot(querySnapshot => {
             let friendRequestsReceived = [];
@@ -51,8 +55,15 @@ class Me extends React.Component {
                             this.setState({friendRequestsReceived})
                         }
                     })
+                    .catch( (e) => {
+                        console.log('firebase error in Me.js!');
+                        console.log(e);
+                    })
                 }
             })            
+        }, error => {
+            console.log('snapshot error!')
+            console.log(error);
         })
     }
     denyFriendRequest = (prospectiveFriendId) => {
@@ -100,6 +111,10 @@ class Me extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                {this.state.showModal ?
+                    <StatusBar hidden />
+                    : null
+                }
                 <View style={styles.account}>
                     <Account 
                         modalVisible={this.state.showModal}

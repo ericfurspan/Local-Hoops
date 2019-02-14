@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshControl, ScrollView, Dimensions, FlatList} from 'react-native';
+import { RefreshControl, ScrollView, Dimensions, FlatList, View, StatusBar } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import firebase from 'react-native-firebase'
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import EventModal from './EventModal';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 import { sortByDateDesc } from '../../../assets/helper';
 import BallIcon from '../../../assets/img/nyk.png';
-import styles from '../styles/main';
+// import styles from '../styles/main';
 import { updateEvents } from '../../actions/Event';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
@@ -28,12 +28,14 @@ class Events extends React.Component {
         }
     }
     componentDidMount() {
-        // Fetch events for User
-        this.fetchUserEvents();
+        if(this.props.loggedIn) {
+            // Fetch events for User
+            this.fetchUserEvents();
 
-        // If user has friends, fetch their events
-        if(this.props.currentUser.friends && this.props.currentUser.friends.length >= 1) {
-            this.fetchFriendsEvents();
+            // If user has friends, fetch their events
+            if(this.props.currentUser.friends && this.props.currentUser.friends.length >= 1) {
+                this.fetchFriendsEvents();
+            }
         }
     }
     componentDidUpdate(prevProps) {
@@ -98,13 +100,17 @@ class Events extends React.Component {
                             this.props.dispatch(updateEvents('user', events))
                         }
                     })
+                    .catch( (e) => {
+                        console.log('firebase error in Events.js!');
+                        console.log(e);
+                    })
                 })
             } else {
                 this.props.dispatch(updateEvents('user', null))
             }
         }, error => {
-            console.error('snapshot error!')
-            console.error(error);
+            console.log('snapshot error in Events');
+            console.log(error);
         })
     }
     fetchFriendsEvents = () => {
@@ -156,9 +162,15 @@ class Events extends React.Component {
                                 this.props.dispatch(updateEvents('friends', events))
                             }
                         })
-                        .catch(error => {console.error(error)}) 
+                        .catch(error => {
+                            console.log('firestore error in Events.js!!')
+                            console.log(error)
+                        }) 
                     })
-                }).catch(error => {console.error(error)})
+                }).catch(error => {
+                    console.log('firestore error in Events.js!!')
+                    console.log(error)
+                })
             })                       
         } else {
             this.props.dispatch(updateEvents('friends', null))
@@ -242,21 +254,20 @@ class Events extends React.Component {
                         <ListItem
                             containerStyle={{width: deviceWidth*.9}}
                             key={item.key}
-                            title={item.title}
-                            contentContainerStyle={{flexDirection:'row',justifyContent:'flex-end',alignContent:'flex-end',alignItems:'flex-end',alignSelf:'flex-end'}}
-                            titleStyle={styles.listTitle}
-                            subtitle={item.time}
-                            subtitleStyle={styles.listSubtext}
+                            rightTitle={item.title}
+                            rightSubtitle={item.date}
                             leftElement={
-                                <FacePile 
-                                    numFaces={3}
-                                    faces={item.participants.map((p,i)=> {
-                                        return {
-                                            id:i,
-                                            imageUrl:p.photoURL,
-                                        }
-                                    })} 
-                                />}
+                                <View>
+                                    <FacePile 
+                                        numFaces={3}
+                                        faces={item.participants.map((p,i)=> {
+                                            return {
+                                                id:i,
+                                                imageUrl:p.photoURL,
+                                            }
+                                        })} 
+                                    />
+                                </View>}
                             bottomDivider
                             chevron
                             onPress={() => this.setModalVisible(true,item)}
@@ -267,10 +278,13 @@ class Events extends React.Component {
             }
             if(this.state.modalVisible) {
                 modal = 
-                    <EventModal
-                      setModalVisible={this.setModalVisible}
-                      event={this.state.selectedEvent}
-                    />
+                    <View>
+                        <StatusBar hidden/>
+                        <EventModal
+                            setModalVisible={this.setModalVisible}
+                            event={this.state.selectedEvent}
+                        />
+                    </View>
             }
             return (
                     <ScrollView
@@ -291,6 +305,7 @@ class Events extends React.Component {
 
 const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
+    loggedIn: state.loggedIn,
     events: state.events,
     friends: state.friends,
     loading: state.loading,

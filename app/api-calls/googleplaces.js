@@ -7,27 +7,31 @@ export const getGoogleCourtsByLatLong = async (coords, searchRadius) => {
     try {
         const searchUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coords.latitude},${coords.longitude}&keyword=basketballcourt&radius=${searchRadius}&rankby=prominence&key=${GOOGLE_API_KEY}`
         let res = await fetch(searchUrl);
-        let json = await res.json();
-        let courtData = json.results.map(court => {
-            return {
-                coords: {
-                    latitude: court.geometry.location.lat,
-                    longitude: court.geometry.location.lng,
-                },
-                name: court.name,
-                location: court.vicinity,
-                id: court.place_id,
-                discovered_by: {
-                    displayName: 'Google Places',
-                    uid: null
-                },
-                verified: true
-            }
-        })
-        let updatedCourtData = await addCourtDetail(courtData);
-        return updatedCourtData;
+        if(res.ok && res.status === 200) {
+            let json = await res.json();
+            let courtData = json.results.map(court => {
+                return {
+                    coords: {
+                        latitude: court.geometry.location.lat,
+                        longitude: court.geometry.location.lng,
+                    },
+                    name: court.name,
+                    location: court.vicinity,
+                    id: court.place_id,
+                    discovered_by: {
+                        displayName: 'Google Places',
+                        uid: null
+                    },
+                    verified: false
+                }
+            })
+            let updatedCourtData = await addCourtDetail(courtData);
+            return updatedCourtData;        
+        } else {
+            return {error:true,message:'Uh Oh! Failed to reach Google API'};
+        }
     } catch(e) {
-        console.error(e);
+        return e;
     }
 }
 
@@ -36,17 +40,20 @@ export const findLocationByQuery = async (query, callback) => {
         let searchQuery = encodeURIComponent(query.trim())
         const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${searchQuery}&key=${GOOGLE_API_KEY}`
         let res = await fetch(geocodeUrl);
-        let json = await res.json();
-
-        return callback( 
-            {
-              latitude:json.results[0].geometry.location.lat,
-              longitude: json.results[0].geometry.location.lng
-            },
-            true
-        )
+        if(res.ok && res.status === 200) {
+            let json = await res.json();
+            return callback( 
+                {
+                  latitude:json.results[0].geometry.location.lat,
+                  longitude: json.results[0].geometry.location.lng
+                },
+                true
+            )          
+        } else {
+            return {error:true,message:'Uh Oh! Failed to reach Google API'};
+        }
     } catch(e) {
-        console.error(e);
+        return e;
     }
 }
 
@@ -59,17 +66,21 @@ const addCourtDetail = async (courtData) => {
         for(let i=0;i<courtData.length;i++) {
             const searchUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${courtData[i].id}&fields=formatted_address,url,photo&key=${GOOGLE_API_KEY}`
             let res = await fetch(searchUrl);
-            let json = await res.json();
-            let updatedCourt = {
-                ...courtData[i],
-                address: json.result.formatted_address,
-                gMapsUrl: json.result.url
+            if(res.ok && res.status === 200) {
+                let json = await res.json();
+                let updatedCourt = {
+                    ...courtData[i],
+                    address: json.result.formatted_address,
+                    gMapsUrl: json.result.url
+                }
+                updatedCourtData.push(updatedCourt);
+            } else {
+                return {error:true,message:'Uh Oh! Failed to reach Google API'};
             }
-            updatedCourtData.push(updatedCourt);
         }
-        return updatedCourtData
+        return updatedCourtData;
     } catch(e) {
-        console.error(e)
+        return e;
     }
 }
 
