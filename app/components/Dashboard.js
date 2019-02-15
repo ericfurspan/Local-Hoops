@@ -123,8 +123,14 @@ class Dashboard extends React.Component {
                 >
                   {this.props.savedCourts && this.props.savedCourts.map(court => {
                     return (
-                      <TouchableOpacity key={court.id} style={{width:deviceWidth*.35,marginLeft:10,marginTop:10,justifyContent:'flex-start'}}>
-                        <View style={{height:135,marginBottom:5}}>
+                      <TouchableOpacity 
+                        key={court.id}
+                        style={{width:deviceWidth*.35,marginLeft:10,marginTop:10,justifyContent:'flex-start'}}
+                        onPress= {() => { // navigate to this court in the Explore screen
+                          this.props.navigation.navigate('Explore', {court})
+                        }}
+                        >
+                        <View style={{height:100,marginBottom:5}}>
                           <Mapbox.MapView
                               scrollEnabled={false}
                               styleURL={Mapbox.StyleURL.Street}
@@ -133,9 +139,6 @@ class Dashboard extends React.Component {
                               showUserLocation={false}
                               style={{flex: 1}}
                               logoEnabled={false}
-                              onPress= {() => { // navigate to this court in the Explore screen
-                                this.props.navigation.navigate('Explore', {court})
-                              }}
                           >
                             {this.returnAnnotation(court.coords)}
                           </Mapbox.MapView> 

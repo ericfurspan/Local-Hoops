@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StatusBar} from 'react-native';
+import { View } from 'react-native';
 import Friends from './Friends/Friends';
 import Account from './Account';
 import { connect } from 'react-redux';
@@ -18,7 +18,7 @@ class Me extends React.Component {
         }
     }
     componentDidMount() {
-        //this.getFriendRequestsReceived();
+        this.getFriendRequestsReceived();
     }
     setModalVisible = (visible) => {
         this.setState({
@@ -109,12 +109,11 @@ class Me extends React.Component {
     }
 
     render() {
+        if(this.props.error) {
+            // return <ErrorMessage message={this.props.error} />
+        }
         return (
             <View style={styles.container}>
-                {this.state.showModal ?
-                    <StatusBar hidden />
-                    : null
-                }
                 <View style={styles.account}>
                     <Account 
                         modalVisible={this.state.showModal}
@@ -133,5 +132,6 @@ class Me extends React.Component {
 
 const mapStateToProps = (state) => ({
     currentUser: state.currentUser,
+    error: state.error
 })
 export default connect(mapStateToProps)(Me);

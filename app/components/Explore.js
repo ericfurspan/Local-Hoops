@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import LightMapLogo from '../../assets/mapStyles/light.png'
 import DarkMapLogo from '../../assets/mapStyles/dark.png'
 import StreetMapLogo from '../../assets/mapStyles/street.png'
+import { ErrorMessage } from './ErrorMessage';
 import styles from './styles/main';
 
 let deviceHeight= Dimensions.get('window').height;
@@ -209,7 +210,7 @@ class Explore extends React.Component {
     // Returns a single annotation via an index of nearbyCourts
     returnAnnotation = (counter) => {
         const coords = this.props.nearbyCourts[counter].coords;
-        const isSaved = this.props.saved_courts && this.props.saved_courts.includes(this.props.nearbyCourts[counter].id);
+        const isSaved = this.props.currentUser && this.props.currentUser.saved_courts && this.props.currentUser.saved_courts.includes(this.props.nearbyCourts[counter].id);
 
         return (
                 <Mapbox.PointAnnotation
@@ -279,6 +280,11 @@ class Explore extends React.Component {
     }
 
     render() {
+        if(this.props.error) {
+            return <ErrorMessage message={this.props.error}/>
+        }
+
+        let { currentUser } = this.props;
 
         let loadingIndicator = <View></View>;
         if(this.props.mapLoading) {
@@ -371,7 +377,8 @@ class Explore extends React.Component {
             ) 
         // MAP VIEW of nearby courts
         } else if(this.state.viewMode === 'map') {
-            let mapStyleUrl = this.returnMapStyleUrl(this.state.tempMapType || this.props.preferredMapType);
+            let { tempMapType } = this.state;
+            let mapStyleUrl = this.returnMapStyleUrl(tempMapType || currentUser && currentUser.preferredMapType);
 
             let addCourtForm, addCourtAnnotation;
 
@@ -712,10 +719,10 @@ class Explore extends React.Component {
 const mapStateToProps = (state) => ({
     nearbyCourts: state.nearbyCourts,
     location: state.location,
+    error: state.error,
+    currentUser: state.currentUser,
     locationError: state.locationError,
     mapLoading: state.mapLoading,
-    preferredMapType: state.currentUser.preferredMapType,
-    saved_courts: state.currentUser.saved_courts
 })
 
 export default connect(mapStateToProps)(Explore);
