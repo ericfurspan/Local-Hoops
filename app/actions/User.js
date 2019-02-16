@@ -48,6 +48,11 @@ export const updateFriendRequestsReceived = (friendRequestsReceived) => ({
   type: UPDATE_FR_RECEIVED,
   friendRequestsReceived
 })
+export const UPDATE_FR_SENT = 'UPDATE_FR_SENT';
+export const updateFriendRequestsSent= (friendRequestsSent) => ({
+  type: UPDATE_FR_SENT,
+  friendRequestsSent
+})
 
 // Send friend request
 export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch) => {
@@ -234,6 +239,45 @@ export const getFriendRequestsReceived = () => (dispatch, getState) => {
             .then((counter) => {
               if(snapshotSize === counter) {
                 dispatch(updateFriendRequestsReceived(friendRequestsReceived))
+              }
+            })
+            .catch( (e) => {
+              console.log(e);
+            })
+        }
+      })
+    }, error => {
+      console.log('snapshot error!')
+      console.log(error);
+    })
+}
+
+export const getFriendRequestsSent = () => (dispatch, getState) => {
+  firebase.firestore().collection('friendRequests')
+    .where('requestorId', '==', getState().currentUser.uid)
+    .onSnapshot(querySnapshot => {
+      let friendRequestsSent = [];
+      let counter = 0;
+      let snapshotSize = querySnapshot.size;
+      querySnapshot.forEach(doc => {
+        if(doc.data().status === 'pending') {
+          firebase.firestore().doc(`users/${doc.data().requesteeId}`)
+            .get()
+            .then(doc => {
+              const { photoURL, displayName, uid } = doc.data();
+              let data = {
+                photoURL,
+                displayName,
+                uid
+              }
+              friendRequestsSent.push(data);
+              counter++;
+              return counter;
+            })
+            .then((counter) => {
+              if(snapshotSize === counter) {
+                console.log(friendRequestsSent)
+                dispatch(updateFriendRequestsSent(friendRequestsSent))
               }
             })
             .catch( (e) => {

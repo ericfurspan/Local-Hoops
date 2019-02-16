@@ -17,7 +17,8 @@ import {
   REMOVE_FRIEND_SUCCESS,
   REMOVE_FRIEND_ERROR,
   SET_PREFERRED_MAPTYPE,
-  UPDATE_FR_RECEIVED
+  UPDATE_FR_RECEIVED,
+  UPDATE_FR_SENT
 } from './actions/User';
 // EVENTS
 import {
@@ -131,6 +132,13 @@ const reducer = (state = initialState, action) => {
       currentUser: {
         ...state.currentUser,
         friendRequestsReceived: action.friendRequestsReceived
+      }
+    });
+  } else if(action.type === UPDATE_FR_SENT) {
+    return Object.assign({}, state, {
+      currentUser: {
+        ...state.currentUser,
+        friendRequestsSent: action.friendRequestsSent
       }
     });
   } else if(action.type === SET_PREFERRED_MAPTYPE) {

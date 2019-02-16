@@ -6,7 +6,7 @@ import { Cancel } from './navButtons';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import styles from './styles/main';
-import { updateUserStatus, updateFriendRequestsReceived } from '../actions/User';
+import { updateUserStatus, updateFriendRequestsReceived, updateFriendRequestsSent } from '../actions/User';
 import { createFriends, getFriends, cancelFriendRequest } from '../actions/User';
 let userStatusTypes = [{value: 'Looking to hoop'}, {value: 'Available'}, {value: 'Unavailable'}];
 
@@ -18,25 +18,39 @@ class Account extends React.Component {
       showStatusPicker: false
     }
   }
-    setModalVisible = (visible) => {
+    setModalVisible = (type, visible) => {
       this.setState({
-        showModal: visible
+        showModal: {
+          type,
+          visible
+        }
       })
     }
-    denyFriendRequest = (prospectiveFriendId) => {
-
-      // Cancel the request
-      this.props.dispatch(cancelFriendRequest(this.props.currentUser.uid, prospectiveFriendId))
+    denyFriendRequest = (type, prospectiveFriendId) => {
 
       // Hide modal
-      this.setModalVisible(false);
+      this.setModalVisible(null, false);
 
-      // update state to remove friend request where uid === prospectiveFriendId
-      let updatedRequests = this.props.currentUser.friendRequestsReceived.filter(request => {
-        return request.uid !== prospectiveFriendId
-      })
+      if(type === 'received') {
+      // Cancel the request
+        this.props.dispatch(cancelFriendRequest(this.props.currentUser.uid, prospectiveFriendId))
+        // update state to remove friend request where uid === prospectiveFriendId
+        let updatedRequests = this.props.currentUser.friendRequestsReceived.filter(request => {
+          return request.uid !== prospectiveFriendId
+        })
 
-      this.props.dispatch(updateFriendRequestsReceived(updatedRequests))
+        this.props.dispatch(updateFriendRequestsReceived(updatedRequests))
+      } else if(type === 'sent') {
+        // Cancel the request
+        this.props.dispatch(cancelFriendRequest(prospectiveFriendId, this.props.currentUser.uid))
+        // update state to remove friend request where uid === prospectiveFriendId
+        let updatedRequests = this.props.currentUser.friendRequestsSent.filter(request => {
+          return request.uid !== prospectiveFriendId
+        })
+
+        this.props.dispatch(updateFriendRequestsSent(updatedRequests))
+      }
+
     }
     acceptFriendRequest = (prospectiveFriendId) => {
 
@@ -44,7 +58,7 @@ class Account extends React.Component {
       this.props.dispatch(createFriends(this.props.currentUser.uid, prospectiveFriendId))
 
       // Hide modal
-      this.setModalVisible(false);
+      this.setModalVisible(null, false);
 
       // Remove friend request where uid === prospectiveFriendId
       let updatedRequests = this.props.currentUser.friendRequestsReceived.filter(request => {
@@ -71,8 +85,10 @@ class Account extends React.Component {
       this.props.dispatch(logoutRequest())
     }
     render() {
-      let pendingFriends = <Text style={{alignSelf: 'center',marginTop: 30}}>No pending friend requests</Text>
-      let friendsBadge;
+      let friendRequestsReceived = <Text style={{alignSelf: 'center',marginTop: 30}}>No inbound friend requests</Text>
+      let friendRequestsSent = <Text style={{alignSelf: 'center',marginTop: 30}}>No outbound friend requests</Text>
+      let friendRequestsReceivedBadge, friendRequestsSentBadge;
+
       if(this.props.currentUser) {
         // STATUS PICKER
         let userStatusPicker;
@@ -112,9 +128,9 @@ class Account extends React.Component {
         }
 
         if(this.props.currentUser.friendRequestsReceived && this.props.currentUser.friendRequestsReceived.length > 0) {
-          friendsBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />
+          friendRequestsReceivedBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />
 
-          pendingFriends = this.props.currentUser.friendRequestsReceived.map((pendingFriend) => {
+          friendRequestsReceived = this.props.currentUser.friendRequestsReceived.map((pendingFriend) => {
             return (
               <ListItem
                 disabled
@@ -126,7 +142,7 @@ class Account extends React.Component {
                       size={35}
                       color='red'
                       iconStyle={{marginRight: 15}}
-                      onPress={()=> this.denyFriendRequest(pendingFriend.uid)}
+                      onPress={()=> this.denyFriendRequest('received', pendingFriend.uid)}
                     />
                     <Icon name='ios-checkmark'
                       type='ionicon'
@@ -144,7 +160,32 @@ class Account extends React.Component {
             )
           })
         }
+        if(this.props.currentUser.friendRequestsSent && this.props.currentUser.friendRequestsSent.length > 0) {
+          friendRequestsSentBadge = <Badge value={this.props.currentUser.friendRequestsSent.length} status="error" />
 
+          friendRequestsSent = this.props.currentUser.friendRequestsSent.map((pendingFriend) => {
+            return (
+              <ListItem
+                disabled
+                leftAvatar={{ rounded: true, source: {uri: pendingFriend.photoURL} }}
+                rightElement={
+                  <View style={{flexDirection: 'row',justifyContent: 'space-evenly'}}>
+                    <Icon name='ios-close'
+                      type='ionicon'
+                      size={35}
+                      color='red'
+                      iconStyle={{marginRight: 15}}
+                      onPress={()=> this.denyFriendRequest('sent', pendingFriend.uid)}
+                    />
+                  </View>
+                }
+                key={pendingFriend.uid}
+                title={pendingFriend.displayName}
+                bottomDivider
+              />
+            )
+          })
+        }
         return (
           <ScrollView contentContainerStyle={[styles.container]}>
             <StatusBar hidden />
@@ -173,18 +214,19 @@ class Account extends React.Component {
                 </TouchableOpacity>
               </View>
             </View>
-            {// friend Button with notification Badge
+
+            {// friendRequestsReceived button with notification Badge
             }
             <View style={styles.flexStartRow}>
               <TouchableOpacity
                 style={{flexDirection: 'row'}}
                 onPress={() => {
                   // render modal showing outstanding friend requests with ability to accept/decline
-                  this.setModalVisible(true)
+                  this.setModalVisible('received', true)
                 }}
               >
                 <Button
-                  title={this.props.currentUser.friendRequestsReceived ? `${this.props.currentUser.friendRequestsReceived.length} new Friend Request(s)`: 'No new Friend Requests'}
+                  title={this.props.currentUser.friendRequestsReceived ? `${this.props.currentUser.friendRequestsReceived.length} inbound Friend Request(s)`: 'Inbound Friend Requests'}
                   titleStyle={{fontSize: 16}}
                   icon={{name: 'ios-people',type: 'ionicon',size: 25,color: '#333'}}
                   buttonStyle={{backgroundColor: 'transparent'}}
@@ -192,23 +234,48 @@ class Account extends React.Component {
                   disabledStyle={{backgroundColor: 'transparent'}}
                   disabledTitleStyle={{color: '#333'}}
                 />
-                {friendsBadge}
+                {friendRequestsReceivedBadge}
               </TouchableOpacity>
             </View>
+
+            {// friendRequestsSent button with notification Badge
+            }
+            <View style={styles.flexStartRow}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={() => {
+                  // render modal showing outstanding friend requests with ability to accept/decline
+                  this.setModalVisible('sent', true)
+                }}
+              >
+                <Button
+                  title={this.props.currentUser.friendRequestsSent ? `${this.props.currentUser.friendRequestsSent.length} outbound Friend Request(s)`: 'Outbound Friend Requests'}
+                  titleStyle={{fontSize: 16}}
+                  icon={{name: 'ios-people',type: 'ionicon',size: 25,color: '#333'}}
+                  buttonStyle={{backgroundColor: 'transparent'}}
+                  disabled
+                  disabledStyle={{backgroundColor: 'transparent'}}
+                  disabledTitleStyle={{color: '#333'}}
+                />
+                {friendRequestsSentBadge}
+              </TouchableOpacity>
+            </View>
+
             <Modal
               transparent={false}
-              visible={this.state.showModal}>
+              visible={this.state.showModal.visible}>
               <View style={styles.modalBackground}>
                 <View style={[styles.modalContent]}>
                   <Header
                     centerComponent={{ text: 'Friend Requests', style: { color: '#FFFFFF', fontSize: 20 } }}
                     containerStyle={styles.headerContainer}
                   />
-                  {pendingFriends}
+                  {this.state.showModal.type === 'received' ? friendRequestsReceived : friendRequestsSent}
                 </View>
-                <Cancel onCancel={() => this.setModalVisible(false)} />
+                <Cancel onCancel={() => this.setModalVisible(null, false)} />
               </View>
             </Modal>
+
           </ScrollView>
         )
       } else {

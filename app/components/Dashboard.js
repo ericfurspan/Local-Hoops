@@ -7,7 +7,7 @@ import Events from './Event/Events';
 import EventForm from './Event/CreateEvent/EventForm';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 // import { Dropdown } from 'react-native-material-dropdown';
-import { getFriends, getFriendRequestsReceived } from '../actions/User';
+import { getFriends, getFriendRequestsReceived, getFriendRequestsSent } from '../actions/User';
 import { getSavedCourts, getNearbyCourts } from '../actions/Court';
 import { updateLocation, locationError, toggleLocation } from '../actions/Location';
 import ErrorMessage from './ErrorMessage';
@@ -43,6 +43,7 @@ class Dashboard extends React.Component {
 
     this.props.dispatch(getSavedCourts());
     this.props.dispatch(getFriendRequestsReceived());
+    this.props.dispatch(getFriendRequestsSent());
     this.getUserLocationAndNearbyCourts();
   }
   setEventFormModalVisible = (visible) => {
@@ -222,6 +223,7 @@ class Dashboard extends React.Component {
                     <Cancel onCancel={() => this.setAccountModalVisible(false)} title="Cancel"/>
                   </View>
                 </Modal>
+
                 {/* ACTIVITY TYPE
 
                 <View style={{alignSelf:'flex-start',marginLeft:25}}>
