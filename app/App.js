@@ -1,8 +1,8 @@
 import React from 'react';
 import Dashboard from './components/Dashboard';
 import Explore from './components/Explore';
-//import FCM from './components/FCM';
-import Me from './components/Me';
+// import FCM from './components/FCM';
+import Friends from './components/Friends/Friends';
 import AuthLoading from './components/AuthLoading';
 import Login from './components/Login';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
@@ -11,8 +11,8 @@ import store from '../store';
 import { Provider } from 'react-redux'
 
 const AuthStack = createStackNavigator(
-  { 
-    SignIn: Login 
+  {
+    SignIn: Login
   },
   {
     headerMode: 'none'
@@ -21,8 +21,8 @@ const AuthStack = createStackNavigator(
 const AppStack = createBottomTabNavigator({
   Dashboard: { screen: Dashboard },
   Explore: { screen: Explore },
-  //FCM: { screen: FCM }, // uncomment for REV 2
-  Me: { screen: Me }
+  // FCM: { screen: FCM }, // uncomment for REV 2
+  Friends: { screen: Friends }
 },
 {
   navigationOptions: ({ navigation }) => ({
@@ -31,13 +31,13 @@ const AppStack = createBottomTabNavigator({
       let iconName;
       let iconColor = '#4B4B4B'
       if (routeName === 'Dashboard') {
-        iconName = 'md-home';
+        iconName = 'ios-home';
       } else if (routeName === 'Explore') {
-        iconName = 'md-compass';
+        iconName = 'ios-compass';
       } else if (routeName === 'Chat') {
         iconName = 'md-chatboxes'
-      } else if (routeName === 'Me') {
-        iconName = 'md-person'
+      } else if (routeName === 'Friends') {
+        iconName = 'ios-people'
       }
       if(focused) {
         iconColor = '#EF8333'
@@ -48,9 +48,12 @@ const AppStack = createBottomTabNavigator({
   tabBarOptions: {
     style: {
       backgroundColor: '#FAFAFA',
-      height: 55
+      height: 60,
     },
     showLabel: true,
+    labelStyle: {
+      fontSize: 12
+    },
     activeTintColor: '#EF8333',
     inactiveTintColor: 'gray',
   }
@@ -70,8 +73,8 @@ const Nav = createSwitchNavigator(
 
 export default function App() {
   return (
-      <Provider store={store}>
-          <Nav />
-      </Provider>
+    <Provider store={store}>
+      <Nav />
+    </Provider>
   );
-} 
+}
