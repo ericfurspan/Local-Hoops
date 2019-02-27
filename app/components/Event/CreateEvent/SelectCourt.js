@@ -84,9 +84,17 @@ class SelectCourt extends React.Component {
             )
           })}
 
+          {this.props.tempEvent.court ?
+            <View style={{marginTop: 50}}>
+              <Text style={{alignSelf: 'center',fontSize: 15,fontWeight: '500',marginBottom: 10}}>You have selected</Text>
+              <Text style={{alignSelf: 'center',fontSize: 18,fontWeight: '500',fontStyle: 'italic'}}>{this.props.tempEvent.court.name}</Text>
+            </View>
+            : null
+          }
+
           {// ADD NEW COURT
           }
-          <View style={{alignItems: 'center',marginTop: 50}}>
+          <View style={{alignItems: 'center', marginTop: 50}}>
             <Text style={{fontSize: 18}}>Don&apos;t see your court?</Text>
             <Button
               title='Add to map'
@@ -98,14 +106,6 @@ class SelectCourt extends React.Component {
               buttonStyle={{backgroundColor: 'transparent'}}
             />
           </View>
-
-          {this.props.tempEvent.court ?
-            <View>
-              <Text style={{alignSelf: 'center',fontSize: 15,fontWeight: '500',marginTop: 50,marginBottom: 10}}>You have selected</Text>
-              <Text style={{alignSelf: 'center',fontSize: 18,fontWeight: '500',fontStyle: 'italic'}}>{this.props.tempEvent.court.name}</Text>
-            </View>
-            : null
-          }
 
           {// SAVED COURTS
           }

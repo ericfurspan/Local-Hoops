@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Picker, DatePickerIOS, Dimensions, ProgressViewIOS } from 'react-native';
+import { View, Picker, DatePickerIOS, Dimensions, ProgressViewIOS, Text } from 'react-native';
 import { Input, Header, Icon } from 'react-native-elements'
 import SelectableFriendList from '../../Friends/SelectableFriendList';
 import SelectCourt from './SelectCourt';
@@ -22,6 +22,8 @@ class EventForm extends React.Component {
     completeEvent = () => {
       // save event to firebase
       this.props.dispatch(saveEvent(this.props.tempEvent));
+      // close new event modal
+      this.props.onClose();
     }
     handleError = (message) => {
       this.setState({error: {message}})
@@ -31,9 +33,6 @@ class EventForm extends React.Component {
     }
     skipStep = () => {
       this.props.dispatch(updateTempEvent(this.props.tempEvent.step + 2, 'step'))
-    }
-    resetCount = () => {
-      this.props.dispatch(updateTempEvent(1, 'step'))
     }
     previousStep = () => {
       this.props.dispatch(updateTempEvent(this.props.tempEvent.step - 1, 'step'))
@@ -46,7 +45,7 @@ class EventForm extends React.Component {
         <Mapbox.PointAnnotation
           key={"2"}
           id={"2"}
-          coordinate={[coords.long, coords.lat]}
+          coordinate={[coords.longitude, coords.latitude]}
           title="annotation title"
         >
         </Mapbox.PointAnnotation>
@@ -119,7 +118,7 @@ class EventForm extends React.Component {
                   />
                 }
                 rightComponent={
-                  <Icon name='ios-people'
+                  <Icon name={!this.props.friends || this.props.friends.length === 0 ? 'ios-pin' : 'ios-people'}
                     type='ionicon'
                     color='#FFFFFF'
                     size={40}
@@ -284,11 +283,14 @@ class EventForm extends React.Component {
                 containerStyle={styles.headerContainer}
               />
               <ProgressViewIOS progress={progressPercent} style={[styles.progressBar,{marginBottom: 0}]} progressTintColor='green'/>
+              <Text style={{alignSelf: 'center',fontSize: 18,fontWeight: '500',marginTop: 15}}>Please confirm your Event</Text>
               <EventCard
                 event={ { ...this.props.tempEvent, participants, date: this.props.tempEvent.date.toLocaleDateString('en-US',{year: '2-digit',month: '2-digit',day: '2-digit'}) }}
               />
             </View>
           )
+        default :
+          return null;
       }
     }
 }

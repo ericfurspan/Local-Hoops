@@ -90,7 +90,10 @@ class Events extends React.Component {
                         event['participants'].push(participant);
                       })
                   })
-                  events.push(event);
+                  // only load this event if the current user is a participant
+                  if(doc.data().participants.includes(this.props.currentUser.uid)) {
+                    events.push(event);
+                  }
                   counter++;
                   return counter;
                 })
@@ -101,7 +104,6 @@ class Events extends React.Component {
                   }
                 })
                 .catch( (e) => {
-                  console.log('firebase error in Events.js!');
                   console.log(e);
                 })
             })
@@ -109,7 +111,6 @@ class Events extends React.Component {
             this.props.dispatch(updateEvents('user', null))
           }
         }, error => {
-          console.log('snapshot error in Events');
           console.log(error);
         })
     }
@@ -163,12 +164,10 @@ class Events extends React.Component {
                     }
                   })
                   .catch(error => {
-                    console.log('firestore error in Events.js!!')
                     console.log(error)
                   })
               })
             }).catch(error => {
-              console.log('firestore error in Events.js!!')
               console.log(error)
             })
         })
@@ -284,6 +283,7 @@ class Events extends React.Component {
                       <EventModal
                         setModalVisible={this.setModalVisible}
                         event={this.state.selectedEvent}
+                        navigation={this.props.navigation}
                       />
                     </View>
         }

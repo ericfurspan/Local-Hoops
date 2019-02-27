@@ -39,6 +39,8 @@ class EventModal extends React.Component {
             <View style={[styles.fullCenterContainer,styles.modalContent,{backgroundColor: '#FAFAFA'}]}>
               <EventCard
                 event={this.props.event}
+                navigation={this.props.navigation}
+                onClose={this.props.setModalVisible}
               />
               {this.props.currentUser.uid === this.props.event.event_author &&
                         <View style={styles.centeredRow}>

@@ -22,6 +22,10 @@ export const updateTempEvent = (data, field) => ({
   data,
   field
 })
+export const RESET_TEMPEVENT = 'RESET_TEMPEVENT';
+export const resetTempEvent = () => ({
+  type: RESET_TEMPEVENT,
+})
 export const CLEAR_TEMP_EVENT = 'CLEAR_TEMP_EVENT';
 export const clearTempEvent = () => ({
   type: CLEAR_TEMP_EVENT
@@ -87,13 +91,13 @@ export const saveEvent = (event) => (dispatch, getState) => {
               })
           })
       })
-      // reset temp event back to step 1
-      dispatch(updateTempEvent(getState().tempEvent.step + 1,'step'))
+      // reset temp event
+      dispatch(resetTempEvent());
+
       // dispatch a success
       dispatch(saveEventSuccess());
     })
     .catch( error => {
-      console.error(`Error updating document: ${error}`);
       dispatch(saveEventError(error));
     });
 }
@@ -118,7 +122,6 @@ export const deleteEvent = (event) => (dispatch, getState) => {
           dispatch(deleteEventSuccess(event.id));
         })
         .catch(error => {
-          console.error(`Error updating document: ${error}`);
           dispatch(deleteEventError(error))
         })
     }
