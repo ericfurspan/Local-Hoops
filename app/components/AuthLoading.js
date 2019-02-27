@@ -7,18 +7,19 @@ import { connect } from 'react-redux';
 class AuthLoadingScreen extends React.Component {
 
   componentDidMount() {
-    // if user is authenticated, navigate to App dashboard
+    // if user is authenticated, log in and navigate to App dashboard
     firebase.auth().onAuthStateChanged(user => {
-        if(user) {
-          firebase.firestore().doc(`users/${user.uid}`)
+      if(user) {
+        // log in
+        firebase.firestore().doc(`users/${user.uid}`)
           .get()
           .then(doc => {
-              this.props.dispatch(loginSuccess(doc.data()))
-              this.props.navigation.navigate('App');
+            this.props.dispatch(loginSuccess(doc.data()))
+            this.props.navigation.navigate('App');
           })
-        } else {
-          this.props.navigation.navigate('Auth');
-        }
+      } else {
+        this.props.navigation.navigate('Auth');
+      }
 
     })
   }
@@ -26,7 +27,7 @@ class AuthLoadingScreen extends React.Component {
   // Render any loading content that you like here
   render() {
     return (
-        <Loading message='Local Hoops' indicator={false}/>
+      <Loading message='Local Hoops' indicator={false}/>
     );
   }
 }
