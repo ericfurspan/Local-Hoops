@@ -10,10 +10,11 @@ class ErrorMessage extends React.Component {
       this.props.dispatch(clearError());
     }
     render() {
+      console.log(this.props)
       return (
         <View style={styles.centeredContainer}>
           {AlertIOS.alert(
-            'Uh oh..',
+            'Whoops',
             this.props.message,
             [
               {

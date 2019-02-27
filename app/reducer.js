@@ -4,7 +4,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  LOGOUT
+  LOGOUT,
+  UPDATE_LOGIN_FORM,
+  UPDATE_REGISTRATION_FORM
 } from './actions/Auth';
 // USER
 import {
@@ -24,6 +26,7 @@ import {
 import {
   UPDATE_EVENTS,
   UPDATE_TEMPEVENT,
+  RESET_TEMPEVENT,
   UPDATE_TEMPEVENT_PARTICIPANTS,
   UPDATE_TEMPEVENT_TYPE,
   SAVE_EVENT_REQUEST,
@@ -36,13 +39,13 @@ import {
 } from './actions/Event';
 import { eventTypes } from '../app/components/Event/CreateEvent/EventForm';
 import {
-  TOGGLE_LOCATION,
   UPDATE_LOCATION,
 } from './actions/Location';
 // COURT
 import {
   UPDATE_NEARBY_COURTS,
   REQUEST_NEARBY_COURTS,
+  FAILED_NEARBY_COURTS,
   SAVE_COURT_SUCCESS,
   UNSAVE_COURT_SUCCESS,
   UPDATE_SAVED_COURTS,
@@ -79,6 +82,8 @@ const initialState = {
   error: null,
   location: null,
   mapLoading: false,
+  login_form: {},
+  registration_form: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -115,7 +120,21 @@ const reducer = (state = initialState, action) => {
         status: action.status
       }
     });
-  } else if(action.type === ADD_COURT_SUCCESS) {
+  } else if(action.type === UPDATE_LOGIN_FORM) {
+    return Object.assign({}, state, {
+      login_form: {
+        ...state.login_form,
+        [action.field]: action.value
+      }
+    });
+  } else if(action.type === UPDATE_REGISTRATION_FORM) {
+    return Object.assign({}, state, {
+      registration_form: {
+        ...state.registration_form,
+        [action.field]: action.value
+      }
+    });
+  }else if(action.type === ADD_COURT_SUCCESS) {
     return Object.assign({}, state, {
       error: null
     })
@@ -155,6 +174,10 @@ const reducer = (state = initialState, action) => {
   } else if (action.type === REQUEST_NEARBY_COURTS) {
     return Object.assign({}, state, {
       mapLoading: true
+    });
+  } else if (action.type === FAILED_NEARBY_COURTS) {
+    return Object.assign({}, state, {
+      mapLoading: false
     });
   } else if (action.type === UPDATE_NEARBY_COURTS) {
     // todo filter duplicate ids? if more than 1, only keep one where discovered_by.displayName !== Google Places
@@ -222,6 +245,14 @@ const reducer = (state = initialState, action) => {
         type: action.data
       }
     })
+  } else if (action.type === RESET_TEMPEVENT) {
+    return Object.assign({}, state, {
+      tempEvent: {
+        step: 1,
+        type: eventTypes[0],
+        date: new Date()
+      }
+    })
   } else if (action.type === UPDATE_TEMPEVENT) {
     if(typeof action.data !== 'object' || action.field == 'date') {
       return Object.assign({}, state, {
@@ -249,11 +280,7 @@ const reducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       location: action.location,
       locationError: null,
-      locationEnabled: true
-    });
-  } else if (action.type === TOGGLE_LOCATION) {
-    return Object.assign({}, state, {
-      locationEnabled: action.isEnabled,
+      locationEnabled: action.locationEnabled
     });
   } else if (action.type === UPDATE_FRIENDS) {
     let friends = state.friends ? state.friends.filter(f => f.uid !== action.friend.uid) : [];

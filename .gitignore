@@ -1,3 +1,6 @@
+# VSCode
+.VSCode
+
 # Config
 config.js
 
@@ -26,6 +29,8 @@ DerivedData
 project.xcworkspace
 
 # Android/IntelliJ
+android/
+
 #
 build/
 .idea

@@ -20,8 +20,12 @@ export const updateNearbyCourts = (courts) => ({
 export const REQUEST_NEARBY_COURTS = 'REQUEST_NEARBY_COURTS';
 export const requestNearbyCourts = () => ({
   type: REQUEST_NEARBY_COURTS,
-  mapLoading: true
 })
+export const FAILED_NEARBY_COURTS = 'FAILED_NEARBY_COURTS';
+export const failedNearbyCourts = () => ({
+  type: FAILED_NEARBY_COURTS,
+})
+
 export const UPDATE_SAVED_COURTS = 'UPDATE_SAVED_COURTS';
 export const updateSavedCourts = savedCourts => ({
   type: UPDATE_SAVED_COURTS,
@@ -37,12 +41,21 @@ export const unSaveCourtSuccess = (courtId) => ({
   type: UNSAVE_COURT_SUCCESS,
   courtId
 })
+export const GET_SAVED_COURTS_ERROR = 'GET_SAVED_COURTS_ERROR';
+export const getSavedCourtsError = () => ({
+  type: GET_SAVED_COURTS_ERROR,
+})
+export const TRY_GET_SAVED_COURTS = 'TRY_GET_SAVED_COURTS';
+export const tryGetSavedCourts = () => ({
+  type: TRY_GET_SAVED_COURTS,
+})
 
 // Get saved courts
 export const getSavedCourts = () => async (dispatch, getState) => {
+  dispatch(tryGetSavedCourts());
   try {
     const savedCourtIds = getState().currentUser.saved_courts;
-    if(savedCourtIds) {
+    if(savedCourtIds && savedCourtIds.length > 0) {
       const savedCourts = await Promise.all(savedCourtIds.map(async courtId => {
         const doc = await firebase.firestore().doc(`courts/${courtId}`).get();
         return {
@@ -56,6 +69,7 @@ export const getSavedCourts = () => async (dispatch, getState) => {
       return dispatch(updateSavedCourts(savedCourts.filter(c=>c)));
     }
   } catch(e) {
+    dispatch(getSavedCourtsError());
     dispatch(displayError(e))
   }
 }
@@ -64,25 +78,25 @@ export const getSavedCourts = () => async (dispatch, getState) => {
 // Also saves new court to system if doesn't already exist
 export const trySaveCourt = (court) => async (dispatch, getState) => {
 
-  try {
-    // if a new court, add to firestore
-    // google-sourced courts saved for first time will not yet exist. so we add it here
-    let courtDoc = await firebase.firestore().doc(`courts/${court.id}`).get();
-    if(!courtDoc.exists) {
-      console.log('court does not yet exist, dispatching addCourt')
-      dispatch(addCourt(court))
+  if(court.id) {
+    try {
+      // if a new court, add to firestore
+      let courtDoc = await firebase.firestore().doc(`courts/${court.id}`).get();
+      if(!courtDoc.exists) {
+        dispatch(addCourt(court))
+      }
+
+      // update users firestore doc w/ court.id
+      await firebase.firestore().doc(`users/${getState().currentUser.uid}`)
+        .update({
+          saved_courts: firebase.firestore.FieldValue.arrayUnion(court.id)
+        })
+
+      await dispatch(saveCourtSuccess(court.id));
+      dispatch(getSavedCourts());
+    } catch(e) {
+      dispatch(displayError(e))
     }
-
-    // update users firestore doc w/ court.id
-    await firebase.firestore().doc(`users/${getState().currentUser.uid}`)
-      .update({
-        saved_courts: firebase.firestore.FieldValue.arrayUnion(court.id)
-      })
-
-    await dispatch(saveCourtSuccess(court.id));
-    dispatch(getSavedCourts());
-  } catch(e) {
-    dispatch(displayError(e))
   }
 }
 
@@ -110,7 +124,6 @@ export const addCourt = (data) => (dispatch, getState) => {
     } else {
       courtId = data.id;
     }
-
     firebase.firestore().collection('courts').doc(courtId)
       .set({
         coords: new firebase.firestore.GeoPoint(data.coords.latitude,data.coords.longitude),
@@ -124,12 +137,8 @@ export const addCourt = (data) => (dispatch, getState) => {
         pinDate: (new Date()).toLocaleDateString('en-US',{year: '2-digit',month: '2-digit',day: '2-digit'}),
       })
 
-    // if user selected to favorite court, dispatch trySaveCourt
-    if(data.isFavorite) {
-      dispatch(trySaveCourt(data));
-    }
-
     dispatch(addCourtSuccess());
+    dispatch(getNearbyCourts())
   } catch(e) {
     dispatch(addCourtError(e));
   }
@@ -137,8 +146,12 @@ export const addCourt = (data) => (dispatch, getState) => {
 }
 
 // Updates nearby courts
-export const getNearbyCourts = (coords, searchRadius) => async (dispatch) => {
+export const getNearbyCourts = (coords, searchRadius = 15000) => async (dispatch, getState) => {
   try {
+    if(!coords) {
+      coords = getState().location;
+    }
+
     let nearbyCourts = [];
 
     dispatch(requestNearbyCourts());
@@ -202,23 +215,6 @@ export const getNearbyCourts = (coords, searchRadius) => async (dispatch) => {
     dispatch(updateNearbyCourts(nearbyCourts));
   } catch(e) {
     dispatch(displayError(e))
+    dispatch(failedNearbyCourts());
   }
 }
-
-/*
-// Updates nearby courts
-export const addCourtRating = (rating, courtId) => (getState, dispatch) => {
-    firebase.firestore().doc(`courts/${courtId}`)
-    .update({
-        ratings: firebase.firestore.FieldValue.arrayUnion({
-            uid: getState().currentUser.uid,
-            rating
-        })
-    })
-    .then((ref) => {
-        console.log(ref)
-    })
-    .catch(e => {
-        console.error(e)
-    })
-}*/

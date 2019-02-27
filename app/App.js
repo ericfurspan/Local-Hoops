@@ -5,6 +5,8 @@ import Explore from './components/Explore';
 import Friends from './components/Friends/Friends';
 import AuthLoading from './components/AuthLoading';
 import Login from './components/Login';
+import Register from './components/Register';
+import AuthLanding from './components/AuthLanding';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import store from '../store';
@@ -12,7 +14,9 @@ import { Provider } from 'react-redux'
 
 const AuthStack = createStackNavigator(
   {
-    SignIn: Login
+    AuthLanding: AuthLanding,
+    Login: Login,
+    Register: Register
   },
   {
     headerMode: 'none'

@@ -28,15 +28,15 @@ export default StyleSheet.create({
     height: deviceHeight,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#333',
+    backgroundColor: '#111',
     color: '#fff'
   },
   modalContent: {
-    height: deviceHeight*.85,
+    height: deviceHeight*.9,
     width: deviceWidth,
     backgroundColor: '#fff',
     borderRadius: 5,
-    top: deviceHeight*.02
+    // top: deviceHeight*.02
   },
   routeHeader: {
     backgroundColor: '#3578E5',
@@ -184,12 +184,12 @@ export default StyleSheet.create({
     color: '#fff'
   },
   text: {
-    fontSize: 24,
-    fontWeight: 'bold'
+    fontSize: 18,
   },
   accountTop: {
-    height: deviceHeight*.35,
-    backgroundColor: '#3578E5' // 3578E5
+    height: deviceHeight*.3,
+    backgroundColor: '#3578E5', // 3578E5
+    justifyContent: 'center'
   },
   accountText: {
     fontSize: 24,

@@ -74,7 +74,9 @@ class ViewFriend extends React.Component {
                       event['participants'].push(participant);
                     })
                 })
-                events.push(event);
+                if(doc.data().participants.includes(this.props.friend.uid)) {
+                  events.push(event);
+                }
                 counter++;
                 return counter;
               })
@@ -85,12 +87,10 @@ class ViewFriend extends React.Component {
                 }
               })
               .catch( (e) => {
-                console.log('firebase error in ViewFriend.js!');
                 console.log(e);
               })
           })
         }, error => {
-          console.log('snapshot error in ViewFriend.js!!!')
           console.log(error);
         })
     }

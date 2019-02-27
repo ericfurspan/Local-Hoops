@@ -9,7 +9,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 // import { Dropdown } from 'react-native-material-dropdown';
 import { getFriends, getFriendRequestsReceived, getFriendRequestsSent } from '../actions/User';
 import { getSavedCourts, getNearbyCourts } from '../actions/Court';
-import { updateLocation, locationError, toggleLocation } from '../actions/Location';
+import { updateLocation, locationError } from '../actions/Location';
 import ErrorMessage from './ErrorMessage';
 import { Cancel } from './navButtons';
 import Account from './Account';
@@ -63,12 +63,11 @@ class Dashboard extends React.Component {
   getUserLocationAndNearbyCourts = () => {
 
     navigator.geolocation.getCurrentPosition(position => {
-      this.props.dispatch(updateLocation(position.coords));
-      this.props.dispatch(toggleLocation(true));
+      this.props.dispatch(updateLocation(position.coords, true));
       this.props.dispatch(getNearbyCourts(position.coords,15000));
     }, err => {
+      this.props.dispatch(updateLocation(null, false));
       this.props.dispatch(locationError(err.message));
-      this.props.dispatch(toggleLocation(false));
     }),
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000};
 
@@ -117,7 +116,7 @@ class Dashboard extends React.Component {
             : null
           }
           <Header
-            centerComponent={{ text: 'Local Hoops', style: { color: '#FFFFFF', fontSize: 24, fontFamily: 'System' } }} // ArchitectsDaughter-Regular
+            centerComponent={{ text: 'Local Hoops', style: { color: '#FFFFFF', fontSize: 24, fontFamily: 'RhodiumLibre-Regular' } }} // ArchitectsDaughter-Regular
             containerStyle={styles.routeHeader}
             rightComponent={
               <TouchableOpacity
@@ -125,8 +124,8 @@ class Dashboard extends React.Component {
                 style={{flexDirection: 'row'}}
               >
                 <IonIcon
-                  name='ios-person'
-                  size={30}
+                  name='ios-contact'
+                  size={40}
                   color='#fff'
                 />
                 {accountNotificationBadge}
@@ -167,7 +166,7 @@ class Dashboard extends React.Component {
                           zoomLevel={14}
                           centerCoordinate={[court.coords.longitude, court.coords.latitude]}
                           showUserLocation={false}
-                          style={{flex: 1,height: 100,marginBottom: 5}}
+                          style={{height: 150,marginBottom: 5}}
                           logoEnabled={false}
                         >
                           {this.returnAnnotation(court.coords)}
@@ -256,6 +255,7 @@ class Dashboard extends React.Component {
                 <Events
                   activityType={this.state.activityType}
                   selectedIndex={this.state.selectedIndex}
+                  navigation={this.props.navigation}
                 />
               </View>
             </ScrollView>

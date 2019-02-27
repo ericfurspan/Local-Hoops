@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity, FlatList, Modal, Linking, Dimensions, ActivityIndicator, AlertIOS } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { findLocationByQuery } from '../api-calls/googleplaces';
-import { Card, Button, ListItem, SearchBar, Icon, Input, Divider, Image, CheckBox } from 'react-native-elements';
+import { Card, Button, ListItem, SearchBar, Icon, Input, Divider, Image } from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Cancel } from './navButtons';
 import { updateLocation } from '../actions/Location';
@@ -13,9 +13,7 @@ import { connect } from 'react-redux';
 import LightMapLogo from '../../assets/mapStyles/light.png'
 import DarkMapLogo from '../../assets/mapStyles/dark.png'
 import StreetMapLogo from '../../assets/mapStyles/street.png'
-import { ErrorMessage } from './ErrorMessage';
 import styles from './styles/main';
-import { displayError } from '../actions/Misc';
 
 let deviceHeight= Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -39,7 +37,6 @@ class Explore extends React.Component {
       addCourtForm: {
         coords: null,
         name: null,
-        isFavorite: true,
         error: null,
       },
       searchRadius: 15000, // in km
@@ -60,9 +57,10 @@ class Explore extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-      // if user location has changed, update map center coordinates
       let prevCoords = prevProps.location;
       let newCoords = this.props.location;
+
+      // if lat or long has changed, update map center
       if( (prevCoords.latitude !== newCoords.latitude) || (prevCoords.longitude !== newCoords.longitude) ) {
         this.updateMapCenter(newCoords, true)
       }
@@ -87,7 +85,8 @@ class Explore extends React.Component {
                 longitude: action.data.coords.longitude,
               },
               zoomLevel: 15,
-              selectedCourtPreview: action.data
+              selectedCourtPreview: action.data,
+              viewMode: 'map'
             }, () => {
               this.props.dispatch(getNearbyCourts({latitude: action.data.coords.latitude,longitude: action.data.coords.longitude}, this.state.searchRadius));
             })
@@ -109,8 +108,7 @@ class Explore extends React.Component {
         {
           coords: this.state.addCourtForm.coords,
           name: this.state.addCourtForm.name,
-          isFavorite: this.state.addCourtForm.isFavorite
-        }
+        },
       ));
       this.setState({
         addCourtMode: false,
@@ -123,6 +121,10 @@ class Explore extends React.Component {
 
     handleSaveCourt = () => {
       this.props.dispatch(trySaveCourt(this.state.selectedCourtPreview))
+    }
+
+    handleUnSaveCourt = () => {
+      this.props.dispatch(unSaveCourt(this.state.selectedCourtPreview.id))
     }
 
     flyTo = (coords) => {
@@ -188,11 +190,11 @@ class Explore extends React.Component {
     // Get user location, find nearby courts, adds courts to state via callback (updateNearbyCourts) and fly to current pos
     updateUserLocation = () => {
       navigator.geolocation.getCurrentPosition(position => {
-        this.props.dispatch(updateLocation(position.coords));
+        this.props.dispatch(updateLocation(position.coords, true));
         this.flyTo(position.coords);
         this.props.dispatch(getNearbyCourts(position.coords, this.state.searchRadius));
-      }, err => {
-        this.props.dispatch(displayError(err.message))
+      }, () => { // ERROR
+        this.props.dispatch(updateLocation(null, false));
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
     }
@@ -301,9 +303,7 @@ class Explore extends React.Component {
     }
 
     render() {
-      if(this.props.error || this.props.locationError) {
-        return <ErrorMessage message={this.props.error}/>
-      }
+
 
       let { currentUser } = this.props;
 
@@ -379,7 +379,8 @@ class Explore extends React.Component {
                   bottomDivider
                   rightIcon={
                     <View style={{alignItems: 'center'}}>
-                      <IonIcon
+                      <Icon
+                        type='ionicon'
                         name='ios-navigate'
                         size={30}
                         color='#3578E5'
@@ -408,9 +409,9 @@ class Explore extends React.Component {
                         <View style={{justifyContent: 'space-evenly',alignItems: 'center',height: deviceHeight*.4,padding: 10,zIndex: 1005,borderBottomColor: '#CAD2D3',borderBottomWidth: 2}}>
                           <View style={{justifyContent: 'flex-start',alignSelf: 'flex-end'}}>
                             <IonIcon
-                              name='ios-close-circle-outline'
+                              name='ios-close-circle'
                               size={30}
-                              color='#333'
+                              color='#ccc'
                               style={{alignSelf: 'flex-start',marginRight: 5}}
                               onPress={() => this.toggleAddCourtMode(false)}
                             />
@@ -459,7 +460,7 @@ class Explore extends React.Component {
                         <Button
                           title=''
                           onPress={() => this.toggleAddCourtMode(false)}
-                          icon={{name: 'ios-close-circle-outline',type: 'ionicon',size: 30}}
+                          icon={{name: 'ios-close-circle',type: 'ionicon',size: 30,color: '#ccc'}}
                           buttonStyle={{backgroundColor: 'transparent'}}
                           containerStyle={{alignSelf: 'flex-end'}}
                         />
@@ -475,19 +476,12 @@ class Explore extends React.Component {
                           value={this.state.addCourtForm.name}
                           inputStyle={{color: '#333'}}
                         />
-                        <CheckBox
-                          title='Add to favorites?'
-                          checked={this.state.addCourtForm.isFavorite}
-                          iconRight
-                          checkedColor='#3578E5'
-                          onPress={() => this.updateAddCourtForm('isFavorite',!this.state.addCourtForm.isFavorite)}
-                        />
                         <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
                           <Button
                             title='Save'
                             raised
                             type='outline'
-                            disabled={!this.state.addCourtForm.name || this.state.addCourtForm.error}
+                            disabled={!this.state.addCourtForm.name ? true : false}
                             disabledStyle={{backgroundColor: '#fff'}}
                             disabledTitleStyle={{color: '#ccc'}}
                             onPress={() => this.handleAddCourt()}
@@ -589,9 +583,9 @@ class Explore extends React.Component {
                       containerStyle={{width: deviceWidth,paddingLeft: 20,paddingRight: 20,zIndex: 1005}}
                       title={
                         <IonIcon
-                          name='ios-close-circle-outline'
+                          name='ios-close-circle'
                           size={30}
-                          color='#333'
+                          color='#ccc'
                           style={{alignSelf: 'flex-end'}}
                           onPress={() => this.toggleOptionsMenu()}
                         />
@@ -671,9 +665,9 @@ class Explore extends React.Component {
                                             */}
                           <View style={{flexDirection: 'row',justifyContent: 'flex-end'}}>
                             <IonIcon
-                              name='ios-close-circle-outline'
+                              name='ios-close-circle'
                               size={30}
-                              color='#333'
+                              color='#ccc'
                               onPress={() => this.setCourtPreview()}
                             />
                           </View>
@@ -696,10 +690,10 @@ class Explore extends React.Component {
 
                         <View style={{flexDirection: 'row',alignSelf: 'flex-end'}}>
 
-                          <View style={{justifyContent: 'center',alignItems: 'center',marginRight: 15}}>
-                            {this.props.currentUser.saved_courts && this.props.currentUser.saved_courts.includes(this.state.selectedCourtPreview.id) ? (
+                          <View style={{alignItems: 'center',marginRight: 15}}>
+                            {this.props.currentUser && this.props.currentUser.saved_courts && this.props.currentUser.saved_courts.includes(this.state.selectedCourtPreview.id) ? (
                               <TouchableOpacity
-                                onPress={() => this.props.dispatch(unSaveCourt(this.state.selectedCourtPreview.id))}
+                                onPress={() => this.handleUnSaveCourt()}
                               >
                                 <IonIcon
                                   name='ios-bookmark'
@@ -723,8 +717,9 @@ class Explore extends React.Component {
                           </View>
 
                           <TouchableOpacity>
-                            <View style={{justifyContent: 'center',alignItems: 'center'}}>
-                              <IonIcon
+                            <View style={{alignItems: 'center'}}>
+                              <Icon
+                                type='ionicon'
                                 name='ios-navigate'
                                 size={30}
                                 color='#3578E5'

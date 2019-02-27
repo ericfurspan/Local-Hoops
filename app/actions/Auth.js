@@ -1,6 +1,7 @@
 import firebase from 'react-native-firebase'
 import { GoogleSignin, statusCodes } from 'react-native-google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import { displayError } from './Misc';
 
 export const LOGOUT = 'LOGOUT';
 export const logout = () => ({
@@ -20,6 +21,79 @@ export const loginError = (message) => ({
   type: LOGIN_ERROR,
   message
 });
+export const NEW_USER_REQUEST = 'NEW_USER_REQUEST';
+export const newUserRequest = () => ({
+  type: NEW_USER_REQUEST,
+});
+export const NEW_USER_SUCCESS = 'NEW_USER_SUCCESS';
+export const newUserSuccess = () => ({
+  type: NEW_USER_SUCCESS,
+});
+export const UPDATE_LOGIN_FORM = 'UPDATE_LOGIN_FORM';
+export const updateLoginForm = (field, value) => ({
+  type: UPDATE_LOGIN_FORM,
+  field,
+  value
+});
+export const UPDATE_REGISTRATION_FORM = 'UPDATE_REGISTRATION_FORM';
+export const updateRegistrationForm = (field, value) => ({
+  type: UPDATE_REGISTRATION_FORM,
+  field,
+  value
+});
+
+export const CreateUserWithEmailPw = (name, email, password) => async (dispatch) => {
+  try {
+
+    dispatch(newUserRequest());
+
+    // create user in firebase
+    let res = await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+    // create user doc in firestore
+    let uid = res.user._user.uid;
+    const userDoc = {
+      uid,
+      displayName: name,
+      photoURL: 'https://firebasestorage.googleapis.com/v0/b/local-courts-1536035788302.appspot.com/o/placeholder.png?alt=media&token=f297fe0f-ff64-41c7-a727-8f60e6fa9a07',
+      email,
+      friends: [],
+      status: 'Available'
+    }
+    await firebase.firestore().doc(`users/${uid}`)
+      .set(userDoc)
+
+    return dispatch(newUserSuccess());
+  } catch(e) {
+    dispatch(displayError(e))
+  }
+}
+
+export const EmailPwLogin = (email, password) => async (dispatch) => {
+  try {
+
+    dispatch(loginRequest());
+
+    return await firebase.auth().signInWithEmailAndPassword(email, password);
+  }
+  catch(e) {
+    let errorMessage = e.message;
+
+    // custom error messages
+    if(e.code === 'auth/wrong-password') {
+      errorMessage = 'Invalid password';
+    } else if(e.code === 'auth/user-not-found') {
+      errorMessage = 'No user found';
+    } else if(e.code === 'auth/user-disabled') {
+      errorMessage = 'Sorry, your account has been disabled'
+    } else if(e.code === 'auth/invalid-email') {
+      errorMessage = 'Invalid email address';
+    }
+    dispatch(loginError(errorMessage));
+  }
+}
+
+
 
 // Facebook Login
 export const FacebookLogin = () => (dispatch) => {
@@ -45,14 +119,12 @@ export const FacebookLogin = () => (dispatch) => {
             }
           })
           .catch(error => {
-            console.log(error)
             dispatch(logout());
             dispatch(loginError(`Unable to login with Facebook\n${error}`));
           })
       }
     })
     .catch(error => {
-      console.log(error)
       dispatch(logout());
       dispatch(loginError(`Unable to login with Facebook\n${error}`));
     })
@@ -84,29 +156,15 @@ export const GoogleLogin = () => (dispatch) => {
         dispatch(loginError(`Unable to login with Google\nUser cancelled sign in`));
       } else if(error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
-        console.error('operation (f.e. sign in) is in progress already')
         dispatch(logout());
         dispatch(loginError(`Unable to login with Google\nSign in already in progress`));
       } else {
-        console.error(error)
         dispatch(logout());
         dispatch(loginError(`Unable to login with Google\n${error}`));
       }
     })
 }
-/*
-  export const GoogleLogout = () => (dispatch, getState) => {
-    return GoogleSignin.revokeAccess()
-        .then(() => {
-            console.log(GoogleSignin)
-            GoogleSignin.signOut()
-                .then(() => {
-                    dispatch(logout())
-                })
-        })
-        .catch(e => console.error(e))
-  };
-*/
+
 export const logoutRequest = () => (dispatch) => {
   firebase.auth().signOut();
   dispatch(logout());

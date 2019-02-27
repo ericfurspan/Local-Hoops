@@ -1,4 +1,5 @@
 import firebase from 'react-native-firebase'
+import { displayError } from './Misc';
 
 export const UPDATE_STATUS = 'UPDATE_STATUS';
 export const updateStatus = (status) => ({
@@ -81,9 +82,8 @@ export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch) => 
               dispatch(addFriendError({message: `A friend request already exists`}));
             }
           })
-          .catch( (e) => {
-            console.log('firebase error sendFriendRequest');
-            console.log(e);
+          .catch( () => {
+            dispatch(displayError({message: 'Sorry, there was a problem sending the friend request'}))
           })
       } else {
         dispatch(addFriendError({message: `A friend request already exists`}));
@@ -92,7 +92,7 @@ export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch) => 
 }
 
 // Add friend
-export const createFriends = (requesteeId, requestorId) => () => {
+export const createFriends = (requesteeId, requestorId) => (dispatch) => {
 
   // add users to each others friends array
   firebase.firestore().doc(`users/${requesteeId}`)
@@ -117,13 +117,12 @@ export const createFriends = (requesteeId, requestorId) => () => {
         })
       })
     })
-    .catch( (e) => {
-      console.log('firebase error createFriends');
-      console.log(e);
+    .catch( () => {
+      dispatch(displayError({message: 'Sorry, there was a problem. Please try again later.'}))
     })
 }
 
-export const cancelFriendRequest = (requesteeId, requestorId) => () => {
+export const cancelFriendRequest = (requesteeId, requestorId) => (dispatch) => {
 
   // delete document from friendRequests collection
   firebase.firestore().collection('friendRequests')
@@ -137,9 +136,8 @@ export const cancelFriendRequest = (requesteeId, requestorId) => () => {
         })
       })
     })
-    .catch( (e) => {
-      console.log('firebase error cancelFriendRequest');
-      console.log(e);
+    .catch( () => {
+      dispatch(displayError({message: 'Sorry, there was a problem. Please try again later.'}))
     })
 }
 
@@ -161,8 +159,7 @@ export const removeFriend = (userId, friendId) => (dispatch, getState) => {
       dispatch(removeFriendSuccess(friendId));
       dispatch(getFriends(getState().currentUser.friends));
     })
-    .catch( error => {
-      console.log(`Error updating document: ${error}`);
+    .catch( () => {
       dispatch(removeFriendError());
     });
 }
@@ -179,8 +176,7 @@ export const getFriends = (friendIds) => (dispatch, getState) => {
         } else {
           dispatch(removeFriendSuccess(doc.data().uid));
         }
-      }, error => {
-        console.log(`snapshot error!!!`);
+      }, (error) => {
         console.log(error);
       })
   })
@@ -194,9 +190,8 @@ export const updateUserStatus = (status) => (dispatch, getState) => {
     .then(() => {
       return dispatch(updateStatus(status));
     })
-    .catch( (e) => {
-      console.log('firebase error updateUserStatus');
-      console.log(e);
+    .catch( () => {
+      dispatch(displayError({message: 'Sorry, there was a problem. Please try again later.'}))
     })
 }
 
@@ -208,9 +203,8 @@ export const setPreferredMapType = (preferredMapType) => (dispatch, getState) =>
     .then(() => {
       return dispatch(updatePreferredMapType(preferredMapType))
     })
-    .catch( (e) => {
-      console.log('firebase error setPreferredMapType');
-      console.log(e);
+    .catch( () => {
+      dispatch(displayError({message: 'Sorry, there was a problem. Please try again later.'}))
     })
 }
 
@@ -221,33 +215,32 @@ export const getFriendRequestsReceived = () => (dispatch, getState) => {
       let friendRequestsReceived = [];
       let counter = 0;
       let snapshotSize = querySnapshot.size;
-      querySnapshot.forEach(doc => {
-        if(doc.data().status === 'pending') {
-          firebase.firestore().doc(`users/${doc.data().requestorId}`)
-            .get()
-            .then(doc => {
-              const { photoURL, displayName, uid } = doc.data();
-              let data = {
-                photoURL,
-                displayName,
-                uid
-              }
+      querySnapshot.forEach(requestDoc => {
+        firebase.firestore().doc(`users/${requestDoc.data().requestorId}`)
+          .get()
+          .then(doc => {
+            const { photoURL, displayName, uid } = doc.data();
+            let data = {
+              photoURL,
+              displayName,
+              uid
+            }
+            if(requestDoc.data().status === 'pending') {
               friendRequestsReceived.push(data);
-              counter++;
-              return counter;
-            })
-            .then((counter) => {
-              if(snapshotSize === counter) {
-                dispatch(updateFriendRequestsReceived(friendRequestsReceived))
-              }
-            })
-            .catch( (e) => {
-              console.log(e);
-            })
-        }
+            }
+            counter++;
+            return counter;
+          })
+          .then((counter) => {
+            if(snapshotSize === counter) {
+              dispatch(updateFriendRequestsReceived(friendRequestsReceived))
+            }
+          })
+          .catch( () => {
+            dispatch(displayError({message: 'Sorry, there was a problem. Please try again later.'}))
+          })
       })
     }, error => {
-      console.log('snapshot error!')
       console.log(error);
     })
 }
@@ -276,17 +269,15 @@ export const getFriendRequestsSent = () => (dispatch, getState) => {
             })
             .then((counter) => {
               if(snapshotSize === counter) {
-                console.log(friendRequestsSent)
                 dispatch(updateFriendRequestsSent(friendRequestsSent))
               }
             })
-            .catch( (e) => {
-              console.log(e);
+            .catch( () => {
+              dispatch(displayError({message: 'Sorry, there was a problem. Please try again later.'}))
             })
         }
       })
     }, error => {
-      console.log('snapshot error!')
       console.log(error);
     })
 }
