@@ -1,178 +1,293 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Modal, Picker } from 'react-native';
-import { Avatar, Button, Badge, Header, ListItem, Icon } from 'react-native-elements';
+import { View, Text, ScrollView, TouchableOpacity, Modal, Picker, StatusBar } from 'react-native';
+import { Avatar, Button, Badge, Header, ListItem } from 'react-native-elements';
 import { logoutRequest } from '../actions/Auth';
 import { Cancel } from './navButtons';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import styles from './styles/main';
-import { updateUserStatus } from '../actions/User';
-
+import { updateUserStatus, updateFriendRequestsReceived, updateFriendRequestsSent } from '../actions/User';
+import { createFriends, getFriends, cancelFriendRequest } from '../actions/User';
 let userStatusTypes = [{value: 'Looking to hoop'}, {value: 'Available'}, {value: 'Unavailable'}];
 
 class Account extends React.Component {
-    state = {
-        showStatusPicker: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: {
+        type: null,
+        visible: false
+      },
+      showStatusPicker: false
     }
-    updateStatusPicker = (visible) => {
-        this.setState({showStatusPicker: visible})
+  }
+    setModalVisible = (type, visible) => {
+      this.setState({
+        showModal: {
+          type,
+          visible
+        }
+      })
+    }
+    denyFriendRequest = (type, prospectiveFriendId) => {
+
+      // Hide modal
+      this.setModalVisible(null, false);
+
+      if(type === 'received') {
+      // Cancel the request
+        this.props.dispatch(cancelFriendRequest(this.props.currentUser.uid, prospectiveFriendId))
+        // update state to remove friend request where uid === prospectiveFriendId
+        let updatedRequests = this.props.currentUser.friendRequestsReceived.filter(request => {
+          return request.uid !== prospectiveFriendId
+        })
+
+        this.props.dispatch(updateFriendRequestsReceived(updatedRequests))
+      } else if(type === 'sent') {
+        // Cancel the request
+        this.props.dispatch(cancelFriendRequest(prospectiveFriendId, this.props.currentUser.uid))
+        // update state to remove friend request where uid === prospectiveFriendId
+        let updatedRequests = this.props.currentUser.friendRequestsSent.filter(request => {
+          return request.uid !== prospectiveFriendId
+        })
+
+        this.props.dispatch(updateFriendRequestsSent(updatedRequests))
+      }
+
+    }
+    acceptFriendRequest = (prospectiveFriendId) => {
+
+      // Accept the request and create friends
+      this.props.dispatch(createFriends(this.props.currentUser.uid, prospectiveFriendId))
+
+      // Hide modal
+      this.setModalVisible(null, false);
+
+      // Remove friend request where uid === prospectiveFriendId
+      let updatedRequests = this.props.currentUser.friendRequestsReceived.filter(request => {
+        return request.uid !== prospectiveFriendId
+      })
+
+      // Update state
+      this.props.dispatch(updateFriendRequestsReceived(updatedRequests))
+
+      // Update friends list
+      let updatedFriendIds;
+      if(this.props.currentUser.friends) {
+        updatedFriendIds = [...this.props.currentUser.friends, prospectiveFriendId];
+      } else {
+        updatedFriendIds = [prospectiveFriendId]
+      }
+
+      this.props.dispatch(getFriends(updatedFriendIds));
+    }
+    toggleStatusPicker = () => {
+      this.setState((prevState) => ({
+        showStatusPicker: !prevState.showStatusPicker
+      }))
     }
     logout = () => {
-        this.props.dispatch(logoutRequest())
+      this.props.dispatch(logoutRequest())
     }
+
     render() {
-        let pendingFriends = <Text style={{alignSelf:'center',marginTop:30}}>No pending friend requests</Text>
-        let friendsBadge;
-        if(this.props.currentUser) {
-            let userStatusPicker;
-            if(this.state.showStatusPicker) {
-                userStatusPicker = 
-                <View style={styles.fullScreen}>
-                    <Picker
-                        selectedValue={this.props.currentUser.status}
-                        onValueChange={value => {
-                            this.props.dispatch(updateUserStatus(value))
-                            this.updateStatusPicker(false)
-                        }}
-                    >
-                        {userStatusTypes.map(t => {
-                            return (
-                                <Picker.Item key={t.value} label={t.value} value={t.value} />
-                            )
-                        })}
-                    </Picker> 
-                </View>
-            }
-            // determine badge status
-            let badgeStatus;
-            switch(this.props.currentUser.status) {
-                case 'Looking to hoop' :
-                    badgeStatus = 'success';
-                    break;
-                case 'Available' :
-                    badgeStatus = 'success';
-                    break;
-                case 'Unavailable' :
-                    badgeStatus = 'warning';
-                    break;
-                default :
-                    badgeStatus = 'error'
-            }
-            let courtCount = this.props.currentUser.saved_courts ? this.props.currentUser.saved_courts.length : 0;
+      let friendRequestsReceived = <Text style={{alignSelf: 'center',marginTop: 30}}>None</Text>
+      let friendRequestsSent = <Text style={{alignSelf: 'center',marginTop: 30}}>None</Text>
+      let friendRequestsReceivedBadge;
 
-            if(this.props.friendRequests && this.props.friendRequests.length > 0) {
-                friendsBadge = <Badge value={this.props.friendRequests.length} status="error" />
-
-                pendingFriends = this.props.friendRequests.map((pendingFriend) => {
-                    return (
-                        <ListItem
-                            //containerStyle={{width:}}
-                            disabled
-                            leftAvatar={{ rounded:true, source: {uri:pendingFriend.photoURL} }}
-                            rightElement={
-                                <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
-                                    <Icon name='md-close'
-                                        type='ionicon'
-                                        size={35}
-                                        color='red'
-                                        iconStyle={{marginRight:15}}
-                                        onPress={()=> this.props.denyFriendRequest(pendingFriend.uid)}
-                                    />                                
-                                    <Icon name='md-checkmark'
-                                        type='ionicon'
-                                        size={35}
-                                        color='green'
-                                        iconStyle={{marginLeft:15}}
-                                        onPress={()=> this.props.acceptFriendRequest(pendingFriend.uid)}
-                                    />
-                                </View>
-                            }
-                            key={pendingFriend.uid}
-                            title={pendingFriend.displayName}
-                            bottomDivider
-                        />
-                    )
-                })
-            }
-    
-            return (
-                <ScrollView contentContainerStyle={[styles.container,{marginTop:50}]}>
-                    {userStatusPicker}
-                    <Button
-                        onPress={() => this.logout()}
-                        title=''
-                        icon={{name:'md-log-out',type:'ionicon',size:25,color:'red'}}
-                        buttonStyle={{backgroundColor:'transparent',alignSelf:'flex-end',marginRight:10}}
-                    />
-                    <View style={{alignItems:'center',paddingBottom:20}}>
-                        <Avatar
-                            size='large'
-                            rounded
-                            source={{uri: this.props.currentUser.photoURL,rounded:true}}
-                            activeOpacity={0.7}
-                        />
-                        <Text style={styles.accountText}>{this.props.currentUser.displayName}</Text>
-                        <TouchableOpacity 
-                            style={styles.centeredRow}
-                            onPress={() => this.updateStatusPicker(true)}
-                        >
-                            <Text style={[styles.whiteText]}>{this.props.currentUser.status} </Text>
-                            <Badge status={badgeStatus} />
-                        </TouchableOpacity>
-                    </View>
-                    
-                    {// friend Button with notification Badge
-                    }
-                    <View style={styles.evenSpacedRow}>
-                        <TouchableOpacity
-                            style={{flexDirection:'row'}}
-                            onPress={() => {
-                                // render modal showing outstanding friend requests with ability to accept/decline
-                                this.props.setModalVisible(true)
-                            }}
-                        >                       
-                            <Button
-                                title={this.props.friends ? `${this.props.friends.length}` : '0'}
-                                icon={{name:'md-people',type:'ionicon',size:23,color:'#FFFFFF'}}
-                                buttonStyle={{backgroundColor:'transparent'}}
-                                disabled
-                                disabledStyle={{backgroundColor:'transparent'}}
-                                disabledTitleStyle={{color:'#FFFFFF'}}
-                            />
-                            {friendsBadge}
-                        </TouchableOpacity>
-                        <Button
-                            title={`${courtCount}`}
-                            icon={{name:'md-pin',type:'ionicon',size:23,color:'#FFFFFF'}}
-                            buttonStyle={{backgroundColor:'transparent'}}
-                        />
-                    </View>
-                    <Modal
-                        animationType="slide"
-                        transparent={false}
-                        visible={this.props.modalVisible}>
-                        <View style={styles.modalBackground}>
-                            <View style={[styles.modalContent]}>
-                                <Header
-                                    centerComponent={{ text: 'Friend Requests', style: { color: '#FFFFFF', fontSize:20 } }}
-                                    containerStyle={styles.headerContainer}
-                                />
-                                {pendingFriends}       
-                            </View>
-                            <Cancel onCancel={() => this.props.setModalVisible(false)} />
-                        </View>
-                    </Modal>
-                </ScrollView>
-            )
-        } else {
-            return <Loading message='' indicator={true}/>
+      if(this.props.currentUser) {
+        // STATUS PICKER
+        let userStatusPicker;
+        if(this.state.showStatusPicker) {
+          userStatusPicker =
+                  <Picker
+                    selectedValue={this.props.currentUser.status}
+                    onValueChange={value => {
+                      this.props.dispatch(updateUserStatus(value))
+                      this.toggleStatusPicker()
+                    }}
+                    style={{width: '50%'}}
+                  >
+                    {userStatusTypes.map(t => {
+                      return (
+                        <Picker.Item key={t.value} label={t.value} value={t.value} color='#333' />
+                      )
+                    })}
+                  </Picker>
         }
+        // determine badge status
+        let badgeStatus;
+        switch(this.props.currentUser.status) {
+          case 'Looking to hoop' :
+            badgeStatus = 'success';
+            break;
+          case 'Available' :
+            badgeStatus = 'success';
+            break;
+          case 'Unavailable' :
+            badgeStatus = 'warning';
+            break;
+          default :
+            badgeStatus = 'error'
+        }
+
+        if(this.props.currentUser.friendRequestsReceived && this.props.currentUser.friendRequestsReceived.length > 0) {
+          friendRequestsReceivedBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />
+
+          friendRequestsReceived = this.props.currentUser.friendRequestsReceived.map((pendingFriend) => {
+            return (
+              <ListItem
+                disabled
+                leftAvatar={{ rounded: true, source: {uri: pendingFriend.photoURL} }}
+                rightElement={
+                  <View style={{flexDirection: 'row',justifyContent: 'space-evenly'}}>
+                    <TouchableOpacity
+                      onPress={()=> this.acceptFriendRequest(pendingFriend.uid)}
+                      style={{marginRight: 20}}
+                    >
+                      <Text style={{color: 'green',fontWeight: 'bold', fontSize: 16}}>Accept</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={()=> this.denyFriendRequest('received', pendingFriend.uid)}
+                    >
+                      <Text style={{color: 'red',fontWeight: 'bold', fontSize: 16}}>Decline</Text>
+                    </TouchableOpacity>
+                  </View>
+                }
+                key={pendingFriend.uid}
+                title={pendingFriend.displayName}
+                bottomDivider
+              />
+            )
+          })
+        }
+        if(this.props.currentUser.friendRequestsSent && this.props.currentUser.friendRequestsSent.length > 0) {
+
+          friendRequestsSent = this.props.currentUser.friendRequestsSent.map((pendingFriend) => {
+            return (
+              <ListItem
+                disabled
+                leftAvatar={{ rounded: true, source: {uri: pendingFriend.photoURL} }}
+                rightElement={
+                  <View style={{flexDirection: 'row',justifyContent: 'space-evenly'}}>
+                    <TouchableOpacity
+                      onPress={()=> this.denyFriendRequest('sent', pendingFriend.uid)}
+                    >
+                      <Text style={{color: 'red',fontWeight: '500', fontSize: 16}}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
+                }
+                key={pendingFriend.uid}
+                title={pendingFriend.displayName}
+                bottomDivider
+              />
+            )
+          })
+        }
+        return (
+          <ScrollView contentContainerStyle={[styles.container]}>
+            <StatusBar hidden />
+            <View style={styles.accountTop}>
+              <View style={{alignItems: 'center'}}>
+                <Avatar
+                  size='large'
+                  rounded
+                  source={{uri: this.props.currentUser.photoURL,rounded: true}}
+                  activeOpacity={0.7}
+                />
+                <Text style={styles.accountText}>{this.props.currentUser.displayName}</Text>
+                <TouchableOpacity
+                  style={styles.centeredRow}
+                  // onPress={() => this.updateStatusPicker(true)}
+                >
+                  <Text style={[styles.whiteText]}>{this.props.currentUser.status} </Text>
+                  <Badge status={badgeStatus} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {// Friend Requests button with notification Badge
+            }
+            <View style={{marginBottom: 10,marginTop: 10}}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={() => {
+                  // render modal showing outstanding friend requests with ability to accept/decline
+                  this.setModalVisible('friendrequests', true)
+                }}
+              >
+                <Button
+                  title='Friend Requests'
+                  titleStyle={{fontSize: 18,marginLeft: 5}}
+                  icon={{name: 'ios-people',type: 'ionicon',size: 25,color: '#333'}}
+                  buttonStyle={{backgroundColor: 'transparent'}}
+                  disabled
+                  disabledStyle={{backgroundColor: 'transparent'}}
+                  disabledTitleStyle={{color: '#333'}}
+                />
+                {friendRequestsReceivedBadge}
+              </TouchableOpacity>
+            </View>
+
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                style={{flexDirection: 'row'}}
+                onPress={() => this.toggleStatusPicker()}
+              >
+                <Button
+                  title='Set your Status'
+                  titleStyle={{fontSize: 18,marginLeft: 5}}
+                  icon={{name: 'ios-pulse',type: 'ionicon',size: 25,color: '#333'}}
+                  buttonStyle={{backgroundColor: 'transparent'}}
+                  disabled
+                  disabledStyle={{backgroundColor: 'transparent'}}
+                  disabledTitleStyle={{color: '#333'}}
+                />
+              </TouchableOpacity>
+
+              {userStatusPicker}
+
+            </View>
+
+            <View style={{position: 'absolute',bottom: 0,alignSelf: 'center'}}>
+              <Button
+                onPress={() => this.logout()}
+                title='Logout'
+                titleStyle={{color: 'red'}}
+                icon={{name: 'ios-log-out',type: 'ionicon',size: 30,color: 'red'}}
+                buttonStyle={{backgroundColor: 'transparent'}}
+              />
+            </View>
+
+            <Modal
+              transparent={false}
+              visible={this.state.showModal.visible}>
+              <View style={styles.modalBackground}>
+                <View style={[styles.modalContent]}>
+                  <Header
+                    centerComponent={{ text: 'Friend Requests', style: { color: '#FFFFFF', fontSize: 20 } }}
+                    containerStyle={styles.headerContainer}
+                  />
+                  <ScrollView>
+                    <Text style={[styles.header,{marginTop: 20,marginBottom: 10}]}>Awaiting your approval</Text>
+                    {friendRequestsReceived}
+                    <Text style={[styles.header,{marginTop: 50}]}>Pending requests</Text>
+                    {friendRequestsSent}
+                  </ScrollView>
+                </View>
+                <Cancel onCancel={() => this.setModalVisible(null, false)} />
+              </View>
+            </Modal>
+          </ScrollView>
+        )
+      } else {
+        return <Loading message='' indicator={true}/>
+      }
 
     }
 }
 
 const mapStateToProps = (state) => ({
-    currentUser: state.currentUser,
-    friends: state.friends
+  currentUser: state.currentUser,
+  friends: state.friends
 })
 export default connect(mapStateToProps)(Account);

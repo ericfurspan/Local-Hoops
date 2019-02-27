@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Avatar, Card, Icon } from 'react-native-elements';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
@@ -9,88 +9,96 @@ Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 let deviceHeight= Dimensions.get('window').height;
 
-const returnAnnotation = (coords) => { 
-    return (
-        <Mapbox.PointAnnotation
-            key={"2"}
-            id={"2"}
-            coordinate={[coords.long, coords.lat]}
-            title="annotation title"
-        >
-        </Mapbox.PointAnnotation>
-    )  
+const returnAnnotation = (coords) => {
+  return (
+    <Mapbox.PointAnnotation
+      key={"2"}
+      id={"2"}
+      coordinate={[coords.longitude, coords.latitude]}
+      title="annotation title"
+    >
+    </Mapbox.PointAnnotation>
+  )
 }
 
 export default function EventCard(props) {
-    return (
-        <Card
-            containerStyle={styles.cardContainer}
+  return (
+    <Card
+      containerStyle={styles.cardContainer}
+    >
+      <View style={styles.spaceBetweenRow}>
+        <Icon
+          name='ios-settings'
+          color='#3578E5'
+          type='ionicon'
+          size={40}
+        />
+        <Icon
+          name='ios-time'
+          color='#3578E5'
+          type='ionicon'
+          size={40}
+        />
+      </View>
+      <View style={[styles.spaceBetweenRow,{marginBottom: 30}]}>
+        <Text style={styles.text}>{props.event.type}</Text>
+        <Text style={styles.text}>{props.event.date}</Text>
+      </View>
+      <View style={styles.spaceBetweenRow}>
+        <Icon
+          name='ios-people'
+          color='#3578E5'
+          type='ionicon'
+          size={40}
+        />
+        <Icon
+          name='ios-text'
+          color='#3578E5'
+          type='ionicon'
+          size={40}
+        />
+      </View>
+      <View style={[styles.spaceBetweenRow,{marginBottom: 30}]}>
+        <View style={{flexDirection: 'row',justifyContent: 'flex-start'}}>
+          {props.event.participants.map((p,i) => {
+            return (
+              <Avatar
+                size='small'
+                rounded
+                source={{uri: p.photoURL}}
+                activeOpacity={0.7}
+                containerStyle={{margin: 5}}
+                key={i}
+              />
+            )
+          })}
+        </View>
+        <View>
+          <Text style={styles.text}>{props.event.comment}</Text>
+        </View>
+      </View>
+
+      <Text style={[styles.text, {alignSelf: 'center'}]}>{props.event.court.name}</Text>
+
+      <TouchableOpacity
+        style={[styles.spaceBetweenRow,{height: deviceHeight*.20}]}
+        onPress= {() => { // navigate to this court in the Explore screen
+          props.onClose(false)
+          props.navigation.navigate('Explore', { action: {type: 'showCourt', data: props.event.court} })
+        }}
+      >
+        <Mapbox.MapView
+          styleURL={Mapbox.StyleURL.Light}
+          zoomLevel={15}
+          centerCoordinate={[props.event.court.coords.longitude, props.event.court.coords.latitude]}
+          showUserLocation={false}
+          style={{flex: 1}}
+          logoEnabled={false}
         >
-            <View style={styles.spaceBetweenRow}>
-                <Icon
-                    name='md-settings'
-                    color='#3578E5'
-                    type='ionicon'
-                    size={30}
-                /> 
-                <Icon
-                    name='md-time'
-                    color='#3578E5'
-                    type='ionicon'
-                    size={30}
-                />                                                       
-            </View> 
-            <View style={[styles.spaceBetweenRow,{marginBottom:30}]}>
-                <Text>{props.event.type}</Text>                                 
-                <Text>{props.event.date}</Text>                                 
-            </View>                                                       
-            <View style={styles.spaceBetweenRow}>
-                <Icon
-                    name='md-people'
-                    color='#3578E5'
-                    type='ionicon'
-                    size={30}
-                /> 
-                <Icon
-                    name='md-quote'
-                    color='#3578E5'
-                    type='ionicon'
-                    size={30}
-                />                                                       
-            </View>
-            <View style={[styles.spaceBetweenRow,{marginBottom:30}]}>
-                <View style={{flexDirection:'row',justifyContent:'flex-start'}}>
-                    {props.event.participants.map((p,i) => {
-                        return (
-                            <Avatar
-                                size='small'
-                                rounded
-                                source={{uri: p.photoURL}}
-                                activeOpacity={0.7}
-                                containerStyle={{margin:5}}
-                                key={i}
-                            />
-                        )
-                    })}
-                </View>
-                <View>
-                    <Text>{props.event.comment}</Text>                                 
-                </View>
-            </View>
+          {returnAnnotation({latitude: props.event.court.coords.latitude, longitude: props.event.court.coords.longitude})}
+        </Mapbox.MapView>
+      </TouchableOpacity>
 
-            <View style={[styles.spaceBetweenRow,{height:deviceHeight*.20}]}>
-                <Mapbox.MapView
-                    styleURL={Mapbox.StyleURL.Light}
-                    zoomLevel={15}
-                    centerCoordinate={[props.event.court.long, props.event.court.lat]}
-                    showUserLocation={false}
-                    style={{flex: 1}}
-                    logoEnabled={false}
-                >
-                    {returnAnnotation({lat: props.event.court.lat, long: props.event.court.long})}
-                </Mapbox.MapView> 
-            </View>
-
-        </Card>
-    )
+    </Card>
+  )
 }

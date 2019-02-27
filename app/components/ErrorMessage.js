@@ -7,23 +7,24 @@ import styles from './styles/main';
 class ErrorMessage extends React.Component {
 
     handleRedirect = () => {
-        this.props.dispatch(clearError());
+      this.props.dispatch(clearError());
     }
     render() {
-        return (
-            <View style={styles.centeredContainer}>
-                {AlertIOS.alert(
-                    'Uh oh..',
-                    this.props.message,
-                    [
-                        {
-                        text: 'OK',
-                        onPress: () => this.handleRedirect(),
-                        },
-                    ],
-                )}
-            </View>
-        )
+      console.log(this.props)
+      return (
+        <View style={styles.centeredContainer}>
+          {AlertIOS.alert(
+            'Whoops',
+            this.props.message,
+            [
+              {
+                text: 'OK',
+                onPress: () => this.handleRedirect(),
+              },
+            ],
+          )}
+        </View>
+      )
     }
 }
 export default connect()(ErrorMessage);

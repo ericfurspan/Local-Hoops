@@ -21,7 +21,26 @@
       "react/jsx-uses-vars": "error",
       "react/display-name": 0,
       "react/prop-types": 0,
-      "no-console": 0
+      "no-console": 0,
+      "spaced-comment": [
+        2,
+        "always"
+      ],
+      "no-trailing-spaces": 2,
+      "key-spacing": [
+        2,
+        {
+          "beforeColon": false,
+          "afterColon": true
+        }
+      ],
+      "indent": [
+        2,
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ]
     },
     "settings": {
       "react": {
