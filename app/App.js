@@ -9,7 +9,7 @@ import Register from './components/Register';
 import AuthLanding from './components/AuthLanding';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import store from '../store';
+import store from './store';
 import { Provider } from 'react-redux'
 
 const AuthStack = createStackNavigator(
