@@ -1,7 +1,7 @@
 import React from 'react';
-import Loading from './Loading';
+import Loading from '../Loading';
 import firebase from 'react-native-firebase'
-import { loginSuccess } from '../actions/Auth';
+import { loginSuccess } from '../../actions/Auth';
 import { connect } from 'react-redux';
 
 class AuthLoadingScreen extends React.Component {

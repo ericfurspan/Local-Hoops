@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
-import { SocialIcon, Input, Button, Image } from 'react-native-elements';
-import { GoogleLogin, FacebookLogin, EmailPwLogin, updateLoginForm } from '../actions/Auth'
+import { View, Text } from 'react-native';
+import { SocialIcon, Input, Button } from 'react-native-elements';
+import { GoogleLogin, FacebookLogin, EmailPwLogin, updateLoginForm } from '../../actions/Auth'
 import { connect } from 'react-redux';
-import styles from './styles/main';
-import Logo from '../../assets/img/nyk.png'
+import styles from '../styles/main';
 import ForgotPassword from './ForgotPassword';
 
 class Login extends React.Component {
@@ -43,12 +42,8 @@ class Login extends React.Component {
               icon={{name: 'ios-arrow-back',type: 'ionicon',size: 30,color: '#fff'}}
               buttonStyle={{backgroundColor: 'transparent'}}
             />
-            <View style={{flexDirection: 'row',alignItems: 'center',marginRight: 10}}>
-              <Image source={Logo} style={{width: 30,height: 30,marginRight: 3}} PlaceholderContent={<ActivityIndicator />} placeholderStyle={{backgroundColor: 'transparent'}}/>
-              <Text style={{color: '#fff', fontSize: 18, fontWeight: '500'}}>Local Hoops</Text>
-            </View>
           </View>
-          <View style={{justifyContent: 'flex-start',alignItems: 'center',marginTop: 45}}>
+          <View style={{justifyContent: 'flex-start',alignItems: 'center',marginTop: 45}} testID='loginForm'>
             { // SIGN IN
             }
             <Text style={{color: '#FFFFFF',fontSize: 22,marginBottom: 10}}>Log in</Text>
@@ -61,6 +56,7 @@ class Login extends React.Component {
               leftIconContainerStyle={{marginRight: 15}}
               onChangeText={(value) => this.props.dispatch(updateLoginForm('email', value))}
               value={this.props.login_form.email}
+              testID='emailInput'
             />
             <Input
               placeholder='Password'
@@ -71,6 +67,7 @@ class Login extends React.Component {
               leftIcon={{type: 'ionicon',name: 'ios-lock',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 20}}
               onChangeText={(value) => this.props.dispatch(updateLoginForm('password', value))}
+              testID='passwordInput'
             />
             <Button
               title='Login'
@@ -80,6 +77,7 @@ class Login extends React.Component {
               raised
               type='outline'
               onPress={() => this.triggerEmailPWSignin()}
+              testID='tryLogin'
             />
             <Button
               title='Change my password'

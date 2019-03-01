@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { Button, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
-import Loading from './Loading';
-import ErrorMessage from './ErrorMessage';
-import styles from './styles/main';
-import Logo from '../../assets/img/nyk.png'
+import Loading from '../Loading';
+import ErrorMessage from '../ErrorMessage';
+import styles from '../styles/main';
+import Logo from '../../../assets/img/logo_orange_ball.png'
 
 class AuthLanding extends React.Component {
 
@@ -20,11 +20,10 @@ class AuthLanding extends React.Component {
       <View style={[styles.fullCenterContainer,{backgroundColor: '#3578E5'}]}>
         <Image
           source={Logo}
-          style={{width: 100,height: 100}}
+          style={{width: 300,height: 300}}
           PlaceholderContent={<ActivityIndicator />}
           placeholderStyle={{backgroundColor: 'transparent'}}
         />
-        <Text style={{fontSize: 28,color: '#fff',marginBottom: 75}}>Local Hoops</Text>
         <Button
           title='LOGIN'
           titleStyle={{color: '#3578E5',fontWeight: '500'}}
@@ -33,6 +32,7 @@ class AuthLanding extends React.Component {
           raised
           type='outline'
           onPress={() => this.props.navigation.navigate('Login')}
+          testID='enterLogin'
         />
         <Button
           title='SIGN UP'
@@ -42,6 +42,7 @@ class AuthLanding extends React.Component {
           raised
           type='outline'
           onPress={() => this.props.navigation.navigate('Register')}
+          testID='enterSignup'
         />
       </View>
     )

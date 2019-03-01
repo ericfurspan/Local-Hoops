@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
-import { Input, Button, Image } from 'react-native-elements';
-import { CreateUserWithEmailPw, updateRegistrationForm } from '../actions/Auth'
-import { displayError } from '../actions/Misc';
+import { View, Text } from 'react-native';
+import { Input, Button } from 'react-native-elements';
+import { CreateUserWithEmailPw, updateRegistrationForm } from '../../actions/Auth'
+import { displayError } from '../../actions/Misc';
 import { connect } from 'react-redux';
-import Logo from '../../assets/img/nyk.png'
 
 class Register extends React.Component {
 
@@ -35,10 +34,6 @@ class Register extends React.Component {
               icon={{name: 'ios-arrow-back',type: 'ionicon',size: 30,color: '#fff'}}
               buttonStyle={{backgroundColor: 'transparent'}}
             />
-            <View style={{flexDirection: 'row',alignItems: 'center',marginRight: 10}}>
-              <Image source={Logo} style={{width: 30,height: 30,marginRight: 3}} PlaceholderContent={<ActivityIndicator />} placeholderStyle={{backgroundColor: 'transparent'}}/>
-              <Text style={{color: '#fff', fontSize: 18, fontWeight: '500'}}>Local Hoops</Text>
-            </View>
           </View>
 
           { // REGISTRATION

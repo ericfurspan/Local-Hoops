@@ -1,12 +1,11 @@
 import React from 'react';
-import { View, Modal, Dimensions, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
-import { Button, Header, ButtonGroup, Text, Divider, Badge } from 'react-native-elements';
+import { View, Modal, Dimensions, ScrollView, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
+import { Button, Header, ButtonGroup, Text, Divider, Badge, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Loading from './Loading';
 import Events from './Event/Events';
 import EventForm from './Event/CreateEvent/EventForm';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-// import { Dropdown } from 'react-native-material-dropdown';
 import { getFriends, getFriendRequestsReceived, getFriendRequestsSent } from '../actions/User';
 import { getSavedCourts, getNearbyCourts } from '../actions/Court';
 import { updateLocation, locationError } from '../actions/Location';
@@ -15,6 +14,7 @@ import { Cancel } from './navButtons';
 import Account from './Account';
 import styles from './styles/main';
 import FCM from './FCM';
+import Logo from '../../assets/img/logo_orange_ball.png'
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN } from '../../config';
 
@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
       }
 
       return (
-        <View style={styles.container}>
+        <View style={styles.container} testID='Dashboard'>
 
           {// hide status bar when modal visible
           }
@@ -116,8 +116,15 @@ class Dashboard extends React.Component {
             : null
           }
           <Header
-            centerComponent={{ text: 'Local Hoops', style: { color: '#FFFFFF', fontSize: 24, fontFamily: 'RhodiumLibre-Regular' } }} // ArchitectsDaughter-Regular
-            containerStyle={styles.routeHeader}
+            centerComponent={
+              <Image
+                source={Logo}
+                style={{width: 175,height: 175}}
+                PlaceholderContent={<ActivityIndicator />}
+                placeholderStyle={{backgroundColor: 'transparent'}}
+              />
+            }
+            containerStyle={styles.dashHeader}
             rightComponent={
               <TouchableOpacity
                 onPress={() => this.setAccountModalVisible(true)}
@@ -141,7 +148,7 @@ class Dashboard extends React.Component {
 
               {// SAVED COURTS
               }
-              <View>
+              <View testID='SavedCourts'>
                 <View style={{width: deviceWidth,flexDirection: 'row',justifyContent: 'flex-start',marginTop: 15}}>
                   <Text style={styles.header}>Saved Courts</Text>
                 </View>
@@ -183,7 +190,7 @@ class Dashboard extends React.Component {
 
               {// RECENT ACTIVITY
               }
-              <View style={{height: deviceHeight*.6,alignItems: 'center'}}>
+              <View style={{height: deviceHeight*.6,alignItems: 'center'}} testID='RecentActivity'>
                 <View style={{width: deviceWidth,flexDirection: 'row',justifyContent: 'space-between'}}>
                   <Text style={styles.header}>Recent Activity</Text>
                   <Button

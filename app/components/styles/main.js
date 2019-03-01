@@ -36,7 +36,12 @@ export default StyleSheet.create({
     width: deviceWidth,
     backgroundColor: '#fff',
     borderRadius: 5,
-    // top: deviceHeight*.02
+  },
+  dashHeader: {
+    backgroundColor: '#3578E5',
+    height: deviceHeight*.2,
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   routeHeader: {
     backgroundColor: '#3578E5',
