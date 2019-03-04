@@ -6,7 +6,7 @@ import SelectCourt from './SelectCourt';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { connect } from 'react-redux';
 import { updateTempEventType, updateTempEvent, saveEvent, updateTempEventParticipants } from '../../../actions/Event';
-import styles from '../../styles/main';
+import styles from '../../../styles/main';
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config'
 import EventCard from '../EventCard';
 

@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { sendFriendRequest, removeFriend } from '../../actions/User';
 import AddFriend from './AddFriend';
 import ViewFriend from './ViewFriend';
-import { Cancel } from '../navButtons';
-import styles from '../styles/main';
+import CancelButton from '../Shared/CancelButton';
+import styles from '../../styles/main';
 
 
 class Friends extends React.Component {
@@ -118,7 +118,7 @@ class Friends extends React.Component {
                   }}/>
                 </View>
               </View>
-              <Cancel onCancel={() => this.setModalVisible(false, 'Add Friend')} />
+              <CancelButton onCancel={() => this.setModalVisible(false, 'Add Friend')} />
             </Modal>
             {/* VIEW FRIEND */}
             <Modal
@@ -138,7 +138,7 @@ class Friends extends React.Component {
                   />
                 </View>
               </View>
-              <Cancel onCancel={() => this.setModalVisible(false, 'View Friend')} />
+              <CancelButton onCancel={() => this.setModalVisible(false, 'View Friend')} />
             </Modal>
           </View>
         )

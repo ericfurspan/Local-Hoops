@@ -3,7 +3,7 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Avatar, Card, Icon } from 'react-native-elements';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
-import styles from '../styles/main';
+import styles from '../../styles/main';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
@@ -40,7 +40,7 @@ export default function EventCard(props) {
           size={40}
         />
       </View>
-      <View style={[styles.spaceBetweenRow,{marginBottom: 30}]}>
+      <View style={[styles.spaceBetweenRow,{marginBottom: 15}]}>
         <Text style={styles.text}>{props.event.type}</Text>
         <Text style={styles.text}>{props.event.date}</Text>
       </View>
@@ -58,7 +58,7 @@ export default function EventCard(props) {
           size={40}
         />
       </View>
-      <View style={[styles.spaceBetweenRow,{marginBottom: 30}]}>
+      <View style={[styles.spaceBetweenRow,{marginBottom: 15}]}>
         <View style={{flexDirection: 'row',justifyContent: 'flex-start'}}>
           {props.event.participants.map((p,i) => {
             return (

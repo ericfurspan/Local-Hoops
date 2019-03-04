@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Modal, Picker, StatusBar } from 'react-native';
 import { Avatar, Button, Badge, Header, ListItem } from 'react-native-elements';
-import { logoutRequest } from '../actions/Auth';
-import { Cancel } from './navButtons';
+import { logoutRequest } from '../../actions/Auth';
+import CancelButton from './CancelButton';
 import { connect } from 'react-redux';
 import Loading from './Loading';
-import styles from './styles/main';
-import { updateUserStatus, updateFriendRequestsReceived, updateFriendRequestsSent } from '../actions/User';
-import { createFriends, getFriends, cancelFriendRequest } from '../actions/User';
+import styles from '../../styles/main';
+import { updateUserStatus, updateFriendRequestsReceived, updateFriendRequestsSent } from '../../actions/User';
+import { createFriends, getFriends, cancelFriendRequest } from '../../actions/User';
 let userStatusTypes = [{value: 'Looking to hoop'}, {value: 'Available'}, {value: 'Unavailable'}];
 
 class Account extends React.Component {
@@ -255,6 +255,7 @@ class Account extends React.Component {
                 titleStyle={{color: 'red'}}
                 icon={{name: 'ios-log-out',type: 'ionicon',size: 30,color: 'red'}}
                 buttonStyle={{backgroundColor: 'transparent'}}
+                testID='Logout'
               />
             </View>
 
@@ -274,7 +275,7 @@ class Account extends React.Component {
                     {friendRequestsSent}
                   </ScrollView>
                 </View>
-                <Cancel onCancel={() => this.setModalVisible(null, false)} />
+                <CancelButton onCancel={() => this.setModalVisible(null, false)} />
               </View>
             </Modal>
           </ScrollView>

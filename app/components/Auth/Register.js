@@ -44,41 +44,45 @@ class Register extends React.Component {
               placeholder='Name'
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
-              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5}}
+              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5, padding: 5}}
               leftIcon={{type: 'ionicon',name: 'ios-person',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 15}}
               onChangeText={(val) => this.props.dispatch(updateRegistrationForm('name', val))}
               value={this.props.registration_form.name}
+              testID='registerNameInput'
             />
             <Input
               placeholder='Email'
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
-              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5}}
+              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5, padding: 5}}
               leftIcon={{type: 'ionicon',name: 'ios-mail',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 15}}
               onChangeText={(val) => this.props.dispatch(updateRegistrationForm('email', val))}
               value={this.props.registration_form.email}
+              testID='registerEmailInput'
             />
             <Input
               placeholder='Password'
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
               secureTextEntry
-              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5}}
+              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5, padding: 5}}
               leftIcon={{type: 'ionicon',name: 'ios-lock',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 20}}
               onChangeText={(val) => this.props.dispatch(updateRegistrationForm('password', val))}
+              testID='registerPasswordInput'
             />
             <Input
               placeholder='Confirm Password'
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
               secureTextEntry
-              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5}}
+              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5, padding: 5}}
               leftIcon={{type: 'ionicon',name: 'ios-lock',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 20}}
               onChangeText={(val) => this.props.dispatch(updateRegistrationForm('passwordConfirm', val))}
+              testID='registerConfirmPwInput'
             />
             <Button
               title='Sign Up'
@@ -88,6 +92,7 @@ class Register extends React.Component {
               raised
               type='outline'
               onPress={() => this.triggerNewUserEmailPW()}
+              testID='trySignup'
             />
           </View>
         </View>

@@ -4,7 +4,7 @@ import { Input, Button } from 'react-native-elements';
 import { displayError } from '../../actions/Misc';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import styles from '../styles/main';
+import styles from '../../styles/main';
 
 class ForgotPassword extends React.Component {
     state = {
@@ -41,7 +41,7 @@ class ForgotPassword extends React.Component {
                 placeholder='Email Address'
                 placeholderTextColor='#bbb'
                 inputStyle={{color: '#333'}}
-                inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center'}}
+                inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center', padding: 5}}
                 leftIcon={{type: 'ionicon',name: 'ios-mail',color: '#333',size: 24}}
                 leftIconContainerStyle={{marginRight: 15}}
                 value={this.props.login_form.email}

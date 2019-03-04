@@ -1,14 +1,14 @@
 import React from 'react';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Provider } from 'react-redux'
-import Dashboard from './components/Dashboard';
-import Explore from './components/Explore';
+import Dashboard from './components/Screens/Dashboard';
+import Explore from './components/Screens/Explore';
 // import FCM from './components/FCM';
-import Friends from './components/Friends/Friends';
-import AuthLoading from './components/Auth/AuthLoading';
+import Social from './components/Screens/Social';
+import AuthLoading from './components/Auth/Loading';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
-import AuthLanding from './components/Auth/AuthLanding';
+import AuthLanding from './components/Auth/Landing';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import store from './store';
 
@@ -26,7 +26,7 @@ const AppStack = createBottomTabNavigator({
   Dashboard: { screen: Dashboard },
   Explore: { screen: Explore },
   // FCM: { screen: FCM }, // uncomment for REV 2
-  Friends: { screen: Friends }
+  Social: { screen: Social }
 },
 {
   navigationOptions: ({ navigation }) => ({
@@ -40,13 +40,13 @@ const AppStack = createBottomTabNavigator({
         iconName = 'ios-compass';
       } else if (routeName === 'Chat') {
         iconName = 'md-chatboxes'
-      } else if (routeName === 'Friends') {
+      } else if (routeName === 'Social') {
         iconName = 'ios-people'
       }
       if(focused) {
         iconColor = '#EF8333'
       }
-      return <IonIcon name={iconName} size={30} color={iconColor}/>
+      return <IonIcon name={iconName} size={30} color={iconColor} testID={`${routeName}Button`}/>
     },
   }),
   tabBarOptions: {

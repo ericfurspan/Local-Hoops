@@ -7,9 +7,9 @@ export const LOGOUT = 'LOGOUT';
 export const logout = () => ({
   type: LOGOUT
 });
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const loginRequest = () => ({
-  type: LOGIN_REQUEST
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const authRequest = () => ({
+  type: AUTH_REQUEST
 });
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const loginSuccess = (user) => ({
@@ -44,7 +44,7 @@ export const updateRegistrationForm = (field, value) => ({
 
 export const CreateUserWithEmailPw = (name, email, password) => async (dispatch) => {
   try {
-
+    dispatch(authRequest());
     dispatch(newUserRequest());
 
     // create user in firebase
@@ -72,9 +72,11 @@ export const CreateUserWithEmailPw = (name, email, password) => async (dispatch)
 export const EmailPwLogin = (email, password) => async (dispatch) => {
   try {
 
-    dispatch(loginRequest());
+    dispatch(authRequest());
 
-    return await firebase.auth().signInWithEmailAndPassword(email, password);
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+
+    return dispatch(loginSuccess());
   }
   catch(e) {
     let errorMessage = e.message;
@@ -97,7 +99,8 @@ export const EmailPwLogin = (email, password) => async (dispatch) => {
 
 // Facebook Login
 export const FacebookLogin = () => (dispatch) => {
-  dispatch(loginRequest());
+  dispatch(authRequest());
+
   LoginManager.logInWithReadPermissions(['public_profile', 'email'])
     .then((result) => {
       if(result.isCancelled) {
@@ -132,7 +135,7 @@ export const FacebookLogin = () => (dispatch) => {
 
 // Google Login
 export const GoogleLogin = () => (dispatch) => {
-  dispatch(loginRequest());
+  dispatch(authRequest());
 
   GoogleSignin.configure();
 
@@ -143,9 +146,10 @@ export const GoogleLogin = () => (dispatch) => {
       // login with credential
       return firebase.auth().signInWithCredential(credential);
     })
-    .then(currentUser => {
+    .then(async currentUser => {
       if(currentUser.additionalUserInfo.isNewUser) {
-        return dispatch(createUserDoc(currentUser)) // this should create a user object in firestore
+        await dispatch(createUserDoc(currentUser)) // this should create a user object in firestore
+        return dispatch(newUserSuccess());
       }
       return currentUser
     })

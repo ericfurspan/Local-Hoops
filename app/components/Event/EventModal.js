@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Modal, AlertIOS } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { Cancel } from '../navButtons';
+import CancelButton from '../Shared/CancelButton';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import EventCard from './EventCard';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
-import styles from '../styles/main';
+import styles from '../../styles/main';
 import { deleteEvent } from '../../actions/Event';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
@@ -53,7 +53,7 @@ class EventModal extends React.Component {
                           />
                         </View>}
             </View>
-            <Cancel onCancel={() => this.props.setModalVisible(false)} />
+            <CancelButton onCancel={() => this.props.setModalVisible(false)} />
           </View>
         </Modal>
       )

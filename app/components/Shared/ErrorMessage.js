@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, AlertIOS } from 'react-native';
-import { clearError } from '../actions/Misc';
+import { clearError } from '../../actions/Misc';
 import { connect } from 'react-redux';
-import styles from './styles/main';
+import styles from '../../styles/main';
 
 class ErrorMessage extends React.Component {
 

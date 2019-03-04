@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 import { Button, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
-import Loading from '../Loading';
-import ErrorMessage from '../ErrorMessage';
-import styles from '../styles/main';
+import Loading from '../Shared/Loading';
+import ErrorMessage from '../Shared/ErrorMessage';
+import styles from '../../styles/main';
 import Logo from '../../../assets/img/logo_orange_ball.png'
 
 class AuthLanding extends React.Component {
@@ -24,6 +24,7 @@ class AuthLanding extends React.Component {
           PlaceholderContent={<ActivityIndicator />}
           placeholderStyle={{backgroundColor: 'transparent'}}
         />
+        <Text style={[styles.whiteText,{marginBottom: 50,fontWeight: 'bold',fontSize: 16}]}>Find basketball courts, anywhere</Text>
         <Button
           title='LOGIN'
           titleStyle={{color: '#3578E5',fontWeight: '500'}}

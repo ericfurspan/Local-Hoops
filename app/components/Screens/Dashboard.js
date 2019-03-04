@@ -2,21 +2,21 @@ import React from 'react';
 import { View, Modal, Dimensions, ScrollView, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
 import { Button, Header, ButtonGroup, Text, Divider, Badge, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
-import Loading from './Loading';
-import Events from './Event/Events';
-import EventForm from './Event/CreateEvent/EventForm';
+import Loading from '../Shared/Loading';
+import Events from '../Event/Events';
+import EventForm from '../Event/CreateEvent/EventForm';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { getFriends, getFriendRequestsReceived, getFriendRequestsSent } from '../actions/User';
-import { getSavedCourts, getNearbyCourts } from '../actions/Court';
-import { updateLocation, locationError } from '../actions/Location';
-import ErrorMessage from './ErrorMessage';
-import { Cancel } from './navButtons';
-import Account from './Account';
-import styles from './styles/main';
-import FCM from './FCM';
-import Logo from '../../assets/img/logo_orange_ball.png'
+import { getFriends, getFriendRequestsReceived, getFriendRequestsSent } from '../../actions/User';
+import { getSavedCourts, getNearbyCourts } from '../../actions/Court';
+import { updateLocation } from '../../actions/Location';
+import ErrorMessage from '../Shared/ErrorMessage';
+import CancelButton from '../Shared/CancelButton';
+import Account from '../Shared/Account';
+import styles from '../../styles/main';
+import FCM from '../Messaging/FCM';
+import Logo from '../../../assets/img/logo_orange_ball.png';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import { MAPBOX_ACCESS_TOKEN } from '../../config';
+import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 let deviceWidth = Dimensions.get('window').width;
@@ -65,9 +65,8 @@ class Dashboard extends React.Component {
     navigator.geolocation.getCurrentPosition(position => {
       this.props.dispatch(updateLocation(position.coords, true));
       this.props.dispatch(getNearbyCourts(position.coords,15000));
-    }, err => {
+    }, () => {
       this.props.dispatch(updateLocation(null, false));
-      this.props.dispatch(locationError(err.message));
     }),
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000};
 
@@ -93,14 +92,11 @@ class Dashboard extends React.Component {
       return <ErrorMessage message={this.props.error}/>
     }
 
-
-
     const eventViewBtns = ['Timeline', 'List'];
 
     if(this.props.currentUser) {
 
       // account notification badge
-      // currently only checks for friendRequestsReceived
       let accountNotificationBadge;
       if(this.props.currentUser.friendRequestsReceived && this.props.currentUser.friendRequestsReceived.length > 0) {
         accountNotificationBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />
@@ -119,7 +115,7 @@ class Dashboard extends React.Component {
             centerComponent={
               <Image
                 source={Logo}
-                style={{width: 175,height: 175}}
+                style={{width: 150,height: deviceHeight*.25}}
                 PlaceholderContent={<ActivityIndicator />}
                 placeholderStyle={{backgroundColor: 'transparent'}}
               />
@@ -129,6 +125,7 @@ class Dashboard extends React.Component {
               <TouchableOpacity
                 onPress={() => this.setAccountModalVisible(true)}
                 style={{flexDirection: 'row'}}
+                testID='AccountButton'
               >
                 <IonIcon
                   name='ios-contact'
@@ -200,6 +197,7 @@ class Dashboard extends React.Component {
                     buttonStyle={{backgroundColor: 'transparent'}}
                     containerStyle={{marginRight: 10}}
                     titleStyle={{color: '#3578E5',fontSize: 16,fontWeight: '500'}}
+                    testID='newEvent'
                   />
                 </View>
 
@@ -212,7 +210,7 @@ class Dashboard extends React.Component {
                     <View style={styles.modalContent}>
                       <EventForm onClose={() => this.setEventFormModalVisible(false)} currentUser={this.props.currentUser}/>
                     </View>
-                    <Cancel onCancel={() => this.setEventFormModalVisible(false)} title="Cancel"/>
+                    <CancelButton onCancel={() => this.setEventFormModalVisible(false)} title="Cancel"/>
                   </View>
                 </Modal>
 
@@ -226,7 +224,7 @@ class Dashboard extends React.Component {
                     <View style={styles.modalContent}>
                       <Account />
                     </View>
-                    <Cancel onCancel={() => this.setAccountModalVisible(false)} title="Cancel"/>
+                    <CancelButton onCancel={() => this.setAccountModalVisible(false)} title="Cancel"/>
                   </View>
                 </Modal>
 

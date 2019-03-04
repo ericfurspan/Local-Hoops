@@ -1,19 +1,19 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, FlatList, Modal, Linking, Dimensions, ActivityIndicator, AlertIOS } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import { findLocationByQuery } from '../api-calls/googleplaces';
+import { findLocationByQuery } from '../../api-calls/googleplaces';
 import { Card, Button, ListItem, SearchBar, Icon, Input, Divider, Image } from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { Cancel } from './navButtons';
-import { updateLocation } from '../actions/Location';
-import { addCourt, trySaveCourt, unSaveCourt, getNearbyCourts } from '../actions/Court';
-import { setPreferredMapType } from '../actions/User';
-import { MAPBOX_ACCESS_TOKEN } from '../../config';
+import CancelButton from '../Shared/CancelButton';
+import { updateLocation } from '../../actions/Location';
+import { addCourt, trySaveCourt, unSaveCourt, getNearbyCourts } from '../../actions/Court';
+import { setPreferredMapType } from '../../actions/User';
+import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 import { connect } from 'react-redux';
-import LightMapLogo from '../../assets/mapStyles/light.png'
-import DarkMapLogo from '../../assets/mapStyles/dark.png'
-import StreetMapLogo from '../../assets/mapStyles/street.png'
-import styles from './styles/main';
+import LightMapLogo from '../../../assets/mapStyles/light.png'
+import DarkMapLogo from '../../../assets/mapStyles/dark.png'
+import StreetMapLogo from '../../../assets/mapStyles/street.png'
+import styles from '../../styles/main';
 
 let deviceHeight= Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -61,7 +61,7 @@ class Explore extends React.Component {
       let newCoords = this.props.location;
 
       // if lat or long has changed, update map center
-      if( (prevCoords.latitude !== newCoords.latitude) || (prevCoords.longitude !== newCoords.longitude) ) {
+      if( (prevCoords && newCoords) && ( (prevCoords.latitude !== newCoords.latitude) || (prevCoords.longitude !== newCoords.longitude)) ) {
         this.updateMapCenter(newCoords, true)
       }
 
@@ -317,7 +317,7 @@ class Explore extends React.Component {
 
       let header =
             <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'center',backgroundColor: '#3578E5',paddingTop: 40}}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Dashboard')}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('Dashboard')} testID='exitExplore'>
                 <IonIcon name='ios-undo' size={30} color='white'/>
               </TouchableOpacity>
               <SearchBar
@@ -329,7 +329,7 @@ class Explore extends React.Component {
                 placeholder='Search'
                 value={this.state.search}
               />
-              <TouchableOpacity onPress={() => this.toggleView(this.state.viewMode === 'map' ? 'list' : 'map')}>
+              <TouchableOpacity onPress={() => this.toggleView(this.state.viewMode === 'map' ? 'list' : 'map')} testID='toggleExploreViewMode'>
                 <IonIcon name={this.state.viewMode === 'map' ? 'ios-menu' : 'ios-map'} size={30} color='white'/>
               </TouchableOpacity>
             </View>
@@ -356,14 +356,14 @@ class Explore extends React.Component {
                     />
                   </Card>
                 </View>
-                <Cancel onCancel={() => this.setModalVisible(!this.state.modalVisible)} />
+                <CancelButton onCancel={() => this.setModalVisible(!this.state.modalVisible)} />
               </View>
             </Modal>
 
       // LIST VIEW of nearby courts
       if(this.state.viewMode === 'list') {
         return (
-          <View style={[styles.container]}>
+          <View style={[styles.container]} testID='ExploreListContainer'>
             {modal}
             {header}
             {loadingIndicator}
@@ -497,7 +497,7 @@ class Explore extends React.Component {
         }
 
         return (
-          <View style={[styles.container]}>
+          <View style={[styles.container]} testID='ExploreMapContainer'>
             {modal}
             {header}
             {addCourtForm}
@@ -549,27 +549,11 @@ class Explore extends React.Component {
                   onPress={() => this.updateUserLocation()}>
                   <Icon
                     name='gps-fixed'
-                    color={this.props.locationError ? 'red' : '#3578E5'}
+                    color={this.props.location ? '#3578E5' : 'red'}
                     size={30}
                   />
                 </TouchableOpacity>
               </View>
-              {/*
-                            <View style={{
-                                flex: 1,
-                                flexDirection: 'column',
-                                alignItems: 'flex-end',
-                                justifyContent: 'flex-end',
-                                marginBottom:100,
-                                marginRight: 5,
-                            }}>
-                                { this.props.locationError ?
-                                    <Text style={{zIndex:1000,alignSelf:'center',fontWeight:'bold',position:'absolute',bottom:0,color:'red'}}>{this.props.locationError}</Text>
-                                    : null
-                                }
-                            </View>
-                        */}
-
               <View style={{zIndex: 1000}}>
                 {this.state.optionsMenuVisible ?
                   (<View style={{
@@ -747,7 +731,6 @@ const mapStateToProps = (state) => ({
   location: state.location,
   error: state.error,
   currentUser: state.currentUser,
-  locationError: state.locationError,
   mapLoading: state.mapLoading,
 })
 

@@ -1,10 +1,11 @@
 
 // AUTH
 import {
-  LOGIN_REQUEST,
+  AUTH_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   LOGOUT,
+  NEW_USER_SUCCESS,
   UPDATE_LOGIN_FORM,
   UPDATE_REGISTRATION_FORM
 } from './actions/Auth';
@@ -88,7 +89,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
 
-  if (action.type === LOGIN_REQUEST) {
+  if (action.type === AUTH_REQUEST) {
     return Object.assign({}, state, {
       error: null,
       authLoading: true
@@ -103,6 +104,10 @@ const reducer = (state = initialState, action) => {
   } else if (action.type === LOGIN_ERROR) {
     return Object.assign({}, state, {
       error: action.message,
+      authLoading: false
+    });
+  } else if (action.type === NEW_USER_SUCCESS) {
+    return Object.assign({}, state, {
       authLoading: false
     });
   } else if (action.type === LOGOUT) {
@@ -279,7 +284,6 @@ const reducer = (state = initialState, action) => {
   } else if (action.type === UPDATE_LOCATION) {
     return Object.assign({}, state, {
       location: action.location,
-      locationError: null,
       locationEnabled: action.locationEnabled
     });
   } else if (action.type === UPDATE_FRIENDS) {

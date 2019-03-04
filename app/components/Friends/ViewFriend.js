@@ -5,7 +5,7 @@ import firebase from 'react-native-firebase';
 import { sortByDateDesc } from '../../../assets/helper';
 import BallIcon from '../../../assets/img/nyk.png';
 import Timeline from 'react-native-timeline-listview';
-import styles from '../styles/main';
+import styles from '../../styles/main';
 import EventModal from '../Event/EventModal';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 import Mapbox from '@mapbox/react-native-mapbox-gl';

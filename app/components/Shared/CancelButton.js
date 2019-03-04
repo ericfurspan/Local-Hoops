@@ -2,12 +2,13 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-class Cancel extends React.Component {
+class CancelButton extends React.Component {
 
   render() {
     return (
       <View style={styles.bottomCenter}>
         <TouchableOpacity
+          testID='cancelButton'
           onPress={() => this.props.onCancel()}>
           <IonIcon name='ios-close-circle-outline' size={40} color='#fff'/>
         </TouchableOpacity>
@@ -27,5 +28,5 @@ const styles = StyleSheet.create({
   }
 })
 
-export { Cancel };
+export default CancelButton;
 

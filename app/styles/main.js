@@ -40,7 +40,6 @@ export default StyleSheet.create({
   dashHeader: {
     backgroundColor: '#3578E5',
     height: deviceHeight*.2,
-    justifyContent: 'space-around',
     alignItems: 'center',
   },
   routeHeader: {

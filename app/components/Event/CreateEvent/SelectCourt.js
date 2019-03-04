@@ -4,8 +4,8 @@ import { ListItem, Header, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { Cancel } from '../../navButtons';
-import styles from '../../styles/main';
+import CancelButton from '../../Shared/CancelButton';
+import styles from '../../../styles/main';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN } from '../../../../config';
 
@@ -149,7 +149,7 @@ class SelectCourt extends React.Component {
                 ))}
               </ScrollView>
             </View>
-            <Cancel onCancel={() => this.setModalVisible(false, 'favorites')} />
+            <CancelButton onCancel={() => this.setModalVisible(false, 'favorites')} />
           </Modal>
           {// NEARBY COURTS
           }
@@ -193,7 +193,7 @@ class SelectCourt extends React.Component {
                 ))}
               </ScrollView>
             </View>
-            <Cancel onCancel={() => this.setModalVisible(false, 'nearby')} />
+            <CancelButton onCancel={() => this.setModalVisible(false, 'nearby')} />
           </Modal>
         </ScrollView>
       )

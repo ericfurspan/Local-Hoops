@@ -3,7 +3,7 @@ import { View, AlertIOS } from 'react-native';
 import { SearchBar, ListItem, Header } from 'react-native-elements';
 import firebase from 'react-native-firebase'
 import { connect } from 'react-redux';
-import styles from '../styles/main';
+import styles from '../../styles/main';
 
 class AddFriend extends React.Component {
     state = {

@@ -3,7 +3,8 @@ import { View, Text } from 'react-native';
 import { SocialIcon, Input, Button } from 'react-native-elements';
 import { GoogleLogin, FacebookLogin, EmailPwLogin, updateLoginForm } from '../../actions/Auth'
 import { connect } from 'react-redux';
-import styles from '../styles/main';
+import Loading from '../Shared/Loading';
+import styles from '../../styles/main';
 import ForgotPassword from './ForgotPassword';
 
 class Login extends React.Component {
@@ -31,7 +32,12 @@ class Login extends React.Component {
         return (
           <ForgotPassword login_form={this.props.login_form} toggleResetForm={this.toggleResetForm}/>
         )
+      } else if (this.props.authLoading) {
+        return (
+          <Loading indicator={true}/>
+        )
       }
+
       return (
         <View style={{paddingTop: 30,backgroundColor: '#3578E5',flex: 1}}>
           <View style={{flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center'}}>
@@ -51,7 +57,7 @@ class Login extends React.Component {
               placeholder='Email'
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
-              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center'}}
+              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center', padding: 5}}
               leftIcon={{type: 'ionicon',name: 'ios-mail',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 15}}
               onChangeText={(value) => this.props.dispatch(updateLoginForm('email', value))}
@@ -63,7 +69,7 @@ class Login extends React.Component {
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
               secureTextEntry
-              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center'}}
+              inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center', padding: 5}}
               leftIcon={{type: 'ionicon',name: 'ios-lock',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 20}}
               onChangeText={(value) => this.props.dispatch(updateLoginForm('password', value))}

@@ -10,7 +10,6 @@ import EventModal from './EventModal';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 import { sortByDateDesc } from '../../../assets/helper';
 import BallIcon from '../../../assets/img/nyk.png';
-// import styles from '../styles/main';
 import { updateEvents } from '../../actions/Event';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
