@@ -19,7 +19,7 @@ Find basketball courts anywhere. Coming soon to the iOS App Store.
 * **Social** add friends, tag friends in events
 
 ## Test framework
-* End to end tests configured with [Detox](https://github.com/wix/Detox) and [Mocha](https://github.com/mochajs/mocha)
+* End to end tests with [Detox](https://github.com/wix/Detox) and [Jest](https://jestjs.io/)
 
 ## Authors
 
