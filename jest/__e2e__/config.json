@@ -1,0 +1,6 @@
+{
+  "setupFilesAfterEnv" : ["./init.test.js"],
+  "testEnvironment": "node",
+  "forceExit": true,
+  "bail": true
+}
