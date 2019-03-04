@@ -8597,13 +8597,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		000000020000 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		000000020210 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -16140,24 +16133,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		00000001FFE0 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0000000200A0 /* Utils.h in Headers */,
-				0000000200B0 /* YGConfig.h in Headers */,
-				0000000200C0 /* YGEnums.h in Headers */,
-				0000000200D0 /* YGFloatOptional.h in Headers */,
-				0000000200E0 /* YGLayout.h in Headers */,
-				0000000200F0 /* YGMacros.h in Headers */,
-				000000020100 /* YGNode.h in Headers */,
-				000000020110 /* YGNodePrint.h in Headers */,
-				000000020120 /* YGStyle.h in Headers */,
-				000000020130 /* Yoga-internal.h in Headers */,
-				000000020140 /* Yoga.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0000000201F0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -16687,23 +16662,6 @@
 			productReference = 00000001F7E0 /* libreact-native-mapbox-gl.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		00000001FF90 /* yoga */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 00000001FFA0 /* Build configuration list for PBXNativeTarget "yoga" */;
-			buildPhases = (
-				00000001FFE0 /* Headers */,
-				00000001FFF0 /* Sources */,
-				000000020000 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = yoga;
-			productName = yoga;
-			productReference = 00000001FFD0 /* libyoga.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		0000000201A0 /* Pods-LocalBall */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0000000201B0 /* Build configuration list for PBXNativeTarget "Pods-LocalBall" */;
@@ -16800,7 +16758,6 @@
 				000000017950 /* RNGestureHandler */,
 				000000017C20 /* RNGoogleSignin */,
 				000000017D60 /* RNVectorIcons */,
-				00000001FF90 /* yoga */,
 			);
 		};
 /* End PBXProject section */
@@ -18538,23 +18495,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		00000001FFF0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				000000020010 /* Utils.cpp in Sources */,
-				000000020020 /* YGConfig.cpp in Sources */,
-				000000020030 /* YGEnums.cpp in Sources */,
-				000000020040 /* YGFloatOptional.cpp in Sources */,
-				000000020050 /* YGLayout.cpp in Sources */,
-				000000020060 /* YGNode.cpp in Sources */,
-				000000020070 /* YGNodePrint.cpp in Sources */,
-				000000020080 /* YGStyle.cpp in Sources */,
-				000000020190 /* yoga-dummy.m in Sources */,
-				000000020090 /* Yoga.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		000000020200 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -18988,7 +18928,6 @@
 		000000020D10 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = yoga;
-			target = 00000001FF90 /* yoga */;
 			targetProxy = 000000020D00 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -20809,15 +20748,6 @@
 			buildConfigurations = (
 				00000001F7D0 /* Debug */,
 				00000001F7C0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		00000001FFA0 /* Build configuration list for PBXNativeTarget "yoga" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				00000001FFC0 /* Debug */,
-				00000001FFB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

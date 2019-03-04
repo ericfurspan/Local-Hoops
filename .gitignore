@@ -1,5 +1,5 @@
 # VSCode
-.VSCode
+.vscode
 
 # Config
 config.js
@@ -62,3 +62,6 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+
+# TESTING
+.cache

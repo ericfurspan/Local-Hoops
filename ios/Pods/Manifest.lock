@@ -220,15 +220,15 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNFirebase (5.2.2):
+  - RNFirebase (5.2.3):
     - Firebase/Core
     - React
-  - RNGestureHandler (1.0.15):
+  - RNGestureHandler (1.0.17):
     - React
-  - RNGoogleSignin (1.1.0):
+  - RNGoogleSignin (1.2.1):
     - GoogleSignIn
     - React
-  - RNVectorIcons (6.2.0):
+  - RNVectorIcons (6.3.0):
     - React
   - yoga (0.57.8.React)
 
@@ -367,6 +367,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: f298a78c33ff22e530c08436ce3e8a231d7f929b
+PODFILE CHECKSUM: 0448f53440fc53768ccde4124522114fce7f7c42
 
 COCOAPODS: 1.5.3

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		0407927BC7AC480BAD39375D /* 180x180.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 928F32D832934C528C90FE56 /* 180x180.jpg */; };
 		099FF10390D84EE7A47BD66D /* 80x80.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 90FB7E58BDB048FC925D740B /* 80x80.jpg */; };
@@ -13,7 +14,9 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		14A026E47DD1E812CE85920C /* libPods-LocalBall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7B0BE1A38DB5FCD06AFBCBA /* libPods-LocalBall.a */; };
+		1E3C5030F6F841CD93965566 /* logo_orange_ball_trans_hoop.png in Resources */ = {isa = PBXBuildFile; fileRef = 83115830E367439882E6A344 /* logo_orange_ball_trans_hoop.png */; };
 		1E9C81964F75499E84892B17 /* 87x87.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7AC55AAA2569487491814334 /* 87x87.jpg */; };
+		3458800B380C4C19B4877BE0 /* logo_original.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ABE822FB75A4E2187C9F81D /* logo_original.png */; };
 		4CAB6BD1FB614022BE9F08AE /* RhodiumLibre-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D946E5229F404065B804BCB9 /* RhodiumLibre-Regular.ttf */; };
 		551A5ADD43B14D39BF0B6008 /* nyk.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6E6EE570A00F4F42B9B14D00 /* nyk.gif */; };
 		56A541D908524CBCAFF98FD7 /* 120x120.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC80B4C007174FF78AD31221 /* 120x120.jpg */; };
@@ -43,15 +46,13 @@
 		90DC322721DE9D5800FA1BAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DC322621DE9D5800FA1BAA /* Foundation.framework */; };
 		90DC322921DE9D9900FA1BAA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DC322821DE9D9900FA1BAA /* UIKit.framework */; };
 		90EDF39521DFDE6200AE35D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90EDF39421DFDE6200AE35D9 /* GoogleService-Info.plist */; };
+		91CFBBC7C57C4A17B4C0CDB0 /* logo_orange_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = B6BC0407F0F74C838DFD9B90 /* logo_orange_ball.png */; };
 		B69F2CE88640435C931040B2 /* Play-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2522BAEB5EB42CBBDD19E76 /* Play-Bold.ttf */; };
 		BA1DA2CC7ECF480D823457A9 /* Lobster-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8868290EA7524B54A01095DA /* Lobster-Regular.ttf */; };
 		C9D64425ED8C406A89E6DCA2 /* FasterOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D5B87FB8AF949348BC7D659 /* FasterOne-Regular.ttf */; };
 		D954772ACB7047A99CA29F9A /* Graduate-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 931851ABCDBB4843A5200936 /* Graduate-Regular.ttf */; };
 		EB2BB3519C114B45B37F4FA3 /* ArchitectsDaughter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B08C3504FF0542D5BF654B44 /* ArchitectsDaughter-Regular.ttf */; };
 		F8DB8116C8774F15944ADF5C /* appStoreIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 24A3DC46681E4E3B99392CCC /* appStoreIcon.jpg */; };
-		91CFBBC7C57C4A17B4C0CDB0 /* logo_orange_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = B6BC0407F0F74C838DFD9B90 /* logo_orange_ball.png */; };
-		3458800B380C4C19B4877BE0 /* logo_original.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ABE822FB75A4E2187C9F81D /* logo_original.png */; };
-		1E3C5030F6F841CD93965566 /* logo_orange_ball_trans_hoop.png in Resources */ = {isa = PBXBuildFile; fileRef = 83115830E367439882E6A344 /* logo_orange_ball_trans_hoop.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -334,6 +335,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		24A3DC46681E4E3B99392CCC /* appStoreIcon.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = appStoreIcon.jpg; path = ../assets/appIcons/appStoreIcon.jpg; sourceTree = "<group>"; };
 		405ADD25D6D2D5883278CB65 /* Pods-LocalBall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalBall.release.xcconfig"; path = "Pods/Target Support Files/Pods-LocalBall/Pods-LocalBall.release.xcconfig"; sourceTree = "<group>"; };
+		4ABE822FB75A4E2187C9F81D /* logo_original.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo_original.png; path = ../assets/img/logo_original.png; sourceTree = "<group>"; };
 		5632F1724A9C4CFD91F23A5C /* 58x58.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 58x58.jpg; path = ../assets/appIcons/58x58.jpg; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6E2E057D080844459931B692 /* Kodchasan-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Kodchasan-Regular.ttf"; path = "../assets/fonts/Kodchasan-Regular.ttf"; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7AC55AAA2569487491814334 /* 87x87.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 87x87.jpg; path = ../assets/appIcons/87x87.jpg; sourceTree = "<group>"; };
 		80762911E29941C2AB844E34 /* Bangers-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Bangers-Regular.ttf"; path = "../assets/fonts/Bangers-Regular.ttf"; sourceTree = "<group>"; };
+		83115830E367439882E6A344 /* logo_orange_ball_trans_hoop.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo_orange_ball_trans_hoop.png; path = ../assets/img/logo_orange_ball_trans_hoop.png; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		85886574E8FF4FA6A0B098C4 /* nyk.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nyk.png; path = ../assets/img/nyk.png; sourceTree = "<group>"; };
 		8868290EA7524B54A01095DA /* Lobster-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lobster-Regular.ttf"; path = "../assets/fonts/Lobster-Regular.ttf"; sourceTree = "<group>"; };
@@ -364,13 +367,11 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AE49555FF87B443C921B0ED5 /* Play-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Play-Regular.ttf"; path = "../assets/fonts/Play-Regular.ttf"; sourceTree = "<group>"; };
 		B08C3504FF0542D5BF654B44 /* ArchitectsDaughter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "ArchitectsDaughter-Regular.ttf"; path = "../assets/fonts/ArchitectsDaughter-Regular.ttf"; sourceTree = "<group>"; };
+		B6BC0407F0F74C838DFD9B90 /* logo_orange_ball.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo_orange_ball.png; path = ../assets/img/logo_orange_ball.png; sourceTree = "<group>"; };
 		D7B0BE1A38DB5FCD06AFBCBA /* libPods-LocalBall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LocalBall.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D946E5229F404065B804BCB9 /* RhodiumLibre-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RhodiumLibre-Regular.ttf"; path = "../assets/fonts/RhodiumLibre-Regular.ttf"; sourceTree = "<group>"; };
 		E98C6F68DA7E4FEB8AF6C1E5 /* 60x60.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 60x60.jpg; path = ../assets/appIcons/60x60.jpg; sourceTree = "<group>"; };
 		EC80B4C007174FF78AD31221 /* 120x120.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 120x120.jpg; path = ../assets/appIcons/120x120.jpg; sourceTree = "<group>"; };
-		B6BC0407F0F74C838DFD9B90 /* logo_orange_ball.png */ = {isa = PBXFileReference; name = "logo_orange_ball.png"; path = "../assets/img/logo_orange_ball.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4ABE822FB75A4E2187C9F81D /* logo_original.png */ = {isa = PBXFileReference; name = "logo_original.png"; path = "../assets/img/logo_original.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		83115830E367439882E6A344 /* logo_orange_ball_trans_hoop.png */ = {isa = PBXFileReference; name = "logo_orange_ball_trans_hoop.png"; path = "../assets/img/logo_orange_ball_trans_hoop.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1224,11 +1225,17 @@
 				DEVELOPMENT_TEAM = 575V4Z784C;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/jet/ios",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/LocalBall/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/LocalBall\"",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1255,11 +1262,17 @@
 				DEVELOPMENT_TEAM = 575V4Z784C;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/jet/ios",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/LocalBall/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/LocalBall\"",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

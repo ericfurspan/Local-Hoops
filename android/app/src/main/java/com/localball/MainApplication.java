@@ -3,6 +3,7 @@ package com.localball;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.jet.JetPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new JetPackage(),
             new VectorIconsPackage(),
             new RNGoogleSigninPackage(),
             new RNGestureHandlerPackage(),
