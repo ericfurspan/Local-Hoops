@@ -14,13 +14,6 @@ export const sanityTests = () => {
     await element(by.id('exitExplore')).tap();
   });
 
-  it('Should render Social screen', async () => {
-    await UIExpect(element(by.id('SocialButton')).atIndex(0)).toBeVisible();
-    await element(by.id('SocialButton')).atIndex(0).tap();
-    await UIExpect(element(by.id('SocialContainer'))).toExist();
-    await UIExpect(element(by.id('DashboardButton')).atIndex(0)).toExist();
-    await element(by.id('DashboardButton')).atIndex(0).tap();
-  });
 
   /*
   it('Create a new event', async () => {

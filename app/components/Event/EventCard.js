@@ -61,6 +61,7 @@ export default function EventCard(props) {
       <View style={[styles.spaceBetweenRow,{marginBottom: 15}]}>
         <View style={{flexDirection: 'row',justifyContent: 'flex-start'}}>
           {props.event.participants.map((p,i) => {
+            console.log(p)
             return (
               <Avatar
                 size='small'

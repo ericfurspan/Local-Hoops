@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Modal, ScrollView, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Modal, StatusBar, TouchableOpacity } from 'react-native';
 import { ListItem, SearchBar, Header } from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
@@ -11,8 +11,9 @@ import styles from '../../styles/main';
 
 
 class Friends extends React.Component {
-
-    state = {
+  constructor(props) {
+    super(props);
+    this.state = {
       friends: [],
       filter: false,
       search: '',
@@ -20,8 +21,14 @@ class Friends extends React.Component {
       showViewFriendModal: false,
       selectedFriend: null
     }
+  }
+
     updateSearch = search => {
-      this.setState({search})
+      let filter = true;
+      if(search.length <= 0) {
+        filter = false;
+      }
+      this.setState({search, filter})
       this.filterFriends(search)
     }
     setModalVisible = (visible, type) => {
@@ -43,8 +50,7 @@ class Friends extends React.Component {
           return f.displayName.includes(input);
         })
         this.setState({
-          friends,
-          filter: true
+          friends
         })
       }
     }
@@ -56,22 +62,10 @@ class Friends extends React.Component {
     }
     render() {
       if(this.props.currentUser) {
-
-        let friendList;
+        let friends = [];
+        console.log(this.props.friends)
         if(this.props.friends && this.props.friends.length > 0) {
-          let friends = this.state.filter ? this.state.friends : this.props.friends;
-          friendList =
-                    friends.map((friend) => (
-                      <ListItem
-                        containerStyle={{width: 300}}
-                        onPress={() => this.handleViewFriend(friend.uid)}
-                        leftAvatar={{rounded: true, source: {uri: friend.photoURL} }}
-                        key={friend.uid}
-                        title={friend.displayName}
-                        subtitle={friend.email}
-                        bottomDivider
-                      />
-                    ))
+          friends = this.state.filter ? this.state.friends : this.props.friends;
         }
         return (
           <View style={styles.centeredContainer}>
@@ -98,15 +92,23 @@ class Friends extends React.Component {
             {/* FRIENDS */}
             <SearchBar
               lightTheme
-              containerStyle={{width: 300,marginBottom: 5,backgroundColor: 'transparent',borderBottomColor: 'transparent',borderTopColor: 'transparent'}}
+              containerStyle={{width: 300,marginBottom: 10, marginTop: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
               inputStyle={{color: '#333'}}
               onChangeText={this.updateSearch}
               placeholder='Filter by Name...'
               value={this.state.search}
             />
-            <ScrollView>
-              {friendList}
-            </ScrollView>
+            {friends.map((friend) => (
+              <ListItem
+                containerStyle={{width: 300}}
+                onPress={() => this.handleViewFriend(friend.uid)}
+                leftAvatar={{rounded: true, source: {uri: friend.photoURL} }}
+                key={friend.uid}
+                title={friend.displayName}
+                subtitle={friend.email}
+                bottomDivider
+              />
+            ))}
             <Modal
               transparent={false}
               visible={this.state.showAddFriendModal}>

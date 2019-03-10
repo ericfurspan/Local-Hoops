@@ -91,8 +91,8 @@ export const sendFriendRequest = (userId, prospectiveFriendId) => (dispatch) => 
     })
 }
 
-// Add friend
-export const createFriends = (requesteeId, requestorId) => (dispatch) => {
+// Create friends - makes two users friends
+export const createFriends = (requesteeId, requestorId) => (dispatch, getState) => {
 
   // add users to each others friends array
   firebase.firestore().doc(`users/${requesteeId}`)
@@ -116,6 +116,22 @@ export const createFriends = (requesteeId, requestorId) => (dispatch) => {
           status: 'accepted'
         })
       })
+    })
+    .then(() => {
+      // Remove friend request from state
+      let updatedRequests = getState().currentUser.friendRequestsReceived.filter(request => {
+        return request.uid !== requestorId
+      })
+      dispatch(updateFriendRequestsReceived(updatedRequests));
+
+      // Update friends in state
+      let updatedFriendIds;
+      if(getState().currentUser.friends) {
+        updatedFriendIds = [...getState().currentUser.friends, requestorId];
+      } else {
+        updatedFriendIds = [requestorId]
+      }
+      dispatch(getFriends(updatedFriendIds));
     })
     .catch( () => {
       dispatch(displayError({message: 'Sorry, there was a problem. Please try again later.'}))
@@ -169,12 +185,15 @@ export const getFriends = (friendIds) => (dispatch, getState) => {
   friendIds.forEach(uid => {
     firebase.firestore().collection('users').doc(uid)
       .onSnapshot(doc => {
-        // make sure friend was not removed before updating
-        let stillFriends = doc.data().friends.find(uid=>uid===getState().currentUser.uid);
-        if(stillFriends) {
-          dispatch(updateFriends(doc.data()));
-        } else {
-          dispatch(removeFriendSuccess(doc.data().uid));
+        if(doc.exists) {
+          const friends = doc.data().friends;
+          // make sure friend was not removed before updating
+          let stillFriends = friends && friends.find(uid=>uid===getState().currentUser.uid);
+          if(stillFriends) {
+            dispatch(updateFriends(doc.data()));
+          } else {
+            dispatch(removeFriendSuccess(doc.data().uid));
+          }
         }
       }, (error) => {
         console.log(error);

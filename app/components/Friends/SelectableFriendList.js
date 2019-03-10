@@ -33,6 +33,7 @@ class SelectableFriendList extends React.Component {
       } else {
         participants = [uid]
       }
+      console.log(participants)
       this.setState({
         selectedParticipants: participants
       })
@@ -78,6 +79,7 @@ class SelectableFriendList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  currentUser: state.currentUser,
   friends: state.friends,
   tempEvent: state.tempEvent
 })

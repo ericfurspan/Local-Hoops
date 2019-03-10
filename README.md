@@ -1,8 +1,7 @@
+**Find basketball courts anywhere. Coming soon to the iOS App Store.**
 
 ![Logo](https://firebasestorage.googleapis.com/v0/b/local-courts-1536035788302.appspot.com/o/logo_orange_ball_blue_br_SMALL.png?alt=media&token=235dbb7c-fc4e-4279-92a7-af11d03fb7ed)
 
-
-Find basketball courts anywhere. Coming soon to the iOS App Store.
 
 ## Built With
 * [React Native](https://facebook.github.io/react-native/) - UI

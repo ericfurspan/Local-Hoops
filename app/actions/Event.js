@@ -62,9 +62,9 @@ export const saveEvent = (event) => (dispatch, getState) => {
   dispatch(saveEventRequest());
 
   let participants = [getState().currentUser.uid];
-  if(event.friends) {
-    participants = [...event.friends,getState().currentUser.uid];
-  }
+
+  event.participants && event.participants.forEach(p=>participants.push(p));
+
   // create event
   firebase.firestore().collection('events')
     .add({

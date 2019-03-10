@@ -322,7 +322,7 @@ const reducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        friends: state.currentUser.friends.filter(id => id !== action.friendId)
+        friends: state.currentUser.friends ? state.currentUser.friends.filter(id => id !== action.friendId) : null
       },
       friends: state.friends ? state.friends.filter(f => f.uid != action.friendId) : [],
       error: null,

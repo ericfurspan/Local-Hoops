@@ -15,6 +15,10 @@ beforeAll(async () => {
   await device.launchApp({permissions: {notifications: 'YES', location: 'always'}});
 });
 
+beforeEach(async () => {
+  await adapter.beforeEach();
+});
+
 describe('Auth', authTests);
 describe('Sanity', sanityTests);
 describe('Teardown', teardown);

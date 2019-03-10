@@ -159,7 +159,7 @@ class Dashboard extends React.Component {
                     return (
                       <TouchableOpacity
                         key={court.id}
-                        style={{width: deviceWidth*.35,marginLeft: 10,marginTop: 10,justifyContent: 'flex-start'}}
+                        style={{width: deviceWidth*.35,marginTop: 10,justifyContent: 'flex-start'}}
                         onPress= {() => { // navigate to this court in the Explore screen
                           this.props.navigation.navigate('Explore', { action: {type: 'showCourt', data: court} })
                         }}
@@ -170,7 +170,7 @@ class Dashboard extends React.Component {
                           zoomLevel={14}
                           centerCoordinate={[court.coords.longitude, court.coords.latitude]}
                           showUserLocation={false}
-                          style={{height: 150,marginBottom: 5}}
+                          style={{height: 150,marginBottom: 5, marginRight: 5}}
                           logoEnabled={false}
                         >
                           {this.returnAnnotation(court.coords)}

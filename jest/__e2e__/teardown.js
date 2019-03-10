@@ -48,6 +48,7 @@ export const teardown = () => {
   });
 
   it('Should delete test@test.com', async () => {
-    await deleteTestUser();
+    const res = await deleteTestUser();
+    expect(res).toBe(true);
   });
 }

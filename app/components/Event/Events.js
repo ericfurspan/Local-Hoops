@@ -250,11 +250,9 @@ class Events extends React.Component {
                   data={eventsData}
                   renderItem={({item}) => (
                     <ListItem
-                      containerStyle={{width: deviceWidth*.9}}
+                      containerStyle={{width: deviceWidth}}
                       key={item.key}
-                      rightTitle={`${item.title}, `}
-                      rightSubtitle={item.date}
-                      rightContentContainerStyle={{flexDirection: 'row',marginRight: 25}}
+                      rightTitle={item.date}
                       leftElement={
                         <View>
                           <FacePile
