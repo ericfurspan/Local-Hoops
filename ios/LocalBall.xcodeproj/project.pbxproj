@@ -7,25 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0407927BC7AC480BAD39375D /* 180x180.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 928F32D832934C528C90FE56 /* 180x180.jpg */; };
-		099FF10390D84EE7A47BD66D /* 80x80.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 90FB7E58BDB048FC925D740B /* 80x80.jpg */; };
-		11D09C15282C4D2D99637547 /* 58x58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5632F1724A9C4CFD91F23A5C /* 58x58.jpg */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		14A026E47DD1E812CE85920C /* libPods-LocalBall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7B0BE1A38DB5FCD06AFBCBA /* libPods-LocalBall.a */; };
 		1E3C5030F6F841CD93965566 /* logo_orange_ball_trans_hoop.png in Resources */ = {isa = PBXBuildFile; fileRef = 83115830E367439882E6A344 /* logo_orange_ball_trans_hoop.png */; };
-		1E9C81964F75499E84892B17 /* 87x87.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7AC55AAA2569487491814334 /* 87x87.jpg */; };
 		3458800B380C4C19B4877BE0 /* logo_original.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ABE822FB75A4E2187C9F81D /* logo_original.png */; };
 		4CAB6BD1FB614022BE9F08AE /* RhodiumLibre-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D946E5229F404065B804BCB9 /* RhodiumLibre-Regular.ttf */; };
 		551A5ADD43B14D39BF0B6008 /* nyk.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6E6EE570A00F4F42B9B14D00 /* nyk.gif */; };
-		56A541D908524CBCAFF98FD7 /* 120x120.jpg in Resources */ = {isa = PBXBuildFile; fileRef = EC80B4C007174FF78AD31221 /* 120x120.jpg */; };
 		67EAE6715DA544468FE46346 /* Play-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE49555FF87B443C921B0ED5 /* Play-Regular.ttf */; };
 		68A3642A244D44618B00CF55 /* nyk.png in Resources */ = {isa = PBXBuildFile; fileRef = 85886574E8FF4FA6A0B098C4 /* nyk.png */; };
 		6D992A8D01624F6EAE755317 /* Bangers-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80762911E29941C2AB844E34 /* Bangers-Regular.ttf */; };
-		6F7757B8B6094CE2A1D57C7E /* 40x40.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 77BBAFC72BE9402CBFBAA04C /* 40x40.jpg */; };
 		748441580D8B428E9EBABABF /* Kodchasan-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E2E057D080844459931B692 /* Kodchasan-Regular.ttf */; };
-		76596B33225043C382E1AEE0 /* 60x60.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E98C6F68DA7E4FEB8AF6C1E5 /* 60x60.jpg */; };
 		901F4CEC21E0507500921667 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 901F4CEB21E0507400921667 /* Images.xcassets */; };
 		903C149121DEA1D800759324 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 903C146A21DEA1D800759324 /* CoreFoundation.framework */; };
 		903E5B9D21E0119800E1A3F4 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -52,7 +45,6 @@
 		C9D64425ED8C406A89E6DCA2 /* FasterOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D5B87FB8AF949348BC7D659 /* FasterOne-Regular.ttf */; };
 		D954772ACB7047A99CA29F9A /* Graduate-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 931851ABCDBB4843A5200936 /* Graduate-Regular.ttf */; };
 		EB2BB3519C114B45B37F4FA3 /* ArchitectsDaughter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B08C3504FF0542D5BF654B44 /* ArchitectsDaughter-Regular.ttf */; };
-		F8DB8116C8774F15944ADF5C /* appStoreIcon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 24A3DC46681E4E3B99392CCC /* appStoreIcon.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -333,16 +325,12 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = LocalBall/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = LocalBall/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		24A3DC46681E4E3B99392CCC /* appStoreIcon.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = appStoreIcon.jpg; path = ../assets/appIcons/appStoreIcon.jpg; sourceTree = "<group>"; };
 		405ADD25D6D2D5883278CB65 /* Pods-LocalBall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LocalBall.release.xcconfig"; path = "Pods/Target Support Files/Pods-LocalBall/Pods-LocalBall.release.xcconfig"; sourceTree = "<group>"; };
 		4ABE822FB75A4E2187C9F81D /* logo_original.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo_original.png; path = ../assets/img/logo_original.png; sourceTree = "<group>"; };
-		5632F1724A9C4CFD91F23A5C /* 58x58.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 58x58.jpg; path = ../assets/appIcons/58x58.jpg; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6E2E057D080844459931B692 /* Kodchasan-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Kodchasan-Regular.ttf"; path = "../assets/fonts/Kodchasan-Regular.ttf"; sourceTree = "<group>"; };
 		6E6EE570A00F4F42B9B14D00 /* nyk.gif */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = nyk.gif; path = ../assets/img/nyk.gif; sourceTree = "<group>"; };
-		77BBAFC72BE9402CBFBAA04C /* 40x40.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 40x40.jpg; path = ../assets/appIcons/40x40.jpg; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		7AC55AAA2569487491814334 /* 87x87.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 87x87.jpg; path = ../assets/appIcons/87x87.jpg; sourceTree = "<group>"; };
 		80762911E29941C2AB844E34 /* Bangers-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Bangers-Regular.ttf"; path = "../assets/fonts/Bangers-Regular.ttf"; sourceTree = "<group>"; };
 		83115830E367439882E6A344 /* logo_orange_ball_trans_hoop.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo_orange_ball_trans_hoop.png; path = ../assets/img/logo_orange_ball_trans_hoop.png; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -359,8 +347,6 @@
 		90DC322821DE9D9900FA1BAA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		90E9793E21DE8D81009B221E /* LocalBall.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = LocalBall.entitlements; path = LocalBall/LocalBall.entitlements; sourceTree = "<group>"; };
 		90EDF39421DFDE6200AE35D9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "LocalBall/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		90FB7E58BDB048FC925D740B /* 80x80.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 80x80.jpg; path = ../assets/appIcons/80x80.jpg; sourceTree = "<group>"; };
-		928F32D832934C528C90FE56 /* 180x180.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 180x180.jpg; path = ../assets/appIcons/180x180.jpg; sourceTree = "<group>"; };
 		931851ABCDBB4843A5200936 /* Graduate-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Graduate-Regular.ttf"; path = "../assets/fonts/Graduate-Regular.ttf"; sourceTree = "<group>"; };
 		9D5B87FB8AF949348BC7D659 /* FasterOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FasterOne-Regular.ttf"; path = "../assets/fonts/FasterOne-Regular.ttf"; sourceTree = "<group>"; };
 		A2522BAEB5EB42CBBDD19E76 /* Play-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Play-Bold.ttf"; path = "../assets/fonts/Play-Bold.ttf"; sourceTree = "<group>"; };
@@ -370,8 +356,6 @@
 		B6BC0407F0F74C838DFD9B90 /* logo_orange_ball.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = logo_orange_ball.png; path = ../assets/img/logo_orange_ball.png; sourceTree = "<group>"; };
 		D7B0BE1A38DB5FCD06AFBCBA /* libPods-LocalBall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LocalBall.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D946E5229F404065B804BCB9 /* RhodiumLibre-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "RhodiumLibre-Regular.ttf"; path = "../assets/fonts/RhodiumLibre-Regular.ttf"; sourceTree = "<group>"; };
-		E98C6F68DA7E4FEB8AF6C1E5 /* 60x60.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 60x60.jpg; path = ../assets/appIcons/60x60.jpg; sourceTree = "<group>"; };
-		EC80B4C007174FF78AD31221 /* 120x120.jpg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 120x120.jpg; path = ../assets/appIcons/120x120.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,14 +440,6 @@
 				AE49555FF87B443C921B0ED5 /* Play-Regular.ttf */,
 				6E6EE570A00F4F42B9B14D00 /* nyk.gif */,
 				85886574E8FF4FA6A0B098C4 /* nyk.png */,
-				EC80B4C007174FF78AD31221 /* 120x120.jpg */,
-				928F32D832934C528C90FE56 /* 180x180.jpg */,
-				77BBAFC72BE9402CBFBAA04C /* 40x40.jpg */,
-				5632F1724A9C4CFD91F23A5C /* 58x58.jpg */,
-				E98C6F68DA7E4FEB8AF6C1E5 /* 60x60.jpg */,
-				90FB7E58BDB048FC925D740B /* 80x80.jpg */,
-				7AC55AAA2569487491814334 /* 87x87.jpg */,
-				24A3DC46681E4E3B99392CCC /* appStoreIcon.jpg */,
 				80762911E29941C2AB844E34 /* Bangers-Regular.ttf */,
 				9D5B87FB8AF949348BC7D659 /* FasterOne-Regular.ttf */,
 				931851ABCDBB4843A5200936 /* Graduate-Regular.ttf */,
@@ -1026,14 +1002,6 @@
 				67EAE6715DA544468FE46346 /* Play-Regular.ttf in Resources */,
 				551A5ADD43B14D39BF0B6008 /* nyk.gif in Resources */,
 				68A3642A244D44618B00CF55 /* nyk.png in Resources */,
-				56A541D908524CBCAFF98FD7 /* 120x120.jpg in Resources */,
-				0407927BC7AC480BAD39375D /* 180x180.jpg in Resources */,
-				6F7757B8B6094CE2A1D57C7E /* 40x40.jpg in Resources */,
-				11D09C15282C4D2D99637547 /* 58x58.jpg in Resources */,
-				76596B33225043C382E1AEE0 /* 60x60.jpg in Resources */,
-				099FF10390D84EE7A47BD66D /* 80x80.jpg in Resources */,
-				1E9C81964F75499E84892B17 /* 87x87.jpg in Resources */,
-				F8DB8116C8774F15944ADF5C /* appStoreIcon.jpg in Resources */,
 				6D992A8D01624F6EAE755317 /* Bangers-Regular.ttf in Resources */,
 				C9D64425ED8C406A89E6DCA2 /* FasterOne-Regular.ttf in Resources */,
 				D954772ACB7047A99CA29F9A /* Graduate-Regular.ttf in Resources */,
@@ -1217,7 +1185,6 @@
 			baseConfigurationReference = 908AA8C8F54A20AD61B169E0 /* Pods-LocalBall.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				COCOAPODS_PARALLEL_CODE_SIGN = true;
 				CODE_SIGN_ENTITLEMENTS = LocalBall/LocalBall.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1255,7 +1222,6 @@
 			baseConfigurationReference = 405ADD25D6D2D5883278CB65 /* Pods-LocalBall.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				COCOAPODS_PARALLEL_CODE_SIGN = true;
 				CODE_SIGN_ENTITLEMENTS = LocalBall/LocalBall.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
