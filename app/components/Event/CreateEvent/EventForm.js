@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Picker, DatePickerIOS, Dimensions, ProgressViewIOS, Text } from 'react-native';
+import { View, Picker, DatePickerIOS, Dimensions, ProgressViewIOS } from 'react-native';
 import { Input, Header, Icon } from 'react-native-elements'
 import SelectableFriendList from '../../Friends/SelectableFriendList';
 import SelectCourt from './SelectCourt';
@@ -67,7 +67,7 @@ class EventForm extends React.Component {
           if(this.props.tempEvent.participants.includes(f.uid)) {
             return f
           }
-        })
+        }).filter(p=>p != undefined)
         : [];
 
       participants.push(this.props.currentUser);
@@ -283,7 +283,6 @@ class EventForm extends React.Component {
                 containerStyle={styles.headerContainer}
               />
               <ProgressViewIOS progress={progressPercent} style={[styles.progressBar,{marginBottom: 0}]} progressTintColor='green'/>
-              <Text style={{alignSelf: 'center',fontSize: 18,fontWeight: '500',marginTop: 15}}>Please confirm your Event</Text>
               <EventCard
                 event={ { ...this.props.tempEvent, participants, date: this.props.tempEvent.date.toLocaleDateString('en-US',{year: '2-digit',month: '2-digit',day: '2-digit'}) }}
               />

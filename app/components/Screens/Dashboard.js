@@ -103,7 +103,7 @@ class Dashboard extends React.Component {
       }
 
       return (
-        <View style={styles.container} testID='Dashboard'>
+        <View style={[styles.container,{backgroundColor: '#FAFAFA'}]} testID='Dashboard'>
 
           {// hide status bar when modal visible
           }
@@ -147,7 +147,7 @@ class Dashboard extends React.Component {
               }
               <View testID='SavedCourts'>
                 <View style={{width: deviceWidth,flexDirection: 'row',justifyContent: 'flex-start',marginTop: 15}}>
-                  <Text style={styles.header}>Saved Courts</Text>
+                  <Text style={styles.header}>Favorite Courts</Text>
                 </View>
 
                 <ScrollView
@@ -189,7 +189,7 @@ class Dashboard extends React.Component {
               }
               <View style={{height: deviceHeight*.6,alignItems: 'center'}} testID='RecentActivity'>
                 <View style={{width: deviceWidth,flexDirection: 'row',justifyContent: 'space-between'}}>
-                  <Text style={styles.header}>Recent Activity</Text>
+                  <Text style={styles.header}>Past Events</Text>
                   <Button
                     onPress={() => this.setEventFormModalVisible(true)}
                     icon={{name: 'ios-add',type: 'ionicon',size: 25,color: '#3578E5'}}

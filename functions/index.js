@@ -2,7 +2,18 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 // const util = require('./util');
 
+// Initialize slack webhook
+const IncomingWebhook = require('@slack/client').IncomingWebhook;
+const url = "https://hooks.slack.com/services/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";
+const webhook = new IncomingWebhook(url);
+
 admin.initializeApp();
+
+
+
+const sendSlackNotification = (message) => {
+  webhook.send(message);
+}
 
 // handles opening friend requests
 // sends notification
@@ -180,4 +191,10 @@ exports.newEventNotification = functions.firestore.document('events/{eventId}')
     } catch(e) {
       console.error(e);
     }
-  })
+  });
+
+exports.newUserNotification = functions.auth.user().onCreate((user) => {
+  const email = user.email; // The email of the user.
+
+  sendSlackNotification(`New user: ${email}`)
+});

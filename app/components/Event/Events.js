@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshControl, ScrollView, Dimensions, FlatList, View, StatusBar } from 'react-native';
+import { RefreshControl, ScrollView, Dimensions, FlatList, View, StatusBar, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import firebase from 'react-native-firebase'
 import { connect } from 'react-redux';
@@ -252,7 +252,8 @@ class Events extends React.Component {
                     <ListItem
                       containerStyle={{width: deviceWidth}}
                       key={item.key}
-                      rightTitle={item.date}
+                      rightTitle={item.type}
+                      rightElement={<Text>{item.date}</Text>}
                       leftElement={
                         <View>
                           <FacePile
@@ -266,7 +267,6 @@ class Events extends React.Component {
                           />
                         </View>}
                       bottomDivider
-                      chevron
                       onPress={() => this.setModalVisible(true,item)}
                     />
                   )}

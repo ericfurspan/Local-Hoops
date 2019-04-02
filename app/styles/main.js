@@ -34,7 +34,7 @@ export default StyleSheet.create({
   modalContent: {
     height: deviceHeight*.9,
     width: deviceWidth,
-    backgroundColor: '#fff',
+    backgroundColor: '#eee',
     borderRadius: 5,
   },
   dashHeader: {

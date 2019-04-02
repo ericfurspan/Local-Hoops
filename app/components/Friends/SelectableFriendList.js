@@ -33,7 +33,6 @@ class SelectableFriendList extends React.Component {
       } else {
         participants = [uid]
       }
-      console.log(participants)
       this.setState({
         selectedParticipants: participants
       })
@@ -50,7 +49,7 @@ class SelectableFriendList extends React.Component {
         }
         return (
           <ListItem
-            containerStyle={{width: 300}}
+            containerStyle={{width: 300, backgroundColor: '#fff'}}
             rightIcon={listIcon}
             onPress={() => this.onSelectFriend(friend.uid)}
             leftAvatar={{ rounded: true, source: {uri: friend.photoURL} }}
@@ -63,11 +62,13 @@ class SelectableFriendList extends React.Component {
       })
 
       return (
-        <ScrollView contentContainerStyle={{alignItems: 'center'}} style={{maxHeight: deviceHeight*.40}}>
+        <ScrollView contentContainerStyle={{alignItems: 'center'}} style={{maxHeight: deviceHeight*.7}}>
           <SearchBar
             lightTheme
             containerStyle={{width: 300,marginBottom: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
             inputStyle={{color: '#333'}}
+            round
+            inputContainerStyle={{backgroundColor: '#fff'}}
             onChangeText={this.filterFriends}
             placeholder='Filter Friends...'
             value={this.state.search}

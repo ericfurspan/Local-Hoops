@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, FlatList, Modal, Linking, Dimensions, ActivityIndicator, AlertIOS } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { findLocationByQuery } from '../../api-calls/googleplaces';
 import { Card, Button, ListItem, SearchBar, Icon, Input, Divider, Image } from 'react-native-elements';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -215,12 +216,9 @@ class Explore extends React.Component {
           id={"1"}
           coordinate={[coords.longitude, coords.latitude]}
           title="annotation title"
+          containerStyle={{alignItems: 'center', justifyContent: 'center'}}
         >
-          <IonIcon
-            name='ios-pin'
-            size={60}
-            color='#3578E5'
-          />
+          <FontAwesome5 name={'hand-point-down'} size={40} color='#3578E5' solid/>
         </Mapbox.PointAnnotation>
       )
     }
@@ -247,7 +245,7 @@ class Explore extends React.Component {
           // title="Basketball court"
         >
           <IonIcon
-            name='ios-pin'
+            name={isSaved ? 'ios-star' : 'ios-pin'}
             size={30}
             color={isSaved ? 'gold' : 'red'}
           />
@@ -304,7 +302,6 @@ class Explore extends React.Component {
 
     render() {
 
-
       let { currentUser } = this.props;
 
       let loadingIndicator = <View></View>;
@@ -321,8 +318,9 @@ class Explore extends React.Component {
                 <IonIcon name='ios-undo' size={30} color='white'/>
               </TouchableOpacity>
               <SearchBar
-                lightTheme
                 containerStyle={{marginLeft: 10,marginRight: 10,width: deviceWidth*.7,backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent',zIndex: 1000}}
+                inputContainerStyle={{backgroundColor: '#fff'}}
+                round
                 onChangeText={this.updateSearch}
                 inputStyle={{color: '#333'}}
                 onSubmitEditing={() => this.updateMapCenterByQuery()}
@@ -386,7 +384,7 @@ class Explore extends React.Component {
                         color='#3578E5'
                         onPress={() => this.openExternalMap(item.coords)}
                       />
-                      <Text style={{fontWeight: 'bold',color: '#3578E5',fontSize: 14}}>Navigate</Text>
+                      <Text style={{fontWeight: 'bold',color: '#3578E5',fontSize: 14}}>Directions</Text>
                     </View>
                   }
                   // uncomment for v2 court details modal
@@ -401,12 +399,12 @@ class Explore extends React.Component {
         let { tempMapType } = this.state;
         let mapStyleUrl = this.returnMapStyleUrl(tempMapType || currentUser && currentUser.preferredMapType);
 
-        let addCourtForm, addCourtAnnotation;
+        let addCourtAnnotation, selectLocation, addCourtName;
 
         if(this.state.addCourtMode) {
           if(!this.state.addCourtForm.coords) {
-            addCourtForm =
-                        <View style={{justifyContent: 'space-evenly',alignItems: 'center',height: deviceHeight*.4,padding: 10,zIndex: 1005,borderBottomColor: '#CAD2D3',borderBottomWidth: 2}}>
+            selectLocation =
+                        <View style={{padding: 10, zIndex: 1005,borderBottomColor: '#CAD2D3',borderBottomWidth: 2}}>
                           <View style={{justifyContent: 'flex-start',alignSelf: 'flex-end'}}>
                             <IonIcon
                               name='ios-close-circle'
@@ -416,19 +414,13 @@ class Explore extends React.Component {
                               onPress={() => this.toggleAddCourtMode(false)}
                             />
                           </View>
-                          <IonIcon
-                            name='ios-information-circle'
-                            size={45}
-                            color='#ccc'
-                            style={{justifyContent: 'flex-end'}}
+                          <ListItem
+                            containerStyle={{width: '100%'}}
+                            title='Move pointer to Court'
+                            titleStyle={{fontSize: 18}}
                           />
-                          <View style={{alignItems: 'flex-start'}}>
-                            <Text style={{marginBottom: 5,textAlign: 'left',fontSize: 16}}>(1)  Center the large blue pin at this courts most accurate location</Text>
-                            <Text style={{marginBottom: 5,textAlign: 'left',fontSize: 16}}>(2)  Zoom in close</Text>
-                            <Text style={{marginBottom: 10,textAlign: 'left',fontSize: 16}}>(3)  Tap &apos;Select Location&apos;</Text>
-                          </View>
                           <Button
-                            title='Select Location'
+                            title='SELECT LOCATION'
                             onPress={async () => {
                               const center = await this._mapView.getCenter();
                               const zoomLevel = await this._mapView.getZoom();
@@ -440,14 +432,14 @@ class Explore extends React.Component {
                             }}
                             raised
                             type='outline'
-                            titleStyle={{color: '#fff',fontSize: 18,fontWeight: '500',marginLeft: 5}}
-                            icon={{name: 'ios-pin',type: 'ionicon',size: 18,color: '#fff'}}
-                            buttonStyle={{backgroundColor: '#3578E5'}}
+                            titleStyle={{color: '#fff',fontSize: 18,fontWeight: '500'}}
+                            buttonStyle={{backgroundColor: '#3578E5', borderRadius: 15, padding: 10}}
+                            containerStyle={{marginBottom: 5}}
                           />
                         </View>
           } else if(this.state.addCourtForm.coords) {
-            addCourtForm =
-                    <View style={{justifyContent: 'space-around',height: deviceHeight*.4,padding: 10,zIndex: 1005,borderBottomColor: '#CAD2D3',borderBottomWidth: 2}}>
+            addCourtName =
+                    <View style={{justifyContent: 'center',height: deviceHeight*.3,padding: 10,zIndex: 1005,borderBottomColor: '#CAD2D3',borderBottomWidth: 2}}>
                       <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
                         <Button
                           title='Back'
@@ -466,11 +458,10 @@ class Explore extends React.Component {
                         />
                       </View>
                       <View style={{alignItems: 'center'}}>
-                        <Text style={{fontWeight: '500',marginBottom: 5,textAlign: 'center',fontSize: 20}}>Court name?</Text>
                         <Input
-                          placeholder='Type here'
+                          placeholder='Type court name here'
                           onChangeText={val => this.updateAddCourtForm('name',val)}
-                          containerStyle={{alignSelf: 'center',width: deviceWidth*.85,marginTop: 10,marginBottom: 20}}
+                          containerStyle={{alignSelf: 'center',width: deviceWidth*.85,marginBottom: 20,marginTop: 20}}
                           maxLength={25}
                           errorMessage={this.state.addCourtForm.error}
                           value={this.state.addCourtForm.name}
@@ -500,7 +491,8 @@ class Explore extends React.Component {
           <View style={[styles.container]} testID='ExploreMapContainer'>
             {modal}
             {header}
-            {addCourtForm}
+            {selectLocation}
+            {addCourtName}
             <Mapbox.MapView
               ref={(c) => this._mapView = c}
               onLongPress={(e) => {
@@ -516,10 +508,8 @@ class Explore extends React.Component {
               onRegionDidChange={(e) => {
                 if(this.state.addCourtMode === true && !this.state.addCourtForm.coords) {
                   this.updateMapCenter({latitude: e.geometry.coordinates[1],longitude: e.geometry.coordinates[0]}, false)}
-              }
-              }
+              }}
             >
-
               {this.renderAnnotations()}
 
               {addCourtAnnotation}
@@ -632,10 +622,10 @@ class Explore extends React.Component {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'flex-end',
-                    zIndex: 1000
+                    zIndex: 1000,
                   }}>
                     <Card
-                      containerStyle={{width: deviceWidth,paddingLeft: 20,paddingRight: 20,zIndex: 1000}}
+                      containerStyle={{backgroundColor: '#fff', width: deviceWidth,paddingLeft: 20,paddingRight: 20,zIndex: 1000}}
                       title={
                         <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
                           <Text style={{fontSize: 16,fontWeight: 'bold',width: deviceWidth*.65}}>{this.state.selectedCourtPreview.name}</Text>
@@ -680,7 +670,7 @@ class Explore extends React.Component {
                                 onPress={() => this.handleUnSaveCourt()}
                               >
                                 <IonIcon
-                                  name='ios-bookmark'
+                                  name='ios-star'
                                   size={30}
                                   color='gold'
                                 />
@@ -691,9 +681,9 @@ class Explore extends React.Component {
                                 onPress={() => this.handleSaveCourt()}
                               >
                                 <IonIcon
-                                  name='ios-bookmark'
+                                  name='ios-star-outline'
                                   size={30}
-                                  color='#ccc'
+                                  color='gold'
                                 />
                               </TouchableOpacity>
                             }
@@ -709,7 +699,7 @@ class Explore extends React.Component {
                                 color='#3578E5'
                                 onPress={() => this.openExternalMap(this.state.selectedCourtPreview.coords)}
                               />
-                              <Text style={{fontWeight: '500',color: '#333',fontSize: 14}}>Navigate</Text>
+                              <Text style={{fontWeight: '500',color: '#333',fontSize: 14}}>Directions</Text>
                             </View>
                           </TouchableOpacity>
                         </View>

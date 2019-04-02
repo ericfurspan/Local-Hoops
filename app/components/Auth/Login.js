@@ -55,6 +55,10 @@ class Login extends React.Component {
             <Text style={{color: '#FFFFFF',fontSize: 22,marginBottom: 10}}>Log in</Text>
             <Input
               placeholder='Email'
+              autoCapitalize='none'
+              keyboardType='email-address'
+              textContentType='emailAddress'
+              autoCorrect={false}
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
               inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center', padding: 5}}
@@ -66,6 +70,9 @@ class Login extends React.Component {
             />
             <Input
               placeholder='Password'
+              autoCapitalize='none'
+              textContentType='password'
+              autoCorrect={false}
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
               secureTextEntry

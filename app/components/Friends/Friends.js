@@ -68,7 +68,7 @@ class Friends extends React.Component {
           friends = this.state.filter ? this.state.friends : this.props.friends;
         }
         return (
-          <View style={styles.centeredContainer}>
+          <View style={[styles.centeredContainer,{backgroundColor: '#eee'}]}>
             {this.state.showAddFriendModal || this.state.showViewFriendModal ?
               <StatusBar hidden />
               : null
@@ -93,6 +93,8 @@ class Friends extends React.Component {
             <SearchBar
               lightTheme
               containerStyle={{width: 300,marginBottom: 10, marginTop: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
+              inputContainerStyle={{backgroundColor: '#fff'}}
+              round
               inputStyle={{color: '#333'}}
               onChangeText={this.updateSearch}
               placeholder='Filter by Name...'
@@ -100,7 +102,7 @@ class Friends extends React.Component {
             />
             {friends.map((friend) => (
               <ListItem
-                containerStyle={{width: 300}}
+                containerStyle={{width: 300, backgroundColor: '#fff'}}
                 onPress={() => this.handleViewFriend(friend.uid)}
                 leftAvatar={{rounded: true, source: {uri: friend.photoURL} }}
                 key={friend.uid}

@@ -13,7 +13,7 @@ Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 
 let deviceWidth = Dimensions.get('window').width;
 
-const selectTypes = [ {val: 'Select from Favorite courts', key: 'favorites'}, {val: 'Select from Nearby courts', key: 'nearby'} ];
+const selectTypes = [ {val: 'Favorite courts', key: 'favorites'}, {val: 'Nearby courts', key: 'nearby'} ];
 
 class SelectCourt extends React.Component {
     state = {
@@ -57,7 +57,7 @@ class SelectCourt extends React.Component {
     }
 
     render() {
-      const iconNames = ['ios-bookmark','ios-pin'];
+      const iconNames = ['ios-star','ios-pin'];
       return (
         <ScrollView contentContainerStyle={styles.wrapper}>
           {this.state.showModal.nearby || this.state.showModal.favorites ?
@@ -72,14 +72,15 @@ class SelectCourt extends React.Component {
             }
             return (
               <ListItem
-                containerStyle={{width: 300}}
+                containerStyle={{height: 75, width: deviceWidth, backgroundColor: '#fff'}}
                 onPress={() => this.selectLocType(true, type.key)}
                 key={type.key}
                 title={type.val}
                 titleStyle={{textAlign: 'left'}}
                 rightIcon={checkedIcon}
                 bottomDivider
-                leftIcon={{name: iconNames[i],type: 'ionicon', color: '#333',style: {width: 30}}}
+                chevron
+                leftIcon={{name: iconNames[i],type: 'ionicon', color: '#333', width: 30}}
               />
             )
           })}

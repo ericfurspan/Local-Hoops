@@ -223,7 +223,7 @@ PODS:
   - RNFirebase (5.2.3):
     - Firebase/Core
     - React
-  - RNGestureHandler (1.0.17):
+  - RNGestureHandler (1.1.0):
     - React
   - RNGoogleSignin (1.2.1):
     - GoogleSignIn

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, AlertIOS } from 'react-native';
-import { SearchBar, ListItem, Header } from 'react-native-elements';
+import { SearchBar, ListItem, Header, Icon } from 'react-native-elements';
 import firebase from 'react-native-firebase'
 import { connect } from 'react-redux';
 import styles from '../../styles/main';
@@ -57,24 +57,32 @@ class AddFriend extends React.Component {
 
     render() {
       return (
-        <View style={styles.centeredContainer}>
+        <View style={[styles.centeredContainer,{backgroundColor: '#eee'}]}>
           <Header
             centerComponent={{ text: 'Add Friend', style: { color: '#FFFFFF', fontSize: 24 } }}
             containerStyle={styles.headerContainer}
           />
           <SearchBar
-            lightTheme
             containerStyle={{width: 300,marginBottom: 10, marginTop: 10, backgroundColor: 'transparent', borderBottomColor: 'transparent', borderTopColor: 'transparent'}}
             inputStyle={{color: '#333'}}
+            round
+            inputContainerStyle={{backgroundColor: '#fff'}}
             onChangeText={this.updateSearch}
             placeholder='Search by Name'
             value={this.state.search}
           />
           {this.state.users.map((f) => (
             <ListItem
-              containerStyle={{width: 300}}
+              containerStyle={{width: 300, backgroundColor: '#fff'}}
               onPress={() => this.confirmAdd(f)}
-              rightIcon={{name: 'ios-add',type: 'ionicon',size: 20}}
+              rightIcon={
+                <Icon
+                  name='ios-person-add'
+                  color='#333'
+                  type='ionicon'
+                  size={25}
+                />
+              }
               leftAvatar={{source: {uri: f.photoURL}, rounded: true}}
               key={f.uid}
               bottomDivider

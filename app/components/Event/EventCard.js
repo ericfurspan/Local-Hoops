@@ -22,6 +22,7 @@ const returnAnnotation = (coords) => {
 }
 
 export default function EventCard(props) {
+  console.log(props.event)
   return (
     <Card
       containerStyle={styles.cardContainer}
@@ -33,15 +34,15 @@ export default function EventCard(props) {
           type='ionicon'
           size={40}
         />
+        <Text style={styles.text}>{props.event.type}</Text>
+      </View>
+      <View style={styles.spaceBetweenRow}>
         <Icon
           name='ios-time'
           color='#3578E5'
           type='ionicon'
           size={40}
         />
-      </View>
-      <View style={[styles.spaceBetweenRow,{marginBottom: 15}]}>
-        <Text style={styles.text}>{props.event.type}</Text>
         <Text style={styles.text}>{props.event.date}</Text>
       </View>
       <View style={styles.spaceBetweenRow}>
@@ -51,17 +52,8 @@ export default function EventCard(props) {
           type='ionicon'
           size={40}
         />
-        <Icon
-          name='ios-text'
-          color='#3578E5'
-          type='ionicon'
-          size={40}
-        />
-      </View>
-      <View style={[styles.spaceBetweenRow,{marginBottom: 15}]}>
-        <View style={{flexDirection: 'row',justifyContent: 'flex-start'}}>
+        <View style={styles.centeredRow}>
           {props.event.participants.map((p,i) => {
-            console.log(p)
             return (
               <Avatar
                 size='small'
@@ -74,12 +66,19 @@ export default function EventCard(props) {
             )
           })}
         </View>
-        <View>
-          <Text style={styles.text}>{props.event.comment}</Text>
-        </View>
+
       </View>
 
-      <Text style={[styles.text, {alignSelf: 'center'}]}>{props.event.court.name}</Text>
+      <View style={styles.spaceBetweenRow}>
+        <Icon
+          name='ios-text'
+          color='#3578E5'
+          type='ionicon'
+          size={40}
+        />
+        <Text style={[styles.text,{textAlign: 'right'}]}>{props.event.comment}</Text>
+      </View>
+
 
       <TouchableOpacity
         style={[styles.spaceBetweenRow,{height: deviceHeight*.20}]}
@@ -99,6 +98,7 @@ export default function EventCard(props) {
           {returnAnnotation({latitude: props.event.court.coords.latitude, longitude: props.event.court.coords.longitude})}
         </Mapbox.MapView>
       </TouchableOpacity>
+      <Text style={[styles.text, {alignSelf: 'center', fontWeight: 'bold', marginTop: 15}]}>{props.event.court.name}</Text>
 
     </Card>
   )

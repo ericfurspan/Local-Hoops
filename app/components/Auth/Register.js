@@ -44,6 +44,7 @@ class Register extends React.Component {
               placeholder='Name'
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
+              autoCorrect={false}
               inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5, padding: 5}}
               leftIcon={{type: 'ionicon',name: 'ios-person',color: '#333',size: 24}}
               leftIconContainerStyle={{marginRight: 15}}
@@ -53,6 +54,10 @@ class Register extends React.Component {
             />
             <Input
               placeholder='Email'
+              autoCapitalize='none'
+              keyboardType='email-address'
+              textContentType='emailAddress'
+              autoCorrect={false}
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
               inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5, padding: 5}}
@@ -64,6 +69,8 @@ class Register extends React.Component {
             />
             <Input
               placeholder='Password'
+              autoCapitalize='none'
+              autoCorrect={false}
               placeholderTextColor='#bbb'
               inputStyle={{color: '#333'}}
               secureTextEntry
@@ -76,6 +83,8 @@ class Register extends React.Component {
             <Input
               placeholder='Confirm Password'
               placeholderTextColor='#bbb'
+              autoCapitalize='none'
+              autoCorrect={false}
               inputStyle={{color: '#333'}}
               secureTextEntry
               inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5, padding: 5}}

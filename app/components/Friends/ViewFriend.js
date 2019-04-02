@@ -178,7 +178,7 @@ class ViewFriend extends React.Component {
         }
       }
       return (
-        <View style={[styles.centeredContainer,{marginTop: 25}]}>
+        <View style={[styles.centeredContainer,{paddingTop: 25,backgroundColor: '#eee'}]}>
           <Avatar
             size='large'
             rounded
