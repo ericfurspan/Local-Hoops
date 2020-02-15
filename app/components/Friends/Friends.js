@@ -19,52 +19,52 @@ class Friends extends React.Component {
       search: '',
       showAddFriendModal: false,
       showViewFriendModal: false,
-      selectedFriend: null
-    }
+      selectedFriend: null,
+    };
   }
 
     updateSearch = search => {
       let filter = true;
-      if(search.length <= 0) {
+      if (search.length <= 0) {
         filter = false;
       }
-      this.setState({search, filter})
-      this.filterFriends(search)
+      this.setState({search, filter});
+      this.filterFriends(search);
     }
     setModalVisible = (visible, type) => {
-      switch(type) {
+      switch (type) {
         case 'Add Friend' :
           this.setState({
-            showAddFriendModal: visible
-          })
+            showAddFriendModal: visible,
+          });
           break;
         case 'View Friend' :
           this.setState({
-            showViewFriendModal: visible
-          })
+            showViewFriendModal: visible,
+          });
       }
     }
     filterFriends = (input) => {
-      if(this.props.friends) {
+      if (this.props.friends) {
         const friends = this.props.friends.filter(f => {
           return f.displayName.includes(input);
-        })
+        });
         this.setState({
-          friends
-        })
+          friends,
+        });
       }
     }
     handleViewFriend = (uid) => {
       this.setModalVisible(true, 'View Friend');
       this.setState({
-        selectedFriend: uid
-      })
+        selectedFriend: uid,
+      });
     }
     render() {
-      if(this.props.currentUser) {
+      if (this.props.currentUser) {
         let friends = [];
-        console.log(this.props.friends)
-        if(this.props.friends && this.props.friends.length > 0) {
+        console.log(this.props.friends);
+        if (this.props.friends && this.props.friends.length > 0) {
           friends = this.state.filter ? this.state.friends : this.props.friends;
         }
         return (
@@ -82,9 +82,9 @@ class Friends extends React.Component {
                   style={{flexDirection: 'row'}}
                 >
                   <IonIcon
-                    name='ios-person-add'
+                    name="ios-person-add"
                     size={30}
-                    color='#fff'
+                    color="#fff"
                   />
                 </TouchableOpacity>
               }
@@ -97,7 +97,7 @@ class Friends extends React.Component {
               round
               inputStyle={{color: '#333'}}
               onChangeText={this.updateSearch}
-              placeholder='Filter by Name...'
+              placeholder="Filter by Name..."
               value={this.state.search}
             />
             {friends.map((friend) => (
@@ -134,10 +134,10 @@ class Friends extends React.Component {
                                     and options to remove friend or send message (rev2)*/}
                   <ViewFriend
                     currentUser={this.props.currentUser}
-                    friend={this.state.selectedFriend ? this.props.friends.find(f=>f.uid===this.state.selectedFriend) : null}
+                    friend={this.state.selectedFriend ? this.props.friends.find(f=>f.uid === this.state.selectedFriend) : null}
                     onRemoveFriend={(uid,fid) => {
                       this.setModalVisible(false, 'View Friend');
-                      this.props.dispatch(removeFriend(uid,fid))
+                      this.props.dispatch(removeFriend(uid,fid));
                     }}
                   />
                 </View>
@@ -145,13 +145,13 @@ class Friends extends React.Component {
               <CancelButton onCancel={() => this.setModalVisible(false, 'View Friend')} />
             </Modal>
           </View>
-        )
-      } else return null;
+        );
+      } else {return null;}
     }
 }
 
 const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
   friends: state.friends,
-})
+});
 export default connect(mapStateToProps)(Friends);

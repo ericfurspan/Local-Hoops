@@ -34,4 +34,4 @@ export const sanityTests = () => {
     await element(by.id('enterSignup')).tap();
   });
 */
-}
+};

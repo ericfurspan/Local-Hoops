@@ -10,8 +10,9 @@
 #import "RNFirebaseMessaging.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import <React/RCTPushNotificationManager.h>
-#import <RNGoogleSignin.h>
+#import <React/RCTBridge.h>
+#import <RNCPushNotificationIOS.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -33,8 +34,6 @@
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
-
-
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
@@ -52,20 +51,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-  
-   BOOL handledFB = [[FBSDKApplicationDelegate sharedInstance] application:application
-                            openURL:url
-                            sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
-   ];  
-
-   BOOL handledGoogle = [RNGoogleSignin application:application
-                            openURL:url
-                            sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
-    
-
-      return handledGoogle || handledFB;
+  return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url options:options] || [RNGoogleSignin application:application openURL:url options:options];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -84,14 +70,6 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
 }
-
-/*
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-       willPresentNotification:(UNNotification *)notification
-         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-  [[RNFirebaseMessaging instance] willPresentNotification:notification withCompletionHandler:completionHandler];
-}
-*/
 
 @end
 

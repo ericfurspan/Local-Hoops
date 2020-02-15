@@ -26,11 +26,11 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
 
 # Android/IntelliJ
 android/
-
+android/keystores/
+android/app/
 #
 build/
 .idea
@@ -48,6 +48,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+!debug.keystore
 
 # fastlane
 #
@@ -65,3 +66,9 @@ buck-out/
 
 # TESTING
 .cache
+
+# CocoaPods
+ios/Pods/
+android/build.gradle
+android/build.gradle
+ios/Pods/Headers/Private/RNGestureHandler/RNGestureHandler.h

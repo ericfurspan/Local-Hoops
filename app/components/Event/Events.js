@@ -1,11 +1,11 @@
 import React from 'react';
 import { RefreshControl, ScrollView, Dimensions, FlatList, View, StatusBar, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import firebase from 'react-native-firebase'
+import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import Timeline from 'react-native-timeline-listview'
-import FacePile from 'react-native-face-pile'
-import Mapbox from '@mapbox/react-native-mapbox-gl';
+import Timeline from 'react-native-timeline-flatlist';
+import FacePile from 'react-native-face-pile';
+import Mapbox from '@react-native-mapbox-gl/maps';
 import EventModal from './EventModal';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 import { sortByDateDesc } from '../../../assets/helper';
@@ -23,22 +23,22 @@ class Events extends React.Component {
     this.state = {
       refreshing: false,
       modalVisible: false,
-      selectedEvent: null
-    }
+      selectedEvent: null,
+    };
   }
   componentDidMount() {
-    if(this.props.loggedIn) {
+    if (this.props.loggedIn) {
       // Fetch events for User
       this.fetchUserEvents();
 
       // If user has friends, fetch their events
-      if(this.props.currentUser.friends && this.props.currentUser.friends.length >= 1) {
+      if (this.props.currentUser.friends && this.props.currentUser.friends.length >= 1) {
         this.fetchFriendsEvents();
       }
     }
   }
   componentDidUpdate(prevProps) {
-    if(prevProps.loading === true && this.props.loading === false) {
+    if (prevProps.loading === true && this.props.loading === false) {
       this.onRefresh();
     }
   }
@@ -49,7 +49,7 @@ class Events extends React.Component {
     setModalVisible = (visible, item) => {
       this.setState({
         modalVisible: visible,
-        selectedEvent: item
+        selectedEvent: item,
       });
     }
     onRefresh = () => {
@@ -59,9 +59,9 @@ class Events extends React.Component {
       this.setState({refreshing: false});
     }
     fetchUserEvents = () => {
-      this.unsubscribeUserEvents = firebase.firestore().collection('events').where("participants", "array_contains", this.props.currentUser.uid)
+      this.unsubscribeUserEvents = firebase.firestore().collection('events').where('participants', 'array_contains', this.props.currentUser.uid)
         .onSnapshot(eventsSnapshot => {
-          if(!eventsSnapshot.empty) {
+          if (!eventsSnapshot.empty) {
             let events = [];
             let counter = 0;
             eventsSnapshot.forEach(doc => {
@@ -75,7 +75,7 @@ class Events extends React.Component {
                 court,
                 date,
                 comment,
-              }
+              };
               firebase.firestore().doc(`events/${event.id}`)
                 .get()
                 .then(doc => {
@@ -86,11 +86,11 @@ class Events extends React.Component {
                       .get()
                       .then(doc => {
                         let participant = doc.data();
-                        event['participants'].push(participant);
-                      })
-                  })
+                        event.participants.push(participant);
+                      });
+                  });
                   // only load this event if the current user is a participant
-                  if(doc.data().participants.includes(this.props.currentUser.uid)) {
+                  if (doc.data().participants.includes(this.props.currentUser.uid)) {
                     events.push(event);
                   }
                   counter++;
@@ -98,27 +98,27 @@ class Events extends React.Component {
                 })
                 .then((counter) => {
                   // if all events have been retrieved, call updateEvents(events)
-                  if(counter === eventsSnapshot.size) {
-                    this.props.dispatch(updateEvents('user', events))
+                  if (counter === eventsSnapshot.size) {
+                    this.props.dispatch(updateEvents('user', events));
                   }
                 })
                 .catch( (e) => {
                   console.log(e);
-                })
-            })
+                });
+            });
           } else {
-            this.props.dispatch(updateEvents('user', null))
+            this.props.dispatch(updateEvents('user', null));
           }
         }, error => {
           console.log(error);
-        })
+        });
     }
     fetchFriendsEvents = () => {
       let events = [];
       let counter = 0;
 
       let friends = this.props.currentUser.friends;
-      if(friends && friends.length > 0) {
+      if (friends && friends.length > 0) {
         friends.forEach(uid => {
           firebase.firestore().doc(`users/${uid}`)
             .get()
@@ -129,7 +129,7 @@ class Events extends React.Component {
                 firebase.firestore().doc(`events/${eventId}`)
                   .get()
                   .then(doc => {
-                    if(doc.exists) {
+                    if (doc.exists) {
                       const { type, date, event_author, comment, court } = doc.data();
                       let event = {
                         doc,
@@ -141,7 +141,7 @@ class Events extends React.Component {
                         court,
                         date,
                         comment,
-                      }
+                      };
                       let participants = doc.data().participants;
                       participants.forEach(uid => {
                         // get user info and add as participant to event
@@ -149,63 +149,63 @@ class Events extends React.Component {
                           .get()
                           .then(doc => {
                             let participant = doc.data();
-                            event['participants'].push(participant);
-                          })
-                      })
+                            event.participants.push(participant);
+                          });
+                      });
                       events.push(event);
                       counter++;
                       return counter;
                     }
                   })
                   .then((counter) => {
-                    if(counter === friendEvents.length) {
-                      this.props.dispatch(updateEvents('friends', events))
+                    if (counter === friendEvents.length) {
+                      this.props.dispatch(updateEvents('friends', events));
                     }
                   })
                   .catch(error => {
-                    console.log(error)
-                  })
-              })
+                    console.log(error);
+                  });
+              });
             }).catch(error => {
-              console.log(error)
-            })
-        })
+              console.log(error);
+            });
+        });
       } else {
-        this.props.dispatch(updateEvents('friends', null))
+        this.props.dispatch(updateEvents('friends', null));
       }
     }
 
     render() {
       let modal, eventsView;
 
-      if(this.props.events) {
+      if (this.props.events) {
 
         let events, userEventsExists, friendsEventsExists;
-        this.props.events.user ? userEventsExists = true : userEventsExists = false
-        this.props.events.friends ? friendsEventsExists = true : friendsEventsExists = false
-        switch(this.props.activityType) {
+        this.props.events.user ? userEventsExists = true : userEventsExists = false;
+        this.props.events.friends ? friendsEventsExists = true : friendsEventsExists = false;
+        switch (this.props.activityType) {
           case 'Only Me':
-            if(userEventsExists) {
-              events = this.props.events.user
-            } else return null
+            if (userEventsExists) {
+              events = this.props.events.user;
+            } else {return null;}
             break;
           case 'Friends':
-            if(friendsEventsExists) {
-              events = this.props.events.friends
-            } else return null
+            if (friendsEventsExists) {
+              events = this.props.events.friends;
+            } else {return null;}
             break;
           case 'All':
-            if(userEventsExists && friendsEventsExists) {
-              events = [...this.props.events.user, ...this.props.events.friends]
+            if (userEventsExists && friendsEventsExists) {
+              events = [...this.props.events.user, ...this.props.events.friends];
               // filters for only unique events
               events = events.filter((e, i) => events.findIndex(a => a.id === e.id) === i);
             }
-            else if(userEventsExists && !friendsEventsExists) {
+            else if (userEventsExists && !friendsEventsExists) {
               events = this.props.events.user;
             }
-            else if(!userEventsExists && friendsEventsExists) {
+            else if (!userEventsExists && friendsEventsExists) {
               events = this.props.events.friends;
-            } else return null
+            } else {return null;}
             break;
         }
 
@@ -223,28 +223,28 @@ class Events extends React.Component {
             comment: event.comment,
             court: event.court,
             id: event.id,
-            key: i.toString()
-          }
+            key: i.toString(),
+          };
         });
         // sort events by date descending
-        eventsData.sort(sortByDateDesc)
+        eventsData.sort(sortByDateDesc);
 
-        if(this.props.selectedIndex === 0) {
+        if (this.props.selectedIndex === 0) {
           eventsView =
                 <Timeline
                   data={eventsData}
-                  columnFormat='single-column-left'
-                  innerCircle='icon'
+                  columnFormat="single-column-left"
+                  innerCircle="icon"
                   titleStyle={{color: '#333'}}
                   descriptionStyle={{color: '#333'}}
-                  circleColor='rgba(0,0,0,0)'
-                  lineColor='#3578E5'
+                  circleColor="rgba(0,0,0,0)"
+                  lineColor="#3578E5"
                   rowContainerStyle={{minWidth: 250}}
                   timeContainerStyle={{minWidth: 72}}
                   timeStyle={{textAlign: 'center', backgroundColor: 'transparent', color: '#333', padding: 5, borderRadius: 13}}
                   onEventPress={event => this.setModalVisible(true,event)}
-                />
-        } else if(this.props.selectedIndex === 1 || !this.props.selectedIndex) {
+                />;
+        } else if (this.props.selectedIndex === 1 || !this.props.selectedIndex) {
           eventsView =
                 <FlatList
                   data={eventsData}
@@ -262,7 +262,7 @@ class Events extends React.Component {
                               return {
                                 id: i,
                                 imageUrl: p.photoURL,
-                              }
+                              };
                             })}
                           />
                         </View>}
@@ -271,9 +271,9 @@ class Events extends React.Component {
                     />
                   )}
 
-                />
+                />;
         }
-        if(this.state.modalVisible) {
+        if (this.state.modalVisible) {
           modal =
                     <View>
                       <StatusBar hidden/>
@@ -282,7 +282,7 @@ class Events extends React.Component {
                         event={this.state.selectedEvent}
                         navigation={this.props.navigation}
                       />
-                    </View>
+                    </View>;
         }
         return (
           <ScrollView
@@ -296,8 +296,8 @@ class Events extends React.Component {
             {modal}
             {eventsView}
           </ScrollView>
-        )
-      } else {return null}
+        );
+      } else {return null;}
     }
 }
 
@@ -307,6 +307,6 @@ const mapStateToProps = (state) => ({
   events: state.events,
   friends: state.friends,
   loading: state.loading,
-})
+});
 
 export default connect(mapStateToProps)(Events);

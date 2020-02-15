@@ -3,8 +3,8 @@ import Friends from '../Friends/Friends';
 
 const Social = () => {
   return (
-    <Friends testID='SocialContainer'/>
-  )
-}
+    <Friends testID="SocialContainer"/>
+  );
+};
 
 export default Social;

@@ -9,16 +9,16 @@ import styles from '../../styles/main';
 class ForgotPassword extends React.Component {
     state = {
       resetForm: {},
-      codeSent: false
+      codeSent: false,
     }
     sendResetEmail = async (email) => {
       try {
-        if(email && email.trim().length > 0) {
+        if (email && email.trim().length > 0) {
           await firebase.auth().sendPasswordResetEmail(email);
-          this.setState({resetForm: {}, codeSent: true})
+          this.setState({resetForm: {}, codeSent: true});
         }
-      } catch(e) {
-        this.props.dispatch(displayError(e))
+      } catch (e) {
+        this.props.dispatch(displayError(e));
       }
     }
 
@@ -27,7 +27,7 @@ class ForgotPassword extends React.Component {
       return (
         <View style={{paddingTop: 30,backgroundColor: '#3578E5',flex: 1}}>
           <Button
-            title='Back'
+            title="Back"
             onPress={() => this.props.toggleResetForm(false)}
             titleStyle={{color: '#fff',fontSize: 18,fontWeight: '500',marginLeft: 5}}
             icon={{name: 'ios-arrow-back',type: 'ionicon',size: 30,color: '#fff'}}
@@ -38,8 +38,8 @@ class ForgotPassword extends React.Component {
             <Text style={{color: '#fff',fontSize: 22, fontWeight: '500',marginBottom: 25}}>Reset your Password</Text>
             <View style={{marginBottom: 50}}>
               <Input
-                placeholder='Email Address'
-                placeholderTextColor='#bbb'
+                placeholder="Email Address"
+                placeholderTextColor="#bbb"
                 inputStyle={{color: '#333'}}
                 inputContainerStyle={{backgroundColor: '#fff',borderRadius: 5,width: '80%',alignSelf: 'center', padding: 5}}
                 leftIcon={{type: 'ionicon',name: 'ios-mail',color: '#333',size: 24}}
@@ -48,17 +48,17 @@ class ForgotPassword extends React.Component {
                 onChangeText={(email) => this.setState( prevState => ({
                   resetForm: {
                     ...prevState.resetForm,
-                    email
-                  }
+                    email,
+                  },
                 }))}
               />
               <Button
-                title='Send reset email'
+                title="Send reset email"
                 titleStyle={{color: '#3578E5',fontWeight: '500',fontSize: 20}}
                 buttonStyle={{backgroundColor: '#fff',borderColor: '#fff',borderRadius: 5,borderWidth: 1}}
                 raised
                 containerStyle={{marginTop: 5,alignSelf: 'center'}}
-                type='outline'
+                type="outline"
                 onPress={() => this.sendResetEmail(this.state.resetForm.email)}
               />
               {this.state.codeSent ? (
@@ -67,7 +67,7 @@ class ForgotPassword extends React.Component {
             </View>
           </View>
         </View>
-      )
+      );
     }
 }
 

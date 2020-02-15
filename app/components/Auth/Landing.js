@@ -5,15 +5,15 @@ import { connect } from 'react-redux';
 import Loading from '../Shared/Loading';
 import ErrorMessage from '../Shared/ErrorMessage';
 import styles from '../../styles/main';
-import Logo from '../../../assets/img/logo_orange_ball.png'
+import Logo from '../../../assets/img/logo_orange_ball.png';
 
 class AuthLanding extends React.Component {
 
   render() {
-    if(this.props.authLoading) {
-      return <Loading indicator={true}/>
-    } else if(this.props.error) {
-      return <ErrorMessage message={this.props.error}/>
+    if (this.props.authLoading) {
+      return <Loading indicator={true}/>;
+    } else if (this.props.error) {
+      return <ErrorMessage message={this.props.error}/>;
     }
 
     return (
@@ -26,33 +26,33 @@ class AuthLanding extends React.Component {
         />
         <Text style={[styles.whiteText,{marginBottom: 50,fontWeight: 'bold',fontSize: 16}]}>Find basketball courts, anywhere</Text>
         <Button
-          title='LOGIN'
+          title="LOGIN"
           titleStyle={{color: '#3578E5',fontWeight: '500'}}
           buttonStyle={{backgroundColor: '#fff',width: 250,borderColor: '#fff',borderRadius: 5,borderWidth: 1}}
           containerStyle={{marginTop: 5}}
           raised
-          type='outline'
+          type="outline"
           onPress={() => this.props.navigation.navigate('Login')}
-          testID='enterLogin'
+          testID="enterLogin"
         />
         <Button
-          title='SIGN UP'
+          title="SIGN UP"
           titleStyle={{color: '#fff',fontWeight: '500'}}
           buttonStyle={{backgroundColor: '#3578E5',width: 250,borderColor: '#fff',borderRadius: 5,borderWidth: 1}}
           containerStyle={{marginTop: 5}}
           raised
-          type='outline'
+          type="outline"
           onPress={() => this.props.navigation.navigate('Register')}
-          testID='enterSignup'
+          testID="enterSignup"
         />
       </View>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
   authLoading: state.authLoading,
   error: state.error,
-})
+});
 
 export default connect(mapStateToProps)(AuthLanding);

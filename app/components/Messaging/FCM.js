@@ -8,13 +8,13 @@ class FCM extends React.Component {
         const testmsg = new firebase.notifications.Notification()
           .setNotificationId(notification.notificationId)
           .setTitle(notification.title)
-          .setBody(notification.body)
-        firebase.notifications().displayNotification(testmsg)
+          .setBody(notification.body);
+        firebase.notifications().displayNotification(testmsg);
       });
     }
     updateToken = (fcmToken) => {
       firebase.firestore().doc(`users/${this.props.currentUser.uid}`)
-        .update({fcmToken})
+        .update({fcmToken});
     }
     componentDidMount() {
       firebase.messaging().hasPermission()
@@ -22,52 +22,52 @@ class FCM extends React.Component {
           if (enabled) {
             return firebase.messaging().getToken()
               .then(fcmToken => {
-                if(fcmToken) {
-                  this.updateToken(fcmToken)
-                  this.enableNotificationListener(fcmToken)
+                if (fcmToken) {
+                  this.updateToken(fcmToken);
+                  this.enableNotificationListener(fcmToken);
                 }
-              })
+              });
           } else {
             firebase.messaging().requestPermission()
               .then(() => {
                 firebase.messaging().hasPermission()
                   .then(enabled => {
-                    if(enabled) {
+                    if (enabled) {
                       firebase.messaging().getToken()
                         .then(fcmToken => {
-                          if(fcmToken) {
-                            this.updateToken(fcmToken)
-                            this.enableNotificationListener(fcmToken)
+                          if (fcmToken) {
+                            this.updateToken(fcmToken);
+                            this.enableNotificationListener(fcmToken);
                           }
-                        })
+                        });
                     }
-                  })
+                  });
 
               }).catch(error => {
-                console.log('firebase messaging error in FCM.js.js!!')
-                console.log(error)
+                console.log('firebase messaging error in FCM.js.js!!');
+                console.log(error);
               });
           }
         }).catch(error => {
-          console.log('firebase messaging error in FCM.js.js!!')
-          console.log(error)
+          console.log('firebase messaging error in FCM.js.js!!');
+          console.log(error);
         });
 
       this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
         this.updateToken(fcmToken);
-      })
+      });
     }
     componentWillUnmount() {
       this.onTokenRefreshListener();
     }
 
     render() {
-      return null
+      return null;
     }
 }
 
 const mapStateToProps = (state) => ({
   fcm: state.fcm,
-  currentUser: state.currentUser
-})
+  currentUser: state.currentUser,
+});
 export default connect(mapStateToProps)(FCM);

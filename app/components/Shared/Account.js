@@ -16,90 +16,90 @@ class Account extends React.Component {
     this.state = {
       showModal: {
         type: null,
-        visible: false
+        visible: false,
       },
-      showStatusPicker: false
-    }
+      showStatusPicker: false,
+    };
   }
     setModalVisible = (type, visible) => {
       this.setState({
         showModal: {
           type,
-          visible
-        }
-      })
+          visible,
+        },
+      });
     }
     denyFriendRequest = (type, prospectiveFriendId) => {
 
       // Hide modal
       this.setModalVisible(null, false);
 
-      if(type === 'received') {
+      if (type === 'received') {
       // Cancel the request
-        this.props.dispatch(cancelFriendRequest(this.props.currentUser.uid, prospectiveFriendId))
+        this.props.dispatch(cancelFriendRequest(this.props.currentUser.uid, prospectiveFriendId));
         // update state to remove friend request where uid === prospectiveFriendId
         let updatedRequests = this.props.currentUser.friendRequestsReceived.filter(request => {
-          return request.uid !== prospectiveFriendId
-        })
+          return request.uid !== prospectiveFriendId;
+        });
 
-        this.props.dispatch(updateFriendRequestsReceived(updatedRequests))
-      } else if(type === 'sent') {
+        this.props.dispatch(updateFriendRequestsReceived(updatedRequests));
+      } else if (type === 'sent') {
         // Cancel the request
-        this.props.dispatch(cancelFriendRequest(prospectiveFriendId, this.props.currentUser.uid))
+        this.props.dispatch(cancelFriendRequest(prospectiveFriendId, this.props.currentUser.uid));
         // update state to remove friend request where uid === prospectiveFriendId
         let updatedRequests = this.props.currentUser.friendRequestsSent.filter(request => {
-          return request.uid !== prospectiveFriendId
-        })
+          return request.uid !== prospectiveFriendId;
+        });
 
-        this.props.dispatch(updateFriendRequestsSent(updatedRequests))
+        this.props.dispatch(updateFriendRequestsSent(updatedRequests));
       }
 
     }
     acceptFriendRequest = (prospectiveFriendId) => {
 
       // Accept the request and create friends
-      this.props.dispatch(createFriends(this.props.currentUser.uid, prospectiveFriendId))
+      this.props.dispatch(createFriends(this.props.currentUser.uid, prospectiveFriendId));
 
       // Hide modal
       this.setModalVisible(null, false);
     }
     toggleStatusPicker = () => {
       this.setState((prevState) => ({
-        showStatusPicker: !prevState.showStatusPicker
-      }))
+        showStatusPicker: !prevState.showStatusPicker,
+      }));
     }
     logout = () => {
-      this.props.dispatch(logoutRequest())
+      this.props.dispatch(logoutRequest());
     }
 
     render() {
-      let friendRequestsReceived = <Text style={{alignSelf: 'center',marginTop: 30}}>None</Text>
-      let friendRequestsSent = <Text style={{alignSelf: 'center',marginTop: 30}}>None</Text>
+      let friendRequestsReceived = <Text style={{alignSelf: 'center',marginTop: 30}}>None</Text>;
+      let friendRequestsSent = <Text style={{alignSelf: 'center',marginTop: 30}}>None</Text>;
       let friendRequestsReceivedBadge;
 
-      if(this.props.currentUser) {
+      if (this.props.currentUser) {
         // STATUS PICKER
         let userStatusPicker;
-        if(this.state.showStatusPicker) {
+        if (this.state.showStatusPicker) {
           userStatusPicker =
                   <Picker
                     selectedValue={this.props.currentUser.status}
                     onValueChange={value => {
-                      this.props.dispatch(updateUserStatus(value))
-                      this.toggleStatusPicker()
+                      this.props.dispatch(updateUserStatus(value));
+                      this.toggleStatusPicker();
                     }}
                     style={{width: '50%'}}
                   >
                     {userStatusTypes.map(t => {
                       return (
-                        <Picker.Item key={t.value} label={t.value} value={t.value} color='#333' />
-                      )
+                        <Picker.Item key={t.value} label={t.value} value={t.value} color="#333" />
+                      );
                     })}
-                  </Picker>
+                  </Picker>;
         }
         // determine badge status
         let badgeStatus;
-        switch(this.props.currentUser.status) {
+        switch (this.props.currentUser.status) {
           case 'Looking to hoop' :
             badgeStatus = 'success';
             break;
@@ -110,11 +110,11 @@ class Account extends React.Component {
             badgeStatus = 'warning';
             break;
           default :
-            badgeStatus = 'error'
+            badgeStatus = 'error';
         }
 
-        if(this.props.currentUser.friendRequestsReceived && this.props.currentUser.friendRequestsReceived.length > 0) {
-          friendRequestsReceivedBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />
+        if (this.props.currentUser.friendRequestsReceived && this.props.currentUser.friendRequestsReceived.length > 0) {
+          friendRequestsReceivedBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />;
 
           friendRequestsReceived = this.props.currentUser.friendRequestsReceived.map((pendingFriend) => {
             return (
@@ -140,10 +140,10 @@ class Account extends React.Component {
                 title={pendingFriend.displayName}
                 bottomDivider
               />
-            )
-          })
+            );
+          });
         }
-        if(this.props.currentUser.friendRequestsSent && this.props.currentUser.friendRequestsSent.length > 0) {
+        if (this.props.currentUser.friendRequestsSent && this.props.currentUser.friendRequestsSent.length > 0) {
 
           friendRequestsSent = this.props.currentUser.friendRequestsSent.map((pendingFriend) => {
             return (
@@ -163,8 +163,8 @@ class Account extends React.Component {
                 title={pendingFriend.displayName}
                 bottomDivider
               />
-            )
-          })
+            );
+          });
         }
         return (
           <ScrollView contentContainerStyle={[styles.container]}>
@@ -172,7 +172,7 @@ class Account extends React.Component {
             <View style={styles.accountTop}>
               <View style={{alignItems: 'center'}}>
                 <Avatar
-                  size='large'
+                  size="large"
                   rounded
                   source={{uri: this.props.currentUser.photoURL,rounded: true}}
                   activeOpacity={0.7}
@@ -194,11 +194,11 @@ class Account extends React.Component {
                 style={{flexDirection: 'row'}}
                 onPress={() => {
                   // render modal showing outstanding friend requests with ability to accept/decline
-                  this.setModalVisible('friendrequests', true)
+                  this.setModalVisible('friendrequests', true);
                 }}
               >
                 <Button
-                  title='Friend Requests'
+                  title="Friend Requests"
                   titleStyle={{fontSize: 18,marginLeft: 5}}
                   icon={{name: 'ios-people',type: 'ionicon',size: 25,color: '#333'}}
                   buttonStyle={{backgroundColor: 'transparent'}}
@@ -216,7 +216,7 @@ class Account extends React.Component {
                 onPress={() => this.toggleStatusPicker()}
               >
                 <Button
-                  title='Set your Status'
+                  title="Set your Status"
                   titleStyle={{fontSize: 18,marginLeft: 5}}
                   icon={{name: 'ios-pulse',type: 'ionicon',size: 25,color: '#333'}}
                   buttonStyle={{backgroundColor: 'transparent'}}
@@ -233,11 +233,11 @@ class Account extends React.Component {
             <View style={{position: 'absolute',bottom: 0,alignSelf: 'center'}}>
               <Button
                 onPress={() => this.logout()}
-                title='Logout'
+                title="Logout"
                 titleStyle={{color: 'red'}}
                 icon={{name: 'ios-log-out',type: 'ionicon',size: 30,color: 'red'}}
                 buttonStyle={{backgroundColor: 'transparent'}}
-                testID='Logout'
+                testID="Logout"
               />
             </View>
 
@@ -261,9 +261,9 @@ class Account extends React.Component {
               </View>
             </Modal>
           </ScrollView>
-        )
+        );
       } else {
-        return <Loading message='' indicator={true}/>
+        return <Loading message="" indicator={true}/>;
       }
 
     }
@@ -271,6 +271,6 @@ class Account extends React.Component {
 
 const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
-  friends: state.friends
-})
+  friends: state.friends,
+});
 export default connect(mapStateToProps)(Account);

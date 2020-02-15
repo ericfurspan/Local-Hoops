@@ -1,18 +1,18 @@
 import React from 'react';
 import { View, AlertIOS } from 'react-native';
 import { SearchBar, ListItem, Header, Icon } from 'react-native-elements';
-import firebase from 'react-native-firebase'
+import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
 import styles from '../../styles/main';
 
 class AddFriend extends React.Component {
     state = {
       users: [],
-      search: ''
+      search: '',
     }
     updateSearch = search => {
-      this.setState({search})
-      this.getNonFriends(search)
+      this.setState({search});
+      this.getNonFriends(search);
     }
     // gets users that are not already friends
     getNonFriends = (search) => {
@@ -21,23 +21,23 @@ class AddFriend extends React.Component {
         .get()
         .then(docs => {
           docs.forEach(doc => {
-            if(doc.data().displayName.includes(search) && this.props.currentUser.uid !== doc.data().uid) {
-              if(!this.props.currentUser.friends) {
-                results.push(doc.data())
+            if (doc.data().displayName.includes(search) && this.props.currentUser.uid !== doc.data().uid) {
+              if (!this.props.currentUser.friends) {
+                results.push(doc.data());
               } else {
-                if(!this.props.currentUser.friends.includes(doc.data().uid)) {
-                  results.push(doc.data())
+                if (!this.props.currentUser.friends.includes(doc.data().uid)) {
+                  results.push(doc.data());
                 }
               }
             }
-          })
+          });
           return results;
         })
-        .then((users) => {this.setState({users})})
+        .then((users) => {this.setState({users});})
         .catch(error => {
-          console.log('firestore error in AddFriend.js.js!!')
-          console.log(error)
-        })
+          console.log('firestore error in AddFriend.js.js!!');
+          console.log(error);
+        });
     }
     confirmAdd = (friend) => {
       AlertIOS.alert(
@@ -49,7 +49,7 @@ class AddFriend extends React.Component {
           },
           {
             text: 'OK',
-            onPress: () => this.props.onAddFriend(this.props.currentUser.uid,friend.uid)
+            onPress: () => this.props.onAddFriend(this.props.currentUser.uid,friend.uid),
           },
         ]
       );
@@ -68,7 +68,7 @@ class AddFriend extends React.Component {
             round
             inputContainerStyle={{backgroundColor: '#fff'}}
             onChangeText={this.updateSearch}
-            placeholder='Search by Name'
+            placeholder="Search by Name"
             value={this.state.search}
           />
           {this.state.users.map((f) => (
@@ -77,9 +77,9 @@ class AddFriend extends React.Component {
               onPress={() => this.confirmAdd(f)}
               rightIcon={
                 <Icon
-                  name='ios-person-add'
-                  color='#333'
-                  type='ionicon'
+                  name="ios-person-add"
+                  color="#333"
+                  type="ionicon"
                   size={25}
                 />
               }
@@ -90,12 +90,12 @@ class AddFriend extends React.Component {
             />
           ))}
         </View>
-      )
+      );
     }
 }
 
 const mapStateToProps = (state) => ({
   currentUser: state.currentUser,
-  friends: state.friends
-})
+  friends: state.friends,
+});
 export default connect(mapStateToProps)(AddFriend);

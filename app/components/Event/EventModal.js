@@ -3,7 +3,7 @@ import { View, Modal, AlertIOS } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import CancelButton from '../Shared/CancelButton';
-import Mapbox from '@mapbox/react-native-mapbox-gl';
+import Mapbox from '@react-native-mapbox-gl/maps';
 import EventCard from './EventCard';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 import styles from '../../styles/main';
@@ -15,7 +15,7 @@ class EventModal extends React.Component {
     confirmDeleteEvent = () => {
       AlertIOS.alert(
         'Please Confirm',
-        `Are you sure you want to delete this event?`,
+        'Are you sure you want to delete this event?',
         [
           {
             text: 'Cancel',
@@ -23,9 +23,9 @@ class EventModal extends React.Component {
           {
             text: 'OK',
             onPress: () => {
-              this.props.dispatch(deleteEvent(this.props.event))
-              this.props.setModalVisible(false)
-            }
+              this.props.dispatch(deleteEvent(this.props.event));
+              this.props.setModalVisible(false);
+            },
           },
         ]
       );
@@ -47,7 +47,7 @@ class EventModal extends React.Component {
                           <Button
                             onPress={() => this.confirmDeleteEvent()}
                             icon={{name: 'ios-remove',type: 'ionicon',size: 16,color: 'red'}}
-                            title='Delete Event'
+                            title="Delete Event"
                             titleStyle={{color: 'red',fontSize: 14,fontWeight: '500'}}
                             buttonStyle={{backgroundColor: 'transparent'}}
                           />
@@ -56,12 +56,12 @@ class EventModal extends React.Component {
             <CancelButton onCancel={() => this.props.setModalVisible(false)} />
           </View>
         </Modal>
-      )
+      );
     }
 }
 
 const mapStateToProps = (state) => ({
-  currentUser: state.currentUser
-})
+  currentUser: state.currentUser,
+});
 
 export default connect(mapStateToProps)(EventModal);

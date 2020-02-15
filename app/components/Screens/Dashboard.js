@@ -1,4 +1,5 @@
 import React from 'react';
+import Geolocation from '@react-native-community/geolocation';
 import { View, Modal, Dimensions, ScrollView, TouchableOpacity, StatusBar, ActivityIndicator } from 'react-native';
 import { Button, Header, ButtonGroup, Text, Divider, Badge, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -15,12 +16,12 @@ import Account from '../Shared/Account';
 import styles from '../../styles/main';
 import FCM from '../Messaging/FCM';
 import Logo from '../../../assets/img/logo_orange_ball.png';
-import Mapbox from '@mapbox/react-native-mapbox-gl';
+import Mapbox from '@react-native-mapbox-gl/maps';
 import { MAPBOX_ACCESS_TOKEN } from '../../../config';
 
 Mapbox.setAccessToken(MAPBOX_ACCESS_TOKEN);
 let deviceWidth = Dimensions.get('window').width;
-let deviceHeight= Dimensions.get('window').height;
+let deviceHeight = Dimensions.get('window').height;
 
 // let activityTypes = [{value: 'All'}, {value: 'Friends'}, {value: 'Only Me'}];
 
@@ -33,11 +34,11 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    if(!this.props.loggedIn) {
+    if (!this.props.loggedIn) {
       this.props.navigation.navigate('Auth');
     }
 
-    if(this.props.currentUser && this.props.currentUser.friends && this.props.currentUser.friends.length > 0) {
+    if (this.props.currentUser && this.props.currentUser.friends && this.props.currentUser.friends.length > 0) {
       this.props.dispatch(getFriends(this.props.currentUser.friends));
     }
 
@@ -48,21 +49,21 @@ class Dashboard extends React.Component {
   }
   setEventFormModalVisible = (visible) => {
     this.setState({
-      showEventFormModal: visible
-    })
+      showEventFormModal: visible,
+    });
   }
   setAccountModalVisible = (visible) => {
     this.setState({
-      showAccountModal: visible
-    })
+      showAccountModal: visible,
+    });
   }
   updateSelectedIndex = (selectedIndex) => {
-    this.setState({selectedIndex})
+    this.setState({selectedIndex});
   }
   // Finds user location
   getUserLocationAndNearbyCourts = () => {
 
-    navigator.geolocation.getCurrentPosition(position => {
+    Geolocation.getCurrentPosition(position => {
       this.props.dispatch(updateLocation(position.coords, true));
       this.props.dispatch(getNearbyCourts(position.coords,15000));
     }, () => {
@@ -74,36 +75,36 @@ class Dashboard extends React.Component {
   returnAnnotation = (coords) => {
     return (
       <Mapbox.PointAnnotation
-        key={"2"}
-        id={"2"}
+        key={'2'}
+        id={'2'}
         coordinate={[coords.longitude, coords.latitude]}
         title="annotation title"
       >
         <IonIcon
-          name='ios-pin'
+          name="ios-pin"
           size={30}
-          color='red'
+          color="red"
         />
       </Mapbox.PointAnnotation>
-    )
+    );
   }
   render() {
-    if(this.props.error) {
-      return <ErrorMessage message={this.props.error}/>
+    if (this.props.error) {
+      return <ErrorMessage message={this.props.error}/>;
     }
 
     const eventViewBtns = ['Timeline', 'List'];
 
-    if(this.props.currentUser) {
+    if (this.props.currentUser) {
 
       // account notification badge
       let accountNotificationBadge;
-      if(this.props.currentUser.friendRequestsReceived && this.props.currentUser.friendRequestsReceived.length > 0) {
-        accountNotificationBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />
+      if (this.props.currentUser.friendRequestsReceived && this.props.currentUser.friendRequestsReceived.length > 0) {
+        accountNotificationBadge = <Badge value={this.props.currentUser.friendRequestsReceived.length} status="error" />;
       }
 
       return (
-        <View style={[styles.container,{backgroundColor: '#FAFAFA'}]} testID='Dashboard'>
+        <View style={[styles.container,{backgroundColor: '#FAFAFA'}]} testID="Dashboard">
 
           {// hide status bar when modal visible
           }
@@ -115,7 +116,7 @@ class Dashboard extends React.Component {
             centerComponent={
               <Image
                 source={Logo}
-                style={{width: 150,height: deviceHeight*.25}}
+                style={{width: 150,height: deviceHeight * 0.25}}
                 PlaceholderContent={<ActivityIndicator />}
                 placeholderStyle={{backgroundColor: 'transparent'}}
               />
@@ -125,12 +126,12 @@ class Dashboard extends React.Component {
               <TouchableOpacity
                 onPress={() => this.setAccountModalVisible(true)}
                 style={{flexDirection: 'row'}}
-                testID='AccountButton'
+                testID="AccountButton"
               >
                 <IonIcon
-                  name='ios-contact'
+                  name="ios-contact"
                   size={40}
-                  color='#fff'
+                  color="#fff"
                 />
                 {accountNotificationBadge}
               </TouchableOpacity>
@@ -145,7 +146,7 @@ class Dashboard extends React.Component {
 
               {// SAVED COURTS
               }
-              <View testID='SavedCourts'>
+              <View testID="SavedCourts">
                 <View style={{width: deviceWidth,flexDirection: 'row',justifyContent: 'flex-start',marginTop: 15}}>
                   <Text style={styles.header}>Favorite Courts</Text>
                 </View>
@@ -159,9 +160,9 @@ class Dashboard extends React.Component {
                     return (
                       <TouchableOpacity
                         key={court.id}
-                        style={{width: deviceWidth*.35,marginTop: 10,justifyContent: 'flex-start'}}
+                        style={{width: deviceWidth * 0.35,marginTop: 10,justifyContent: 'flex-start'}}
                         onPress= {() => { // navigate to this court in the Explore screen
-                          this.props.navigation.navigate('Explore', { action: {type: 'showCourt', data: court} })
+                          this.props.navigation.navigate('Explore', { action: {type: 'showCourt', data: court} });
                         }}
                       >
                         <Mapbox.MapView
@@ -177,27 +178,27 @@ class Dashboard extends React.Component {
                         </Mapbox.MapView>
                         <Text style={{fontWeight: '500',textAlign: 'center',fontSize: 16}}>{court.name}</Text>
                       </TouchableOpacity>
-                    )
+                    );
                   })}
                 </ScrollView>
               </View>
 
-              <Divider style={{marginBottom: 30,marginTop: 30,width: deviceWidth*.9,alignSelf: 'center'}}/>
+              <Divider style={{marginBottom: 30,marginTop: 30,width: deviceWidth * 0.9,alignSelf: 'center'}}/>
 
 
               {// RECENT ACTIVITY
               }
-              <View style={{height: deviceHeight*.6,alignItems: 'center'}} testID='RecentActivity'>
+              <View style={{height: deviceHeight * 0.6,alignItems: 'center'}} testID="RecentActivity">
                 <View style={{width: deviceWidth,flexDirection: 'row',justifyContent: 'space-between'}}>
                   <Text style={styles.header}>Past Events</Text>
                   <Button
                     onPress={() => this.setEventFormModalVisible(true)}
                     icon={{name: 'ios-add',type: 'ionicon',size: 25,color: '#3578E5'}}
-                    title='New Event'
+                    title="New Event"
                     buttonStyle={{backgroundColor: 'transparent'}}
                     containerStyle={{marginRight: 10}}
                     titleStyle={{color: '#3578E5',fontSize: 16,fontWeight: '500'}}
-                    testID='newEvent'
+                    testID="newEvent"
                   />
                 </View>
 
@@ -269,8 +270,8 @@ class Dashboard extends React.Component {
       );
     } else {
       return (
-        <Loading message='' indicator={false}/>
-      )
+        <Loading message="" indicator={false}/>
+      );
     }
 
   }
@@ -282,7 +283,7 @@ const mapStateToProps = (state) => ({
   friends: state.friends,
   savedCourts: state.savedCourts,
   fcm: state.fcm,
-  error: state.error
-})
+  error: state.error,
+});
 
 export default connect(mapStateToProps)(Dashboard);

@@ -7,8 +7,9 @@ import {
   LOGOUT,
   NEW_USER_SUCCESS,
   UPDATE_LOGIN_FORM,
-  UPDATE_REGISTRATION_FORM
+  UPDATE_REGISTRATION_FORM,
 } from './actions/Auth';
+
 // USER
 import {
   UPDATE_STATUS,
@@ -21,8 +22,9 @@ import {
   REMOVE_FRIEND_ERROR,
   SET_PREFERRED_MAPTYPE,
   UPDATE_FR_RECEIVED,
-  UPDATE_FR_SENT
+  UPDATE_FR_SENT,
 } from './actions/User';
+
 // EVENTS
 import {
   UPDATE_EVENTS,
@@ -36,12 +38,12 @@ import {
   DELETE_EVENT_REQUEST,
   DELETE_EVENT_SUCCESS,
   DELETE_EVENT_ERROR,
-  CLEAR_TEMP_EVENT
+  CLEAR_TEMP_EVENT,
 } from './actions/Event';
+
 import { eventTypes } from '../app/components/Event/CreateEvent/EventForm';
-import {
-  UPDATE_LOCATION,
-} from './actions/Location';
+import { UPDATE_LOCATION } from './actions/Location';
+
 // COURT
 import {
   UPDATE_NEARBY_COURTS,
@@ -51,18 +53,15 @@ import {
   UNSAVE_COURT_SUCCESS,
   UPDATE_SAVED_COURTS,
   ADD_COURT_SUCCESS,
-  ADD_COURT_ERROR
+  ADD_COURT_ERROR,
 } from './actions/Court';
-
-// FIREBASE MESSAGING
-// import {  } from './actions/Messaging';
 
 // MISC
 import {
   CLEAR_ERROR,
   RENDER_NOTIFICATION,
   CLEAR_NOTIFICATION,
-  DISPLAY_ERROR
+  DISPLAY_ERROR,
 } from './actions/Misc';
 
 const initialState = {
@@ -71,7 +70,7 @@ const initialState = {
   tempEvent: {
     step: 1,
     type: eventTypes[0],
-    date: new Date()
+    date: new Date(),
   },
   friends: null,
   loggedIn: false,
@@ -84,7 +83,7 @@ const initialState = {
   location: null,
   mapLoading: false,
   login_form: {},
-  registration_form: {}
+  registration_form: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -92,23 +91,23 @@ const reducer = (state = initialState, action) => {
   if (action.type === AUTH_REQUEST) {
     return Object.assign({}, state, {
       error: null,
-      authLoading: true
+      authLoading: true,
     });
   } else if (action.type === LOGIN_SUCCESS) {
     return Object.assign({}, state, {
       currentUser: action.user,
       loggedIn: true,
       authLoading: false,
-      error: null
+      error: null,
     });
   } else if (action.type === LOGIN_ERROR) {
     return Object.assign({}, state, {
       error: action.message,
-      authLoading: false
+      authLoading: false,
     });
   } else if (action.type === NEW_USER_SUCCESS) {
     return Object.assign({}, state, {
-      authLoading: false
+      authLoading: false,
     });
   } else if (action.type === LOGOUT) {
     return Object.assign({}, state, {
@@ -116,83 +115,83 @@ const reducer = (state = initialState, action) => {
       events: null,
       loggedIn: false,
       friends: null,
-      authLoading: false
+      authLoading: false,
     });
-  } else if(action.type === UPDATE_STATUS) {
+  } else if (action.type === UPDATE_STATUS) {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        status: action.status
-      }
+        status: action.status,
+      },
     });
-  } else if(action.type === UPDATE_LOGIN_FORM) {
+  } else if (action.type === UPDATE_LOGIN_FORM) {
     return Object.assign({}, state, {
       login_form: {
         ...state.login_form,
-        [action.field]: action.value
-      }
+        [action.field]: action.value,
+      },
     });
-  } else if(action.type === UPDATE_REGISTRATION_FORM) {
+  } else if (action.type === UPDATE_REGISTRATION_FORM) {
     return Object.assign({}, state, {
       registration_form: {
         ...state.registration_form,
-        [action.field]: action.value
-      }
+        [action.field]: action.value,
+      },
     });
-  }else if(action.type === ADD_COURT_SUCCESS) {
+  } else if (action.type === ADD_COURT_SUCCESS) {
     return Object.assign({}, state, {
-      error: null
-    })
-  } else if(action.type === ADD_COURT_ERROR) {
-    return Object.assign({}, state, {
-      error: action.error.message
-    })
-  } else if(action.type === UPDATE_SAVED_COURTS) {
-    return Object.assign({}, state, {
-      savedCourts: action.savedCourts
+      error: null,
     });
-  } else if(action.type === UPDATE_FR_RECEIVED) {
+  } else if (action.type === ADD_COURT_ERROR) {
+    return Object.assign({}, state, {
+      error: action.error.message,
+    });
+  } else if (action.type === UPDATE_SAVED_COURTS) {
+    return Object.assign({}, state, {
+      savedCourts: action.savedCourts,
+    });
+  } else if (action.type === UPDATE_FR_RECEIVED) {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        friendRequestsReceived: action.friendRequestsReceived
-      }
+        friendRequestsReceived: action.friendRequestsReceived,
+      },
     });
-  } else if(action.type === UPDATE_FR_SENT) {
+  } else if (action.type === UPDATE_FR_SENT) {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        friendRequestsSent: action.friendRequestsSent
-      }
+        friendRequestsSent: action.friendRequestsSent,
+      },
     });
-  } else if(action.type === SET_PREFERRED_MAPTYPE) {
+  } else if (action.type === SET_PREFERRED_MAPTYPE) {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        preferredMapType: action.preferredMapType
-      }
+        preferredMapType: action.preferredMapType,
+      },
     });
-  } else if(action.type === DISPLAY_ERROR) {
+  } else if (action.type === DISPLAY_ERROR) {
     return Object.assign({}, state, {
-      error: action.error.message
-    })
+      error: action.error.message,
+    });
   } else if (action.type === REQUEST_NEARBY_COURTS) {
     return Object.assign({}, state, {
-      mapLoading: true
+      mapLoading: true,
     });
   } else if (action.type === FAILED_NEARBY_COURTS) {
     return Object.assign({}, state, {
-      mapLoading: false
+      mapLoading: false,
     });
   } else if (action.type === UPDATE_NEARBY_COURTS) {
     // todo filter duplicate ids? if more than 1, only keep one where discovered_by.displayName !== Google Places
     return Object.assign({}, state, {
       nearbyCourts: action.courts,
-      mapLoading: false
+      mapLoading: false,
     });
   } else if (action.type === SAVE_COURT_SUCCESS) {
     let courtIds;
-    if(state.currentUser.saved_courts) {
+    if (state.currentUser.saved_courts) {
       courtIds = [...state.currentUser.saved_courts, action.courtId];
     } else {
       courtIds = [action.courtId];
@@ -200,91 +199,91 @@ const reducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        saved_courts: courtIds
+        saved_courts: courtIds,
       },
-      error: null
+      error: null,
     });
   }  else if (action.type === UNSAVE_COURT_SUCCESS) {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        saved_courts: state.currentUser.saved_courts.filter(id => id !== action.courtId)
+        saved_courts: state.currentUser.saved_courts.filter(id => id !== action.courtId),
       },
-      error: null
+      error: null,
     });
   } else if (action.type === UPDATE_EVENTS) {
-    switch(action.category) {
+    switch (action.category) {
       case 'user':
         return Object.assign({}, state, {
           events: {
             ...state.events,
-            user: action.events
-          }
+            user: action.events,
+          },
         });
       case 'friends':
         return Object.assign({}, state, {
           events: {
             ...state.events,
-            friends: action.events
-          }
+            friends: action.events,
+          },
         });
       case 'all':
         return Object.assign({}, state, {
           events: {
             ...state.events,
-            all: [...state.events.user, ...state.events.friends]
-          }
+            all: [...state.events.user, ...state.events.friends],
+          },
         });
     }
   } else if (action.type === UPDATE_TEMPEVENT_PARTICIPANTS) {
     return Object.assign({}, state, {
       tempEvent: {
         ...state.tempEvent,
-        participants: action.participants
-      }
-    })
+        participants: action.participants,
+      },
+    });
   } else if (action.type === UPDATE_TEMPEVENT_TYPE) {
     return Object.assign({}, state, {
       tempEvent: {
         ...state.tempEvent,
-        type: action.data
-      }
-    })
+        type: action.data,
+      },
+    });
   } else if (action.type === RESET_TEMPEVENT) {
     return Object.assign({}, state, {
       tempEvent: {
         step: 1,
         type: eventTypes[0],
-        date: new Date()
-      }
-    })
+        date: new Date(),
+      },
+    });
   } else if (action.type === UPDATE_TEMPEVENT) {
-    if(typeof action.data !== 'object' || action.field == 'date') {
+    if (typeof action.data !== 'object' || action.field === 'date') {
       return Object.assign({}, state, {
         tempEvent: {
           ...state.tempEvent,
-          [action.field]: action.data
-        }
-      })
+          [action.field]: action.data,
+        },
+      });
     } else {
       return Object.assign({}, state, {
         tempEvent: {
           ...state.tempEvent,
           [action.field]: {
             ...state.tempEvent[action.field],
-            ...action.data
-          }
-        }
-      })
+            ...action.data,
+          },
+        },
+      });
     }
   } else if (action.type === CLEAR_TEMP_EVENT) {
     return Object.assign({}, state, {
-      tempEvent: initialState.tempEvent
+      tempEvent: initialState.tempEvent,
     });
   } else if (action.type === UPDATE_LOCATION) {
     return Object.assign({}, state, {
       location: action.location,
-      locationEnabled: action.locationEnabled
+      locationEnabled: action.locationEnabled,
     });
   } else if (action.type === UPDATE_FRIENDS) {
     let friends = state.friends ? state.friends.filter(f => f.uid !== action.friend.uid) : [];
@@ -294,43 +293,43 @@ const reducer = (state = initialState, action) => {
       friends,
       currentUser: {
         ...state.currentUser,
-        friends: friendIds
-      }
+        friends: friendIds,
+      },
     });
   } else if (action.type === ADD_FRIEND_REQUEST) {
     return Object.assign({}, state, {
-      loading: true
+      loading: true,
     });
   } else if (action.type === ADD_FRIEND_SUCCESS) {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        friends: state.currentUser.friends ? [...state.currentUser.friends, action.friendId] : [action.friendId]
+        friends: state.currentUser.friends ? [...state.currentUser.friends, action.friendId] : [action.friendId],
       },
       error: null,
-      loading: false
+      loading: false,
     });
   } else if (action.type === ADD_FRIEND_ERROR) {
     return Object.assign({}, state, {
-      error: action.error.message
+      error: action.error.message,
     });
   } else if (action.type === REMOVE_FRIEND_REQUEST) {
     return Object.assign({}, state, {
-      loading: true
+      loading: true,
     });
   } else if (action.type === REMOVE_FRIEND_SUCCESS) {
     return Object.assign({}, state, {
       currentUser: {
         ...state.currentUser,
-        friends: state.currentUser.friends ? state.currentUser.friends.filter(id => id !== action.friendId) : null
+        friends: state.currentUser.friends ? state.currentUser.friends.filter(id => id !== action.friendId) : null,
       },
-      friends: state.friends ? state.friends.filter(f => f.uid != action.friendId) : [],
+      friends: state.friends ? state.friends.filter(f => f.uid !== action.friendId) : [],
       error: null,
-      loading: false
+      loading: false,
     });
   } else if (action.type === REMOVE_FRIEND_ERROR) {
     return Object.assign({}, state, {
-      error: action.error.message
+      error: action.error.message,
     });
   } else if (action.type === CLEAR_ERROR) {
     return Object.assign({}, state, {
@@ -350,12 +349,12 @@ const reducer = (state = initialState, action) => {
     });
   } else if (action.type === SAVE_EVENT_SUCCESS) {
     return Object.assign({}, state, {
-      loading: false
+      loading: false,
     });
   } else if (action.type === SAVE_EVENT_ERROR) {
     return Object.assign({}, state, {
       loading: false,
-      error: action.error
+      error: action.error,
     });
   } else if (action.type === DELETE_EVENT_REQUEST) {
     return Object.assign({}, state, {
@@ -365,17 +364,17 @@ const reducer = (state = initialState, action) => {
     return Object.assign({}, state, {
       loading: false,
       events: {
-        user: state.events.user ? state.events.user.filter(e => e.id != action.eventId) : null,
-        friends: state.events.friends ? state.events.friends.filter(e => e.id != action.eventId) : null
-      }
+        user: state.events.user ? state.events.user.filter(e => e.id !== action.eventId) : null,
+        friends: state.events.friends ? state.events.friends.filter(e => e.id !== action.eventId) : null,
+      },
     });
   } else if (action.type === DELETE_EVENT_ERROR) {
     return Object.assign({}, state, {
       loading: false,
-      error: action.error
+      error: action.error,
     });
   }
   return state;
-}
+};
 
 export default reducer;

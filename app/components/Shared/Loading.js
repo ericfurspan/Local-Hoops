@@ -14,9 +14,9 @@ class Loading extends React.Component {
           PlaceholderContent={<ActivityIndicator />}
           placeholderStyle={{backgroundColor: 'transparent'}}
         />
-        {this.props.indicator ? <ActivityIndicator size='large' color='#FFFFFF'/> : null}
+        {this.props.indicator ? <ActivityIndicator size="large" color="#FFFFFF"/> : null}
       </View>
-    )
+    );
   }
 }
 

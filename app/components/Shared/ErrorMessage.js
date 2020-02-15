@@ -10,7 +10,7 @@ class ErrorMessage extends React.Component {
       this.props.dispatch(clearError());
     }
     render() {
-      console.log(this.props)
+      console.log(this.props);
       return (
         <View style={styles.centeredContainer}>
           {AlertIOS.alert(
@@ -21,10 +21,10 @@ class ErrorMessage extends React.Component {
                 text: 'OK',
                 onPress: () => this.handleRedirect(),
               },
-            ],
+            ]
           )}
         </View>
-      )
+      );
     }
 }
 export default connect()(ErrorMessage);

@@ -46,4 +46,4 @@ export const authTests = () => {
     await element(by.id('tryLogin')).tap();
     await UIExpect(element(by.id('Dashboard'))).toExist();
   });
-}
+};

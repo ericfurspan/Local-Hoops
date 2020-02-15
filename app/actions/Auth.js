@@ -1,25 +1,25 @@
-import firebase from 'react-native-firebase'
-import { GoogleSignin, statusCodes } from 'react-native-google-signin';
+import firebase from 'react-native-firebase';
+import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { displayError } from './Misc';
 
 export const LOGOUT = 'LOGOUT';
 export const logout = () => ({
-  type: LOGOUT
+  type: LOGOUT,
 });
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const authRequest = () => ({
-  type: AUTH_REQUEST
+  type: AUTH_REQUEST,
 });
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const loginSuccess = (user) => ({
   type: LOGIN_SUCCESS,
-  user
+  user,
 });
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const loginError = (message) => ({
   type: LOGIN_ERROR,
-  message
+  message,
 });
 export const NEW_USER_REQUEST = 'NEW_USER_REQUEST';
 export const newUserRequest = () => ({
@@ -33,13 +33,13 @@ export const UPDATE_LOGIN_FORM = 'UPDATE_LOGIN_FORM';
 export const updateLoginForm = (field, value) => ({
   type: UPDATE_LOGIN_FORM,
   field,
-  value
+  value,
 });
 export const UPDATE_REGISTRATION_FORM = 'UPDATE_REGISTRATION_FORM';
 export const updateRegistrationForm = (field, value) => ({
   type: UPDATE_REGISTRATION_FORM,
   field,
-  value
+  value,
 });
 
 export const CreateUserWithEmailPw = (name, email, password) => async (dispatch) => {
@@ -58,16 +58,16 @@ export const CreateUserWithEmailPw = (name, email, password) => async (dispatch)
       photoURL: 'https://firebasestorage.googleapis.com/v0/b/local-courts-1536035788302.appspot.com/o/placeholder.png?alt=media&token=f297fe0f-ff64-41c7-a727-8f60e6fa9a07',
       email,
       friends: [],
-      status: 'Available'
-    }
+      status: 'Available',
+    };
     await firebase.firestore().doc(`users/${uid}`)
-      .set(userDoc)
+      .set(userDoc);
 
     return dispatch(newUserSuccess());
-  } catch(e) {
-    dispatch(displayError(e))
+  } catch (e) {
+    dispatch(displayError(e));
   }
-}
+};
 
 export const EmailPwLogin = (email, password) => async (dispatch) => {
   try {
@@ -78,22 +78,22 @@ export const EmailPwLogin = (email, password) => async (dispatch) => {
 
     return dispatch(loginSuccess());
   }
-  catch(e) {
+  catch (e) {
     let errorMessage = e.message;
 
     // custom error messages
-    if(e.code === 'auth/wrong-password') {
+    if (e.code === 'auth/wrong-password') {
       errorMessage = 'Invalid password';
-    } else if(e.code === 'auth/user-not-found') {
+    } else if (e.code === 'auth/user-not-found') {
       errorMessage = 'No user found';
-    } else if(e.code === 'auth/user-disabled') {
-      errorMessage = 'Sorry, your account has been disabled'
-    } else if(e.code === 'auth/invalid-email') {
+    } else if (e.code === 'auth/user-disabled') {
+      errorMessage = 'Sorry, your account has been disabled';
+    } else if (e.code === 'auth/invalid-email') {
       errorMessage = 'Invalid email address';
     }
     dispatch(loginError(errorMessage));
   }
-}
+};
 
 
 
@@ -103,35 +103,35 @@ export const FacebookLogin = () => (dispatch) => {
 
   LoginManager.logInWithReadPermissions(['public_profile', 'email'])
     .then((result) => {
-      if(result.isCancelled) {
-        dispatch(loginError(`Cancelled Facebook login`));
-      } else {return result}
+      if (result.isCancelled) {
+        dispatch(loginError('Cancelled Facebook login'));
+      } else {return result;}
     })
     .then((result) => {
-      if(result) {
+      if (result) {
         AccessToken.getCurrentAccessToken()
           .then(data => {
-            if(data) {
+            if (data) {
               const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
               return firebase.auth().signInWithCredential(credential);
             }
           })
           .then((currentUser) => {
-            if(currentUser.additionalUserInfo.isNewUser) {
-              return dispatch(createUserDoc(currentUser)) // this should create a user object in firestore
+            if (currentUser.additionalUserInfo.isNewUser) {
+              return dispatch(createUserDoc(currentUser)); // this should create a user object in firestore
             }
           })
           .catch(error => {
             dispatch(logout());
             dispatch(loginError(`Unable to login with Facebook\n${error}`));
-          })
+          });
       }
     })
     .catch(error => {
       dispatch(logout());
       dispatch(loginError(`Unable to login with Facebook\n${error}`));
-    })
-}
+    });
+};
 
 // Google Login
 export const GoogleLogin = () => (dispatch) => {
@@ -142,32 +142,32 @@ export const GoogleLogin = () => (dispatch) => {
   GoogleSignin.signIn()
     .then(data => {
       // create a new firebase credential with the token
-      const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+      const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
       // login with credential
       return firebase.auth().signInWithCredential(credential);
     })
     .then(async currentUser => {
-      if(currentUser.additionalUserInfo.isNewUser) {
-        await dispatch(createUserDoc(currentUser)) // this should create a user object in firestore
+      if (currentUser.additionalUserInfo.isNewUser) {
+        await dispatch(createUserDoc(currentUser)); // this should create a user object in firestore
         return dispatch(newUserSuccess());
       }
-      return currentUser
+      return currentUser;
     })
     .catch(error => {
-      if(error.code === statusCodes.SIGN_IN_CANCELLED) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         dispatch(logout());
-        dispatch(loginError(`Unable to login with Google\nUser cancelled sign in`));
-      } else if(error.code === statusCodes.IN_PROGRESS) {
+        dispatch(loginError('Unable to login with Google\nUser cancelled sign in'));
+      } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (f.e. sign in) is in progress already
         dispatch(logout());
-        dispatch(loginError(`Unable to login with Google\nSign in already in progress`));
+        dispatch(loginError('Unable to login with Google\nSign in already in progress'));
       } else {
         dispatch(logout());
         dispatch(loginError(`Unable to login with Google\n${error}`));
       }
-    })
-}
+    });
+};
 
 export const logoutRequest = () => (dispatch) => {
   firebase.auth().signOut();
@@ -181,8 +181,8 @@ const createUserDoc = (newUser) => () => {
     photoURL: newUser.user._user.photoURL,
     email: newUser.additionalUserInfo.profile.email,
     friends: [],
-    status: 'Available'
-  }
+    status: 'Available',
+  };
   return firebase.firestore().doc(`users/${userObj.uid}`)
-    .set(userObj)
-}
+    .set(userObj);
+};

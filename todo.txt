@@ -1,0 +1,28 @@
+1. Update folder structure
+    app/
+      components/
+        shared/
+      views/
+        Dashboard/
+          components/
+        Explore/
+          components/
+        Social/
+          components/
+      utils/
+        redux/
+          actions/
+          reducer.js
+          store.js
+        networking/
+          firestore/
+          google-places.js
+      style/
+        theme.js
+        (look up best way to do styles in react-native)
+
+
+
+
+
+      
