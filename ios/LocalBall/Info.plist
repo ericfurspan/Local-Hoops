@@ -39,30 +39,21 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0.7</string>
-	<key>Fabric</key>
-	<dict>
-		<key>APIKey</key>
-		<string>dfa51e1440825e1a9d6e6fc25db1121241102d0f</string>
-		<key>Kits</key>
-		<array>
-			<dict>
-				<key>KitInfo</key>
-				<dict/>
-				<key>KitName</key>
-				<string>Crashlytics</string>
-			</dict>
-		</array>
-	</dict>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<true/>
 	<key>FacebookAppID</key>
 	<string>2356746987674675</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<true/>
 	<key>FacebookDisplayName</key>
 	<string>LocalBall</string>
 	<key>LSApplicationCategoryType</key>
-	<string/>
+	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
 		<string>fb-messenger-api</string>
+		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 	</array>
@@ -89,30 +80,26 @@
 	<string>LaunchScreen</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Play-Bold.ttf</string>
-		<string>Play-Regular.ttf</string>
-		<string>ArchitectsDaughter-Regular.ttf</string>
-		<string>Kodchasan-Regular.ttf</string>
-		<string>Lobster-Regular.ttf</string>
-		<string>Bangers-Regular.ttf</string>
-		<string>FasterOne-Regular.ttf</string>
-		<string>Graduate-Regular.ttf</string>
-		<string>ChelseaMarket-Regular.ttf</string>
-		<string>RhodiumLibre-Regular.ttf</string>
-		<string>AntDesign.tff</string>
-		<string>Ionicons.tff</string>
-		<string>EvilIcons.tff</string>
-		<string>Feather.tff</string>
-		<string>FontAwesome.tff</string>
-		<string>Foundation.tff</string>
-		<string>MaterialCommunityIcons.tff</string>
-		<string>MaterialIcons.tff</string>
-		<string>Octicons.tff</string>
-		<string>SimpleLineIcons.tff</string>
-		<string>Zocial.tff</string>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
