@@ -9,9 +9,8 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
-    "firebase-admin": "~6.0.0",
-    "firebase-functions": "^2.1.0",
-    "@slack/client": "^4.10.0"
+    "firebase-admin": "^9.2.0",
+    "firebase-functions": "^3.11.0"
   },
   "private": true,
   "engines": {

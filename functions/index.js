@@ -1,31 +1,17 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-// const util = require('./util');
-
-// Initialize slack webhook
-const IncomingWebhook = require('@slack/client').IncomingWebhook;
-const url = 'https://hooks.slack.com/services/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';
-const webhook = new IncomingWebhook(url);
 
 admin.initializeApp();
 
-
-
-const sendSlackNotification = (message) => {
-  webhook.send(message);
-};
-
 // handles opening friend requests
-// sends notification
-exports.openFriendRequest = functions.firestore.document('friendRequests/{requestId}')
+exports.openFriendRequest = functions.firestore
+  .document('friendRequests/{requestId}')
   .onCreate(async (snapshot, context) => {
-
     try {
-      const requestId = context.params.requestId;
+      const { requestId } = context.params;
       const data = snapshot.data();
 
       if (data && data.status === 'pending') {
-
         let notificationRecipientId, title, body;
 
         // get name of requestor
@@ -38,28 +24,28 @@ exports.openFriendRequest = functions.firestore.document('friendRequests/{reques
 
         // get fcmToken for notification recipient
         const tokenSnapshot = await admin.firestore().doc(`users/${notificationRecipientId}`).get();
-        const fcmToken = tokenSnapshot.data().fcmToken;
+        const { fcmToken } = tokenSnapshot.data();
 
         // send notification
         if (fcmToken) {
-        // build the notification
+          // build the notification
           const notification = {
-            'notification': {
-              'title': title,
-              'body': body,
+            notification: {
+              title: title,
+              body: body,
             },
-            'apns': {
-              'payload': {
-                'aps': {
+            apns: {
+              payload: {
+                aps: {
                   'content-available': 1,
-                  'alert': {
-                    'body': body,
+                  alert: {
+                    body: body,
                   },
-                  'badge': 0,
+                  badge: 0,
                 },
               },
             },
-            'token': fcmToken,
+            token: fcmToken,
           };
           // send notification
           await admin.messaging().send(notification);
@@ -75,11 +61,11 @@ exports.openFriendRequest = functions.firestore.document('friendRequests/{reques
 
 // handles closing friend requests
 // sends notification and deletes friend request document
-exports.closeFriendRequest = functions.firestore.document('friendRequests/{requestId}')
+exports.closeFriendRequest = functions.firestore
+  .document('friendRequests/{requestId}')
   .onUpdate(async (change, context) => {
-
     try {
-      const requestId = context.params.requestId;
+      const { requestId } = context.params;
       const beforeData = change.before.exists ? change.before.data() : null;
       const afterData = change.after.exists ? change.after.data() : null;
 
@@ -90,44 +76,45 @@ exports.closeFriendRequest = functions.firestore.document('friendRequests/{reque
       const requesteeName = nameSnapshot.data().displayName;
 
       if (beforeData && beforeData.status === 'pending' && afterData) {
-      // delete document
-        admin.firestore().doc(`friendRequests/${requestId}`)
-          .delete();
+        // delete document
+        admin.firestore().doc(`friendRequests/${requestId}`).delete();
 
         // set notification recipient
         notificationRecipientId = afterData.requestorId;
 
-        if (afterData.status === 'accepted') {         // request Accepted
+        if (afterData.status === 'accepted') {
+          // request Accepted
           title = 'New friend';
           body = `${requesteeName} has accepted your friend request`;
-        } else if (afterData.status === 'declined') {  // request DECLINED
+        } else if (afterData.status === 'declined') {
+          // request DECLINED
           title = 'Declined friend request';
           body = `${requesteeName} has declined your friend request`;
         }
         // get fcmToken for notification recipient
         const tokenSnapshot = await admin.firestore().doc(`users/${notificationRecipientId}`).get();
-        const fcmToken = tokenSnapshot.data().fcmToken;
+        const { fcmToken } = tokenSnapshot.data();
 
         // send notification
         if (fcmToken) {
-        // build the notification
+          // build the notification
           const notification = {
-            'notification': {
-              'title': title,
-              'body': body,
+            notification: {
+              title: title,
+              body: body,
             },
-            'apns': {
-              'payload': {
-                'aps': {
+            apns: {
+              payload: {
+                aps: {
                   'content-available': 1,
-                  'alert': {
-                    'body': body,
+                  alert: {
+                    body: body,
                   },
-                  'badge': 0,
+                  badge: 0,
                 },
               },
             },
-            'token': fcmToken,
+            token: fcmToken,
           };
           // send notification
           await admin.messaging().send(notification);
@@ -141,60 +128,55 @@ exports.closeFriendRequest = functions.firestore.document('friendRequests/{reque
     }
   });
 
-exports.newEventNotification = functions.firestore.document('events/{eventId}')
-  .onCreate(async (snapshot) => {
+exports.newEventNotification = functions.firestore.document('events/{eventId}').onCreate(async (snapshot) => {
+  try {
+    const data = snapshot.data();
+    const participants = data.participants.filter((uid) => uid !== data.event_author);
 
-    try {
-      const data = snapshot.data();
-      const participants = data.participants.filter(uid => uid !== data.event_author);
+    // get name of event_author
+    const nameSnapshot = await admin.firestore().doc(`users/${data.event_author}`).get();
+    const authorName = nameSnapshot.data().displayName;
 
-      // get name of event_author
-      const nameSnapshot = await admin.firestore().doc(`users/${data.event_author}`).get();
-      const authorName = nameSnapshot.data().displayName;
+    for (let i = 0; i < participants.length; i++) {
+      const notificationRecipientId = participants[i];
+      const title = `New ${data.type}`;
+      const body = `${authorName} tagged you in an event`;
 
-      for (let i = 0; i < participants.length; i++) {
+      // get fcmToken for notification recipient
+      const tokenSnapshot = await admin.firestore().doc(`users/${notificationRecipientId}`).get();
+      const { fcmToken } = tokenSnapshot.data();
 
-        const notificationRecipientId = participants[i];
-        const title = `New ${data.type}`;
-        const body = `${authorName} tagged you in an event`;
-
-        // get fcmToken for notification recipient
-        const tokenSnapshot = await admin.firestore().doc(`users/${notificationRecipientId}`).get();
-        const fcmToken = tokenSnapshot.data().fcmToken;
-
-        // send notification
-        if (fcmToken) {
+      // send notification
+      if (fcmToken) {
         // build the notification
-          const notification = {
-            'notification': {
-              'title': title,
-              'body': body,
-            },
-            'apns': {
-              'payload': {
-                'aps': {
-                  'content-available': 1,
-                  'alert': {
-                    'body': body,
-                  },
-                  'badge': 0,
+        const notification = {
+          notification: {
+            title: title,
+            body: body,
+          },
+          apns: {
+            payload: {
+              aps: {
+                'content-available': 1,
+                alert: {
+                  body: body,
                 },
+                badge: 0,
               },
             },
-            'token': fcmToken,
-          };
-          // send notification
-          await admin.messaging().send(notification);
-          console.log(`Successfully sent notification to ${notificationRecipientId}`);
-        }
+          },
+          token: fcmToken,
+        };
+        // send notification
+        await admin.messaging().send(notification);
+        console.log(`Successfully sent notification to ${notificationRecipientId}`);
       }
-    } catch (e) {
-      console.error(e);
     }
-  });
+  } catch (e) {
+    console.error(e);
+  }
+});
 
 exports.newUserNotification = functions.auth.user().onCreate((user) => {
-  const email = user.email; // The email of the user.
-
-  sendSlackNotification(`New user: ${email}`);
+  const { email } = user; // The email of the user.
 });
