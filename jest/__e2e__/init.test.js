@@ -1,18 +1,19 @@
-const detox = require('detox');
-const { device } = require('detox');
-const config = require('../../package.json').detox;
-const adapter = require('detox/runners/jest/adapter');
-import { authTests} from './auth';
+import detox, { device } from 'detox';
+import adapter from 'detox/runners/jest/adapter';
+import { authTests } from './auth';
 import { sanityTests } from './sanity';
 import { teardown } from './teardown';
 
+const adapter = require('detox/runners/jest/adapter');
+const detoxConfig = require('../../package.json').detox;
+
 // Set the default timeout
-jest.setTimeout(120000); // eslint-disable-line
+jest.setTimeout(120000);
 jasmine.getEnv().addReporter(adapter);
 
 beforeAll(async () => {
-  await detox.init(config, {launchApp: false, initGlobals: false});
-  await device.launchApp({permissions: {notifications: 'YES', location: 'always'}});
+  await detox.init(detoxConfig, { launchApp: false, initGlobals: false });
+  await device.launchApp({ permissions: { notifications: 'YES', location: 'always' } });
 });
 
 beforeEach(async () => {

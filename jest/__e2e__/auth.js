@@ -1,7 +1,6 @@
 const { element, by } = require('detox');
 import { expect as UIExpect } from 'detox';
 
-
 export const authTests = () => {
   it('Should navigate to register page', async () => {
     await UIExpect(element(by.id('enterSignup'))).toBeVisible();
