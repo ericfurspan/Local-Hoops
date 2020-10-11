@@ -31,7 +31,7 @@ DerivedData
 android/
 android/keystores/
 android/app/
-#
+
 build/
 .idea
 .gradle

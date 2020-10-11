@@ -1,0 +1,27 @@
+# Android/IntelliJ
+android/
+android/keystores/
+android/app/
+
+build/
+.idea
+.gradle
+local.properties
+*.iml
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# CocoaPods
+ios/Pods/
+android/build.gradle
+android/build.gradle
+ios/Pods/Headers/Private/RNGestureHandler/RNGestureHandler.h
+
+# Assets
+assets/
+
+
