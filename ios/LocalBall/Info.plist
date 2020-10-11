@@ -72,8 +72,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Use location to find nearby courts</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Use location to find nearby courts</string>
 	<key>NSMainNibFile</key>
@@ -100,6 +98,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

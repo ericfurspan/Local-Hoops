@@ -19,9 +19,6 @@
 		6D992A8D01624F6EAE755317 /* Bangers-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80762911E29941C2AB844E34 /* Bangers-Regular.ttf */; };
 		748441580D8B428E9EBABABF /* Kodchasan-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E2E057D080844459931B692 /* Kodchasan-Regular.ttf */; };
 		901F4CEC21E0507500921667 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 901F4CEB21E0507400921667 /* Images.xcassets */; };
-		9061312D220F7DC800E93E8A /* light.png in Resources */ = {isa = PBXBuildFile; fileRef = 9061312A220F7DC800E93E8A /* light.png */; };
-		9061312E220F7DC800E93E8A /* dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9061312B220F7DC800E93E8A /* dark.png */; };
-		9061312F220F7DC800E93E8A /* street.png in Resources */ = {isa = PBXBuildFile; fileRef = 9061312C220F7DC800E93E8A /* street.png */; };
 		90A60F33251DAF5900A70795 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A60F32251DAF5900A70795 /* File.swift */; };
 		90EDF39521DFDE6200AE35D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90EDF39421DFDE6200AE35D9 /* GoogleService-Info.plist */; };
 		91CFBBC7C57C4A17B4C0CDB0 /* logo_orange_ball.png in Resources */ = {isa = PBXBuildFile; fileRef = B6BC0407F0F74C838DFD9B90 /* logo_orange_ball.png */; };
@@ -65,9 +62,6 @@
 		8E6767082E2A4A13A8D6EE08 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		901F4CEB21E0507400921667 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = LocalBall/Images.xcassets; sourceTree = "<group>"; };
 		903C146A21DEA1D800759324 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		9061312A220F7DC800E93E8A /* light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = light.png; path = ../assets/mapStyles/light.png; sourceTree = "<group>"; };
-		9061312B220F7DC800E93E8A /* dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dark.png; path = ../assets/mapStyles/dark.png; sourceTree = "<group>"; };
-		9061312C220F7DC800E93E8A /* street.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = street.png; path = ../assets/mapStyles/street.png; sourceTree = "<group>"; };
 		90A60F31251DAF5900A70795 /* LocalBall-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LocalBall-Bridging-Header.h"; sourceTree = "<group>"; };
 		90A60F32251DAF5900A70795 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		90B1C708251E95190019155B /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,9 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				B08C3504FF0542D5BF654B44 /* ArchitectsDaughter-Regular.ttf */,
-				9061312B220F7DC800E93E8A /* dark.png */,
-				9061312A220F7DC800E93E8A /* light.png */,
-				9061312C220F7DC800E93E8A /* street.png */,
 				6E2E057D080844459931B692 /* Kodchasan-Regular.ttf */,
 				8868290EA7524B54A01095DA /* Lobster-Regular.ttf */,
 				A2522BAEB5EB42CBBDD19E76 /* Play-Bold.ttf */,
@@ -279,10 +270,7 @@
 				90EDF39521DFDE6200AE35D9 /* GoogleService-Info.plist in Resources */,
 				748441580D8B428E9EBABABF /* Kodchasan-Regular.ttf in Resources */,
 				901F4CEC21E0507500921667 /* Images.xcassets in Resources */,
-				9061312E220F7DC800E93E8A /* dark.png in Resources */,
 				BA1DA2CC7ECF480D823457A9 /* Lobster-Regular.ttf in Resources */,
-				9061312F220F7DC800E93E8A /* street.png in Resources */,
-				9061312D220F7DC800E93E8A /* light.png in Resources */,
 				B69F2CE88640435C931040B2 /* Play-Bold.ttf in Resources */,
 				67EAE6715DA544468FE46346 /* Play-Regular.ttf in Resources */,
 				551A5ADD43B14D39BF0B6008 /* nyk.gif in Resources */,
