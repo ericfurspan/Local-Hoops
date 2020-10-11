@@ -1,7 +1,6 @@
-import { AppRegistry, YellowBox } from 'react-native';
-import App from './app/App';
+import { AppRegistry, LogBox } from 'react-native';
+import App from './src/App';
 
-YellowBox.ignoreWarnings(['Warning']);
+LogBox.ignoreLogs(['Require cycle:']);
 
-// App Entry point
 AppRegistry.registerComponent('LocalBall', () => App);
