@@ -188,6 +188,18 @@ const Explore = ({
 
         <SearchBar onSubmit={handleTextSearch} />
 
+        {(nextRegionCoords || loading) && (
+          <Button
+            title="Search this area"
+            loading={loading}
+            loadingProps={{ size: 'small', color: theme.colors.blue }}
+            titleStyle={styles.actionBtnTitle}
+            containerStyle={styles.searchAgainContainer}
+            buttonStyle={styles.actionBtn}
+            onPress={() => getCourtsAtCoords(nextRegionCoords)}
+          />
+        )}
+
         <SearchResults
           nearbyCourts={nearbyCourts}
           isVisible={showSearchResults}
@@ -230,18 +242,6 @@ const Explore = ({
           onPressSavedCourt={(court) => handleSetCamera(court.coords)}
           onChangeSearchRadius={setSearchRadius}
         />
-
-        {(nextRegionCoords || loading) && !showSearchResults && (
-          <Button
-            title="Search this area"
-            loading={loading}
-            loadingProps={{ size: 'small', color: theme.colors.blue }}
-            titleStyle={styles.actionBtnTitle}
-            containerStyle={styles.searchAgainContainer}
-            buttonStyle={styles.actionBtn}
-            onPress={() => getCourtsAtCoords(nextRegionCoords)}
-          />
-        )}
       </SafeAreaView>
     );
   }
