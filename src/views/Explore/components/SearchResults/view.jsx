@@ -61,8 +61,6 @@ const SearchResults = ({
       swipeDirection="down"
       onSwipeComplete={onHide}
       propagateSwipe
-      animationInTiming={100}
-      animationOutTiming={100}
       hideModalContentWhileAnimating
       scrollTo={handleScrollTo}
       scrollOffset={scrollOffset}
@@ -82,7 +80,7 @@ const SearchResults = ({
             } courts found within ${convertDistance(usedRadius, 'mi').toPrecision(2)} miles`}</Text>
           </View>
         </View>
-        <View>
+        <View style={global.row}>
           <Text
             style={[
               global.secondaryLabel,
@@ -98,24 +96,23 @@ const SearchResults = ({
             value={useDistanceSort}
           />
         </View>
-        <View style={global.spaceVertical}>
-          <FlatList
-            data={nearbyCourts.sort(useDistanceSort ? sortByDistance : sortByName)}
-            ref={scrollViewRef}
-            scrollEventThrottle={16}
-            onScroll={(event) => {
-              setScrollOffset(event.nativeEvent.contentOffset.y);
-            }}
-            keyExtractor={(item) => item.id}
-            ItemSeparatorComponent={() => <Divider style={global.divider} />}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => onPressCourt(item)} style={global.padding}>
-                <Text style={global.bodyText}>{item.name}</Text>
-                <Text style={global.secondaryLabel}>{item.address}</Text>
-              </Pressable>
-            )}
-          />
-        </View>
+        <FlatList
+          data={nearbyCourts.sort(useDistanceSort ? sortByDistance : sortByName)}
+          ref={scrollViewRef}
+          style={global.spaceVertical}
+          scrollEventThrottle={16}
+          onScroll={(event) => {
+            setScrollOffset(event.nativeEvent.contentOffset.y);
+          }}
+          keyExtractor={(item) => item.id}
+          ItemSeparatorComponent={() => <Divider style={global.divider} />}
+          renderItem={({ item }) => (
+            <Pressable onPress={() => onPressCourt(item)} style={global.padding}>
+              <Text style={global.bodyText}>{item.name}</Text>
+              <Text style={global.secondaryLabel}>{item.address}</Text>
+            </Pressable>
+          )}
+        />
       </View>
     </Modal>
   );

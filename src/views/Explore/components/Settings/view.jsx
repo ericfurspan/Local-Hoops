@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Pressable, SafeAreaView, Text, FlatList, View } from 'react-native';
+import { Pressable, Text, FlatList, View } from 'react-native';
 import Modal from 'react-native-modal';
 import { Divider, Slider, Avatar, Tooltip } from 'react-native-elements';
 import { convertDistance } from 'geolib';
@@ -87,10 +87,11 @@ const Settings = ({
           </View>
           <View style={global.modalContent}>
             <Text style={global.sectionLabel}>MAP VIEW</Text>
-            <SafeAreaView style={styles.textContainer}>
+            <View style={styles.textContainer}>
               <FlatList
                 ItemSeparatorComponent={() => <Divider style={global.divider} />}
                 data={mapTypes}
+                removeClippedSubviews
                 keyExtractor={(item) => item.name}
                 renderItem={({ item, index }) => (
                   <Pressable style={styles.mapTypeRow} onPress={() => onChangeMapType(item.index)}>
@@ -101,7 +102,7 @@ const Settings = ({
                   </Pressable>
                 )}
               />
-            </SafeAreaView>
+            </View>
             <Divider style={global.spacedDivider} />
             <Text style={global.sectionLabel}>SEARCH RADIUS</Text>
             <View style={[styles.textContainer, global.padding]}>
@@ -119,22 +120,20 @@ const Settings = ({
               thumbStyle={styles.sliderTrackThumb}
             />
             <Divider style={global.spacedDivider} />
-            <SafeAreaView>
-              <Text style={global.sectionLabel}>SAVED COURTS</Text>
-              <FlatList
-                ref={scrollViewRef}
-                data={savedCourts}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <SavedCourtPreview item={item} onPressItem={handlePressSavedCourt} />
-                )}
-                horizontal
-                scrollEventThrottle={16}
-                onScroll={(event) => {
-                  setScrollOffset(event.nativeEvent.contentOffset.x);
-                }}
-              />
-            </SafeAreaView>
+            <Text style={global.sectionLabel}>SAVED COURTS</Text>
+            <FlatList
+              ref={scrollViewRef}
+              data={savedCourts}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <SavedCourtPreview item={item} onPressItem={handlePressSavedCourt} />
+              )}
+              horizontal
+              scrollEventThrottle={16}
+              onScroll={(event) => {
+                setScrollOffset(event.nativeEvent.contentOffset.x);
+              }}
+            />
           </View>
         </View>
       </Modal>

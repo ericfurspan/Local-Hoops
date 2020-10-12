@@ -5,20 +5,6 @@ export default StyleSheet.create({
   container: {
     flex: 1,
   },
-  absoluteFill: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  mapHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  spinner: {
-    position: 'absolute',
-    top: 200,
-    left: 0,
-    right: 0,
-  },
   actionBtn: {
     borderRadius: 36,
     backgroundColor: PlatformColor('secondarySystemBackground'),

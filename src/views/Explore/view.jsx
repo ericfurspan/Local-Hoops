@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Alert, View, SafeAreaView } from 'react-native';
+import { Alert, View, Text, SafeAreaView } from 'react-native';
 import { Button, Badge } from 'react-native-elements';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { SearchBar, MapMarkers, Settings, SearchResults } from './components';
+import { SearchBar, CourtModal, Settings, SearchResults } from './components';
 import {
   mapTypes,
   LATITUDE_DELTA,
@@ -13,6 +13,7 @@ import {
   DEFAULT_SEARCH_RADIUS,
 } from '../../utils/constants';
 import theme from '../../styles/theme';
+import global from '../../styles/global';
 import styles from './style';
 
 const Explore = ({
@@ -36,7 +37,7 @@ const Explore = ({
   const [searchRadius, setSearchRadius] = useState(DEFAULT_SEARCH_RADIUS);
   const [mapType, setMapType] = useState(mapTypes[0]);
   const [loading, setLoading] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState();
+  const [activeCourt, setActiveCourt] = useState();
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [nextRegionCoords, setNextRegionCoords] = useState();
   const mapRef = useRef();
@@ -50,11 +51,8 @@ const Explore = ({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
-          getCourtsAtCoords(position.coords, searchRadius);
         },
-        (_error) => {
-          Alert.alert('Heads up!', 'You must enable location services to use this application.');
-        },
+        null,
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
       Geolocation.watchPosition(
@@ -68,8 +66,7 @@ const Explore = ({
         null,
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, useSignificantChanges: true }
       );
-    }
-    if (savedCourts.length === 0) {
+    } else if (savedCourts.length === 0) {
       getSavedCourts(currentUser.saved_courts);
     }
   });
@@ -137,14 +134,16 @@ const Explore = ({
     mapRef.current.animateCamera(camera, { duration: 1000 });
   };
 
-  const handleUnsetCamera = () => {
-    setSelectedMarker(null);
+  const handleUnsetCourt = () => {
+    setActiveCourt(false);
     mapRef.current.animateCamera({ altitude: 10000 }, { duration: 1000 });
   };
 
-  const allMarkers = [...nearbyCourts, ...savedCourts];
-  const allUniqueMarkers = [...new Set(allMarkers.map(({ id }) => id))].map((e) =>
-    allMarkers.find(({ id }) => id === e)
+  const isCourtSaved = (courtId) => savedCourts.map((court) => court.id).includes(courtId);
+
+  const mergedCourts = [...nearbyCourts, ...savedCourts];
+  const allCourts = [...new Set(mergedCourts.map(({ id }) => id))].map((e) =>
+    mergedCourts.find(({ id }) => id === e)
   );
 
   if (initialRegion.latitude) {
@@ -153,26 +152,41 @@ const Explore = ({
         <MapView
           ref={mapRef}
           mapType={mapType.name}
-          style={styles.absoluteFill}
+          style={global.absoluteFill}
           showsUserLocation
           showsCompass={false}
           initialRegion={initialRegion}
           onRegionChangeComplete={handleRegionChangeComplete}
         >
-          <MapMarkers
-            courts={allUniqueMarkers}
-            handleSaveCourt={handleSaveCourt}
-            handleUnsaveCourt={handleUnsaveCourt}
-            savedCourtIds={savedCourts.map((court) => court.id)}
-            setCamera={handleSetCamera}
-            unsetCamera={handleUnsetCamera}
-            selectedMarker={selectedMarker}
-          />
+          {allCourts.map((court) => (
+            <Marker
+              key={court.id}
+              identifier={court.id}
+              coordinate={court.coords}
+              pinColor={isCourtSaved(court.id) ? theme.colors.gold : theme.colors.red}
+              onPress={() => {
+                handleSetCamera(court.coords);
+                setActiveCourt(court);
+              }}
+            >
+              {isCourtSaved(court.id) && (
+                <FontAwesome5 name="star" solid size={21} color={theme.colors.gold} />
+              )}
+            </Marker>
+          ))}
         </MapView>
 
-        <View style={styles.mapHeaderRow}>
-          <SearchBar onSubmit={handleTextSearch} />
-        </View>
+        {activeCourt && (
+          <CourtModal
+            court={activeCourt}
+            unsetCourt={handleUnsetCourt}
+            handleSaveCourt={handleSaveCourt}
+            handleUnsaveCourt={handleUnsaveCourt}
+            isCourtSaved={isCourtSaved(activeCourt.id)}
+          />
+        )}
+
+        <SearchBar onSubmit={handleTextSearch} />
 
         <SearchResults
           nearbyCourts={nearbyCourts}
@@ -182,6 +196,7 @@ const Explore = ({
           onPressCourt={(court) => handleSetCamera(court.coords)}
           onHide={() => setShowSearchResults(false)}
         />
+
         {!showSearchResults && !loading && (
           <View style={styles.viewListContainer}>
             <Button
@@ -202,6 +217,7 @@ const Explore = ({
             <Badge value={nearbyCourts.length} containerStyle={styles.actionBtnBadge} />
           </View>
         )}
+
         <Settings
           resetPosition={handleResetPosition}
           activeMapTypeIndex={mapType.index}
@@ -214,6 +230,7 @@ const Explore = ({
           onPressSavedCourt={(court) => handleSetCamera(court.coords)}
           onChangeSearchRadius={setSearchRadius}
         />
+
         {(nextRegionCoords || loading) && !showSearchResults && (
           <Button
             title="Search this area"
@@ -229,7 +246,14 @@ const Explore = ({
     );
   }
 
-  return null;
+  return (
+    <SafeAreaView style={global.centered}>
+      <FontAwesome5 name="exclamation-triangle" size={32} color={theme.colors.blue} />
+      <Text style={[global.bodyText, global.textCenter, global.padding]}>
+        Please enable location services
+      </Text>
+    </SafeAreaView>
+  );
 };
 
 export default Explore;

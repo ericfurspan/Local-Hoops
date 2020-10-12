@@ -12,12 +12,11 @@ export default StyleSheet.create({
     margin: 0,
   },
   fullHeightModalContainer: {
+    flex: 1,
     width: deviceWidth,
-    height: deviceHeight,
     backgroundColor: PlatformColor('secondarySystemBackground'),
+    marginTop: deviceHeight * 0.1,
     padding: 12,
-    paddingBottom: 78,
-    marginTop: 112,
   },
   modalContainer: {
     width: deviceWidth,
@@ -87,10 +86,22 @@ export default StyleSheet.create({
   alignCenter: {
     alignItems: 'center',
   },
+  absoluteFill: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  centered: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   centeredRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textCenter: {
+    textAlign: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -102,6 +113,13 @@ export default StyleSheet.create({
   },
   padding: {
     padding: 16,
+  },
+  spinner: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   spacedDivider: {
     marginTop: 28,
