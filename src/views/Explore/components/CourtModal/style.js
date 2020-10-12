@@ -19,10 +19,6 @@ export default StyleSheet.create({
     color: 'rgb(237, 73, 86)',
     fontSize: 16,
   },
-  scrollableImages: {
-    height: 250,
-    flexDirection: 'row',
-  },
   courtImage: {
     width: 200,
     height: 200,
