@@ -72,9 +72,9 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Geolocation is used to locate nearby basketball courts</string>
 	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Geolocation is used to locate nearby basketball courts</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Geolocation is used to locate nearby basketball courts</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
