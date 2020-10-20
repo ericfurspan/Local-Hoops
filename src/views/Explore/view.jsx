@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Alert, View, Text, SafeAreaView } from 'react-native';
+import { Alert, View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
 import { Button, Badge } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
@@ -38,6 +38,7 @@ const Explore = ({
   const [mapType, setMapType] = useState(mapTypes[0]);
   const [loading, setLoading] = useState(false);
   const [activeCourt, setActiveCourt] = useState();
+  const [hasLocationError, setHasLocationError] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [nextRegionCoords, setNextRegionCoords] = useState();
   const mapRef = useRef();
@@ -51,8 +52,14 @@ const Explore = ({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
+          setHasLocationError(false);
         },
-        null,
+        (error) => {
+          if (error.PERMISSION_DENIED === 1) {
+            Geolocation.requestAuthorization();
+          }
+          setHasLocationError(true);
+        },
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
       Geolocation.watchPosition(
@@ -246,14 +253,22 @@ const Explore = ({
     );
   }
 
+  if (hasLocationError) {
+    return (
+      <SafeAreaView style={global.centered}>
+        <FontAwesome5 name="exclamation-triangle" size={32} color={theme.colors.blue} />
+        <Text style={[global.bodyText, global.textCenter, global.padding]}>
+          Please enable location services
+        </Text>
+      </SafeAreaView>
+    )
+  }
+
   return (
-    <SafeAreaView style={global.centered}>
-      <FontAwesome5 name="exclamation-triangle" size={32} color={theme.colors.blue} />
-      <Text style={[global.bodyText, global.textCenter, global.padding]}>
-        Please enable location services
-      </Text>
+    <SafeAreaView style={styles.container}>
+      <ActivityIndicator size="large" color={theme.colors.red} style={global.spinner} />
     </SafeAreaView>
-  );
+  )
 };
 
 export default Explore;
