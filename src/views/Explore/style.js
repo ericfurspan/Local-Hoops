@@ -25,7 +25,7 @@ export default StyleSheet.create({
   },
   searchAgainContainer: {
     alignSelf: 'center',
-    marginTop: 21,
+    marginTop: 16,
   },
   viewListContainer: {
     alignSelf: 'center',
