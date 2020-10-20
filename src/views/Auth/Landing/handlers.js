@@ -7,31 +7,35 @@ import { setCurrentUser } from '../../../utils/actions';
 import { AVATAR_PLACEHOLDER_URL } from '../../../utils/constants';
 
 export const handleAppleLogin = async (dispatch, initialProps) => {
-  const { navigation } = initialProps;
+  try {
+    const { navigation } = initialProps;
 
-  const appleAuthRequestResponse = await appleAuth.performRequest({
-    requestedOperation: appleAuth.Operation.LOGIN,
-    requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-  });
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
 
-  if (!appleAuthRequestResponse.identityToken) {
-    Alert.alert('Apple Sign-In failed', 'No identify token returned');
+    if (!appleAuthRequestResponse.identityToken) {
+      Alert.alert('Apple Sign-In failed', 'No identify token returned');
+    }
+
+    const { identityToken, nonce } = appleAuthRequestResponse;
+
+    const appleCredential = firebase.auth.AppleAuthProvider.credential(identityToken, nonce);
+
+    const user = await firebase.auth().signInWithCredential(appleCredential);
+
+    const userObj = compileUserObj(user);
+
+    if (user.additionalUserInfo.isNewUser) {
+      await createNewUser(userObj);
+    }
+
+    dispatch(setCurrentUser(userObj));
+    return navigation.navigate('App');
+  } catch (error) {
+    console.log('handleAppleLogin error', error);
   }
-
-  const { identityToken, nonce } = appleAuthRequestResponse;
-
-  const appleCredential = firebase.auth.AppleAuthProvider.credential(identityToken, nonce);
-
-  const user = await firebase.auth().signInWithCredential(appleCredential);
-
-  const userObj = compileUserObj(user);
-
-  if (user.additionalUserInfo.isNewUser) {
-    await createNewUser(userObj);
-  }
-
-  dispatch(setCurrentUser(userObj));
-  return navigation.navigate('App');
 };
 
 export const handleGoogleLogin = async (dispatch, initialProps) => {
