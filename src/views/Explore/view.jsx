@@ -261,14 +261,14 @@ const Explore = ({
           Please enable location services
         </Text>
       </SafeAreaView>
-    )
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ActivityIndicator size="large" color={theme.colors.red} style={global.spinner} />
+      <ActivityIndicator size="large" color={theme.colors.blue} style={global.spinner} />
     </SafeAreaView>
-  )
+  );
 };
 
 export default Explore;
