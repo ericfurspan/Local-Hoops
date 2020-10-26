@@ -1,16 +1,24 @@
 import { StyleSheet, PlatformColor } from 'react-native';
 
 export default StyleSheet.create({
-  searchInput: {
-    flexDirection: 'row',
+  container: {
     alignItems: 'center',
+  },
+  textInputContainer: {
+    width: '90%',
+  },
+  listView: {
+    width: '90%',
+  },
+  row: {
+    backgroundColor: PlatformColor('secondarySystemBackground'),
+  },
+  description: {
+    color: PlatformColor('label'),
+  },
+  searchInput: {
     color: PlatformColor('label'),
     backgroundColor: PlatformColor('secondarySystemBackground'),
-    borderRadius: 36,
-    width: '75%',
-    height: 42,
-    marginVertical: 8,
-    paddingHorizontal: 16,
     shadowOffset: {
       width: 4,
       height: 4,
