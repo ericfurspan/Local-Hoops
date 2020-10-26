@@ -3,8 +3,8 @@ import theme from '../../../styles/theme';
 
 export default StyleSheet.create({
   logo: {
-    width: 275,
-    height: 275,
+    width: 300,
+    height: 300,
   },
   buttonSize: {
     fontSize: 15,
