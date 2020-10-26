@@ -1,5 +1,4 @@
 import React from 'react';
-import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -54,7 +53,7 @@ const AuthScreen = () => (
 
 const RootStack = createDrawerNavigator();
 const RootNavigator = () => (
-  <NavigationContainer fallback={ActivityIndicator}>
+  <NavigationContainer>
     <RootStack.Navigator initialRouteName="Auth" screenOptions={{ gestureEnabled: false }}>
       <RootStack.Screen name="Auth" component={AuthScreen} />
       <RootStack.Screen name="App" component={Explore} />
