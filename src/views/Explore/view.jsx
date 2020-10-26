@@ -53,6 +53,10 @@ const Explore = ({
             longitude: position.coords.longitude,
           });
           setHasLocationError(false);
+          getCourtsAtCoords({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
         },
         (error) => {
           if (error.PERMISSION_DENIED === 1) {
