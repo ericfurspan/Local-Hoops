@@ -4,7 +4,7 @@ const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
 
 export const MIN_SEARCH_RADIUS = 50; // ~0.03 miles
 export const MAX_SEARCH_RADIUS = 40000; // ~25 miles
-export const DEFAULT_SEARCH_RADIUS = 3200; // ~2 miles
+export const DEFAULT_SEARCH_RADIUS = 9600; // ~6 miles
 export const ASPECT_RATIO = deviceWidth / deviceHeight;
 export const LATITUDE_DELTA = 0.25; // 0.0922;
 export const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
