@@ -4,19 +4,27 @@ Find basketball courts, anywhere.
 
 ## Built With
 
-- [React Native](https://facebook.github.io/react-native/) - UI
-- [Firebase](https://firebase.google.com/) - Realtime Database, Cloud Functions, Auth, Notifications, & more
-- [Redux](https://redux.js.org/) - State Management
-- [Google Places API](https://developers.google.com/places/web-service/search) - Find locations
+- [React Native](https://facebook.github.io/react-native/) - Interface components
+- [Firebase](https://firebase.google.com/) - Realtime Database, Authorization, Notifications, & more
+- [React Hooks](https://reactjs.org/docs/hooks-reference.html) - Local state management and other handy React features
+- [Google Places API](https://developers.google.com/places/web-service/search) - Query basketball courts
 - see package.json for more
 
 ## Developer Reference
 
-- [Requesting Authorization for Location Services](https://developer.apple.com/documentation/corelocation/requesting_authorization_for_location_services)
+### React-Native
 - [Running on a device](https://reactnative.dev/docs/running-on-device)
-- Google Places APIs
-  - [Place Search](https://developers.google.com/places/web-service/search)
-  - [Place Details](https://developers.google.com/places/web-service/details)
+- [Platform Colors](https://github.com/facebook/react-native/blob/master/packages/rn-tester/js/examples/PlatformColor/PlatformColorExample.js)
+
+### Apple
+
+- [Requesting Authorization for Location Services](https://developer.apple.com/documentation/corelocation/requesting_authorization_for_location_services)
+- [App Store Screenshot specifications](https://help.apple.com/app-store-connect/#/devd274dd925)
+
+### Google Places
+
+- [Place Search API](https://developers.google.com/places/web-service/search)
+- [Place Details API](https://developers.google.com/places/web-service/details)
 
 ## Inspiration
 
