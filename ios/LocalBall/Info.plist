@@ -47,6 +47,8 @@
 	<true/>
 	<key>FacebookDisplayName</key>
 	<string>LocalBall</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-6668134571203040~6766551303</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>

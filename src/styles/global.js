@@ -43,6 +43,10 @@ export default StyleSheet.create({
   modalContent: {
     padding: 16,
   },
+  adBanner: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
   iconButton: {
     backgroundColor: PlatformColor('secondarySystemBackground'),
     paddingVertical: 12,

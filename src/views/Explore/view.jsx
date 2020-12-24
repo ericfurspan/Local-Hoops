@@ -3,6 +3,7 @@ import { Alert, View, Text, SafeAreaView, ActivityIndicator } from 'react-native
 import { Button, Badge } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import { BannerAd, BannerAdSize, TestIds } from '@react-native-firebase/admob';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { SearchBar, CourtModal, Settings, SearchResults } from './components';
 import {
@@ -12,9 +13,12 @@ import {
   DEFAULT_CAMERA,
   DEFAULT_SEARCH_RADIUS,
 } from '../../utils/constants';
+import { ADMOB_MAPLANDING_ADUNIT_ID } from '../../../config';
 import theme from '../../styles/theme';
 import global from '../../styles/global';
 import styles from './style';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : ADMOB_MAPLANDING_ADUNIT_ID;
 
 const Explore = ({
   nearbyCourts,
@@ -159,101 +163,106 @@ const Explore = ({
 
   if (initialRegion.latitude) {
     return (
-      <SafeAreaView style={styles.container}>
-        <MapView
-          ref={mapRef}
-          mapType={mapType.name}
-          style={global.absoluteFill}
-          showsUserLocation
-          showsCompass={false}
-          initialRegion={initialRegion}
-          onRegionChangeComplete={handleRegionChangeComplete}
-        >
-          {allCourts.map((court) => (
-            <Marker
-              key={court.id}
-              identifier={court.id}
-              coordinate={court.coords}
-              pinColor={isCourtSaved(court.id) ? theme.colors.gold : theme.colors.red}
-              onPress={() => {
-                handleSetCamera(court.coords);
-                setActiveCourt(court);
-              }}
-            >
-              {isCourtSaved(court.id) && (
-                <FontAwesome5 name="star" solid size={21} color={theme.colors.gold} />
-              )}
-            </Marker>
-          ))}
-        </MapView>
+      <>
+        <SafeAreaView style={styles.container}>
+          <MapView
+            ref={mapRef}
+            mapType={mapType.name}
+            style={global.absoluteFill}
+            showsUserLocation
+            showsCompass={false}
+            initialRegion={initialRegion}
+            onRegionChangeComplete={handleRegionChangeComplete}
+          >
+            {allCourts.map((court) => (
+              <Marker
+                key={court.id}
+                identifier={court.id}
+                coordinate={court.coords}
+                pinColor={isCourtSaved(court.id) ? theme.colors.gold : theme.colors.red}
+                onPress={() => {
+                  handleSetCamera(court.coords);
+                  setActiveCourt(court);
+                }}
+              >
+                {isCourtSaved(court.id) && (
+                  <FontAwesome5 name="star" solid size={21} color={theme.colors.gold} />
+                )}
+              </Marker>
+            ))}
+          </MapView>
 
-        {activeCourt && (
-          <CourtModal
-            court={activeCourt}
-            unsetCourt={handleUnsetCourt}
-            handleSaveCourt={handleSaveCourt}
-            handleUnsaveCourt={handleUnsaveCourt}
-            isCourtSaved={isCourtSaved(activeCourt.id)}
-          />
-        )}
-
-        <SearchBar onSubmit={handleTextSearch} />
-
-        {(nextRegionCoords || loading) && (
-          <Button
-            title="Search this area"
-            loading={loading}
-            loadingProps={{ size: 'small', color: theme.colors.blue }}
-            titleStyle={styles.actionBtnTitle}
-            containerStyle={styles.searchAgainContainer}
-            buttonStyle={styles.actionBtn}
-            onPress={() => getCourtsAtCoords(nextRegionCoords)}
-          />
-        )}
-
-        <SearchResults
-          nearbyCourts={nearbyCourts}
-          isVisible={showSearchResults}
-          usedRadius={searchRadius}
-          usedCoords={initialRegion}
-          onPressCourt={(court) => handleSetCamera(court.coords)}
-          onHide={() => setShowSearchResults(false)}
-        />
-
-        {!showSearchResults && !loading && (
-          <View style={styles.viewListContainer}>
-            <Button
-              title="List view"
-              titleStyle={styles.actionBtnTitle}
-              buttonStyle={styles.actionBtn}
-              onPress={() => setShowSearchResults(true)}
-              iconRight
-              icon={
-                <FontAwesome5
-                  name="list-ul"
-                  size={16}
-                  color={theme.colors.blue}
-                  style={styles.actionBtnIcon}
-                />
-              }
+          {activeCourt && (
+            <CourtModal
+              court={activeCourt}
+              unsetCourt={handleUnsetCourt}
+              handleSaveCourt={handleSaveCourt}
+              handleUnsaveCourt={handleUnsaveCourt}
+              isCourtSaved={isCourtSaved(activeCourt.id)}
             />
-            <Badge value={nearbyCourts.length} containerStyle={styles.actionBtnBadge} />
-          </View>
-        )}
+          )}
 
-        <Settings
-          resetPosition={handleResetPosition}
-          activeMapTypeIndex={mapType.index}
-          onChangeMapType={changeMapType}
-          searchRadius={searchRadius}
-          savedCourts={savedCourts}
-          mapTypes={mapTypes}
-          currentUser={currentUser}
-          logout={logout}
-          onPressSavedCourt={(court) => handleSetCamera(court.coords)}
-          onChangeSearchRadius={setSearchRadius}
-        />
-      </SafeAreaView>
+          <SearchBar onSubmit={handleTextSearch} />
+
+          {(nextRegionCoords || loading) && (
+            <Button
+              title="Search this area"
+              loading={loading}
+              loadingProps={{ size: 'small', color: theme.colors.blue }}
+              titleStyle={styles.actionBtnTitle}
+              containerStyle={styles.searchAgainContainer}
+              buttonStyle={styles.actionBtn}
+              onPress={() => getCourtsAtCoords(nextRegionCoords)}
+            />
+          )}
+
+          <SearchResults
+            nearbyCourts={nearbyCourts}
+            isVisible={showSearchResults}
+            usedRadius={searchRadius}
+            usedCoords={initialRegion}
+            onPressCourt={(court) => handleSetCamera(court.coords)}
+            onHide={() => setShowSearchResults(false)}
+          />
+
+          {!showSearchResults && !loading && (
+            <View style={styles.viewListContainer}>
+              <Button
+                title="List view"
+                titleStyle={styles.actionBtnTitle}
+                buttonStyle={styles.actionBtn}
+                onPress={() => setShowSearchResults(true)}
+                iconRight
+                icon={
+                  <FontAwesome5
+                    name="list-ul"
+                    size={16}
+                    color={theme.colors.blue}
+                    style={styles.actionBtnIcon}
+                  />
+                }
+              />
+              <Badge value={nearbyCourts.length} containerStyle={styles.actionBtnBadge} />
+            </View>
+          )}
+
+          <Settings
+            resetPosition={handleResetPosition}
+            activeMapTypeIndex={mapType.index}
+            onChangeMapType={changeMapType}
+            searchRadius={searchRadius}
+            savedCourts={savedCourts}
+            mapTypes={mapTypes}
+            currentUser={currentUser}
+            logout={logout}
+            onPressSavedCourt={(court) => handleSetCamera(court.coords)}
+            onChangeSearchRadius={setSearchRadius}
+          />
+        </SafeAreaView>
+        <SafeAreaView style={global.adBanner}>
+          <BannerAd unitId={adUnitId} size={BannerAdSize.ADAPTIVE_BANNER} />
+        </SafeAreaView>
+      </>
     );
   }
 

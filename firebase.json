@@ -1,5 +1,7 @@
 {
   "react-native": {
-    "crashlytics_debug_enabled": true
+    "crashlytics_debug_enabled": true,
+    "admob_ios_app_id": "ca-app-pub-6668134571203040~6766551303"
   }
 }
+
