@@ -107,9 +107,9 @@ const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleSaveCourt, isC
             </View>
           )}
         </View>
-        <SafeAreaView style={global.adBanner}>
+        {/* <SafeAreaView style={global.adBanner}>
           <BannerAd unitId={adUnitId} size={BannerAdSize.ADAPTIVE_BANNER} />
-        </SafeAreaView>
+        </SafeAreaView> */}
       </View>
     </Modal>
   );

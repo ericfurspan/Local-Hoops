@@ -117,9 +117,9 @@ const SearchResults = ({
             </Pressable>
           )}
         />
-        <SafeAreaView style={global.adBanner}>
+        {/* <SafeAreaView style={global.adBanner}>
           <BannerAd unitId={adUnitId} size={BannerAdSize.ADAPTIVE_BANNER} />
-        </SafeAreaView>
+        </SafeAreaView> */}
       </View>
     </Modal>
   );
