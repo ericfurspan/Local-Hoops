@@ -2,14 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Linking, Alert, FlatList, SafeAreaView } from 'react-native';
 import Modal from 'react-native-modal';
 import { Button, Image } from 'react-native-elements';
-import { BannerAd, BannerAdSize, TestIds } from '@react-native-firebase/admob';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { ADMOB_COURTMODAL_ADUNIT_ID } from '../../../../../config';
 import theme from '../../../../styles/theme';
 import global from '../../../../styles/global';
 import styles from './style';
-
-const adUnitId = __DEV__ ? TestIds.BANNER : ADMOB_COURTMODAL_ADUNIT_ID;
 
 const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleSaveCourt, isCourtSaved }) => {
   const openExternalMap = ({ coords }) => {
@@ -107,9 +103,6 @@ const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleSaveCourt, isC
             </View>
           )}
         </View>
-        {/* <SafeAreaView style={global.adBanner}>
-          <BannerAd unitId={adUnitId} size={BannerAdSize.ADAPTIVE_BANNER} />
-        </SafeAreaView> */}
       </View>
     </Modal>
   );
