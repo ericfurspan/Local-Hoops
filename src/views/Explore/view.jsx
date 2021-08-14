@@ -66,21 +66,21 @@ const Explore = ({
         },
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
-      Geolocation.watchPosition(
-        (newPosition) => {
-          setInitialRegion({
-            ...initialRegion,
-            latitude: newPosition.coords.latitude,
-            longitude: newPosition.coords.longitude,
-          });
-        },
-        null,
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, useSignificantChanges: true }
-      );
+      // Geolocation.watchPosition(
+      //   (newPosition) => {
+      //     setInitialRegion({
+      //       ...initialRegion,
+      //       latitude: newPosition.coords.latitude,
+      //       longitude: newPosition.coords.longitude,
+      //     });
+      //   },
+      //   null,
+      //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, useSignificantChanges: true }
+      // );
     } else if (savedCourts.length === 0) {
       getSavedCourts(currentUser.saved_courts);
     }
-  });
+  }, [ initialRegion ]);
 
   const changeMapType = (index) => {
     const newMapType = mapTypes.find((_mapType) => index === _mapType.index);
@@ -119,9 +119,8 @@ const Explore = ({
       latitude: nextRegion.latitude,
     };
 
-    if (nextCoords.latitude === initialRegion.latitude) {
-      getCourtsAtCoords({ latitude: initialRegion.latitude, longitude: initialRegion.longitude });
-    } else {
+    const isSignificantChange = nextRegion?.latitude?.toFixed(1) !== initialRegion?.latitude?.toFixed(1);
+    if (isSignificantChange) {
       setNextRegionCoords(nextCoords);
     }
   };
