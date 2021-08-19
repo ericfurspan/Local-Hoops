@@ -3,6 +3,7 @@ import { Alert, View, Text, SafeAreaView, ActivityIndicator } from 'react-native
 import { Button, Badge } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
+import { BannerAd, BannerAdSize, TestIds } from '@react-native-firebase/admob';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { SearchBar, CourtModal, Settings, SearchResults } from './components';
 import {
@@ -15,6 +16,8 @@ import {
 import theme from '../../styles/theme';
 import global from '../../styles/global';
 import styles from './style';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-6668134571203040/9808465859';
 
 const Explore = ({
   nearbyCourts,
@@ -253,6 +256,9 @@ const Explore = ({
             onPressSavedCourt={(court) => handleSetCamera(court.coords)}
             onChangeSearchRadius={setSearchRadius}
           />
+        </SafeAreaView>
+        <SafeAreaView style={global.adBanner}>
+          <BannerAd unitId={adUnitId} size={BannerAdSize.ADAPTIVE_BANNER} />
         </SafeAreaView>
       </>
     );

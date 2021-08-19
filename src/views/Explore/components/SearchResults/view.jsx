@@ -3,9 +3,12 @@ import { Text, View, FlatList, Pressable, Switch, SafeAreaView } from 'react-nat
 import Modal from 'react-native-modal';
 import { convertDistance, getDistance } from 'geolib';
 import { Divider } from 'react-native-elements';
+import { BannerAd, BannerAdSize, TestIds } from '@react-native-firebase/admob';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import theme from '../../../../styles/theme';
 import global from '../../../../styles/global';
+
+const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-6668134571203040/3953697468';
 
 const SearchResults = ({
   nearbyCourts,
@@ -113,6 +116,9 @@ const SearchResults = ({
             </Pressable>
           )}
         />
+        <SafeAreaView style={global.adBanner}>
+          <BannerAd unitId={adUnitId} size={BannerAdSize.ADAPTIVE_BANNER} />
+        </SafeAreaView>
       </View>
     </Modal>
   );
