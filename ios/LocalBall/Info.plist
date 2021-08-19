@@ -74,6 +74,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Geolocation is used to locate nearby basketball courts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Geolocation is used to locate nearby basketball courts</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
