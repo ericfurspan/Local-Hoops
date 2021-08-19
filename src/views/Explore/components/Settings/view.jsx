@@ -82,7 +82,9 @@ const Settings = ({
                 </Pressable>
               }
             >
+             {currentUser?.photoURL && (
               <Avatar rounded size="small" source={{ uri: currentUser.photoURL }} />
+             )}
             </Tooltip>
           </View>
           <View style={global.modalContent}>

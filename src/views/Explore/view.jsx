@@ -47,6 +47,12 @@ const Explore = ({
   const mapRef = useRef();
 
   useEffect(() => {
+    if (!currentUser) {
+      return logout();
+    }
+  }, [ currentUser ]);
+
+  useEffect(() => {
     if (!initialRegion.latitude) {
       Geolocation.getCurrentPosition(
         (position) => {
