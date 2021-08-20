@@ -75,17 +75,17 @@ const Explore = ({
         },
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
-      // Geolocation.watchPosition(
-      //   (newPosition) => {
-      //     setInitialRegion({
-      //       ...initialRegion,
-      //       latitude: newPosition.coords.latitude,
-      //       longitude: newPosition.coords.longitude,
-      //     });
-      //   },
-      //   null,
-      //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, useSignificantChanges: true }
-      // );
+      Geolocation.watchPosition(
+        (newPosition) => {
+          setInitialRegion({
+            ...initialRegion,
+            latitude: newPosition.coords.latitude,
+            longitude: newPosition.coords.longitude,
+          });
+        },
+        null,
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, useSignificantChanges: true }
+      );
     } else if (savedCourts.length === 0) {
       getSavedCourts(currentUser.saved_courts);
     }
