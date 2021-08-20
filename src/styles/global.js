@@ -51,7 +51,7 @@ export default StyleSheet.create({
     backgroundColor: PlatformColor('secondarySystemBackground'),
     paddingVertical: 12,
     paddingHorizontal: 12,
-    marginVertical: 4,
+    marginVertical: 12,
     borderRadius: 96,
     shadowOffset: {
       width: 4,
