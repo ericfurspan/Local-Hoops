@@ -22,6 +22,7 @@ const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-6668134571203040/9808465
 const Explore = ({
   nearbyCourts,
   getNearbyCourts,
+  getPlaceDetails,
   clearNearbyCourts,
   getCoordsForQuery,
   getSavedCourts,
@@ -134,6 +135,8 @@ const Explore = ({
     }
   };
 
+  const handleGetPlaceDetails = (placeId) => getPlaceDetails(placeId);
+
   const handleSaveCourt = (court) => {
     saveCourt(currentUser.uid, court);
   };
@@ -202,6 +205,7 @@ const Explore = ({
               unsetCourt={handleUnsetCourt}
               handleSaveCourt={handleSaveCourt}
               handleUnsaveCourt={handleUnsaveCourt}
+              handleGetPlaceDetails={handleGetPlaceDetails}
               isCourtSaved={isCourtSaved(activeCourt.id)}
             />
           )}

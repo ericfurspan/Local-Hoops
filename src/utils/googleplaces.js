@@ -10,7 +10,6 @@ const compilePlaces = async (places) => {
   const results = [];
 
   for (let i = 0; i < places.length; i++) {
-    const placeDetails = await fetchPlaceDetails(places[i].place_id);
     results.push({
       coords: {
         latitude: places[i].geometry.location.lat,
@@ -20,7 +19,6 @@ const compilePlaces = async (places) => {
       location: places[i].vicinity,
       id: places[i].place_id,
       discoveredBy: 'Google Places',
-      ...placeDetails,
     });
   }
 
@@ -72,7 +70,7 @@ export const getGoogleCourtsByLatLong = async (coords, searchRadius, dispatch) =
   }
 };
 
-const fetchPlaceDetails = async (placeId) => {
+export const fetchPlaceDetails = async (placeId) => {
   const queryUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=formatted_address,url,photo&key=${GOOGLE_API_KEY}`;
 
   try {

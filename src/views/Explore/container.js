@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import {
+  handleGetPlaceDetails,
   handleGetNearbyCourts,
   handleClearNearbyCourts,
   handleGetCoordsForQuery,
@@ -17,6 +18,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch, initialProps) => ({
+  getPlaceDetails: (placeId) => handleGetPlaceDetails(placeId),
   getNearbyCourts: (coords, radius) => handleGetNearbyCourts(dispatch, coords, radius),
   clearNearbyCourts: () => handleClearNearbyCourts(dispatch),
   getCoordsForQuery: (searchInput) => handleGetCoordsForQuery(dispatch, searchInput),

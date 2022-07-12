@@ -1,5 +1,5 @@
 import firebase from '@react-native-firebase/app';
-import { getGoogleCourtsByLatLong, findLocationByQuery } from '../../utils/googleplaces';
+import { getGoogleCourtsByLatLong, findLocationByQuery, fetchPlaceDetails } from '../../utils/googleplaces';
 import {
   setSavedCourts,
   clearNearbyCourts,
@@ -10,6 +10,12 @@ import {
 export const handleClearNearbyCourts = (dispatch) => {
   return dispatch(clearNearbyCourts());
 };
+
+export const handleGetPlaceDetails = async (placeId) => {
+  const res = await fetchPlaceDetails(placeId);
+
+  return res;
+}
 
 export const handleGetNearbyCourts = async (dispatch, coords, searchRadius) => {
   await getGoogleCourtsByLatLong(coords, searchRadius, dispatch);

@@ -10,19 +10,23 @@ import styles from './style';
 
 const adUnitId = __DEV__ ? TestIds.BANNER : 'ca-app-pub-6668134571203040/9018321883';
 
-const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleSaveCourt, isCourtSaved }) => {
+const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleGetPlaceDetails, handleSaveCourt, isCourtSaved }) => {
   const openExternalMap = ({ coords }) => {
     const url = `http://maps.apple.com/?daddr=${coords.latitude},${coords.longitude}`;
     Linking.openURL(url).catch(() =>
       Alert.alert('Unable to open Map', 'Please check your connection or try again later.')
     );
   };
+
   const [modalVisible, setModalVisible] = useState(false);
   const [scrollOffset, setScrollOffset] = useState(null);
+  const [placeDetails, setPlaceDetails] = useState({});
   const scrollViewRef = useRef();
 
-  useEffect(() => {
+  useEffect(async () => {
     if (court && court.id) {
+      const detailsResponse = await handleGetPlaceDetails(court.id);
+      setPlaceDetails(detailsResponse);
       setModalVisible(true);
     }
   }, [court]);
@@ -36,6 +40,7 @@ const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleSaveCourt, isC
     setModalVisible(false);
     unsetCourt();
   };
+
 
   return (
     <Modal
@@ -60,7 +65,7 @@ const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleSaveCourt, isC
         <View style={global.modalHeader}>
           <View>
             <Text style={global.modalHeaderText}>{court.name}</Text>
-            {court.address && <Text style={global.secondaryLabel}>{court.address}</Text>}
+            {placeDetails.address && <Text style={global.secondaryLabel}>{placeDetails.address}</Text>}
           </View>
         </View>
         <View style={global.modalContent}>
@@ -86,12 +91,12 @@ const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleSaveCourt, isC
               }
             />
           </View>
-          {court.photoUrls && court.photoUrls.length > 0 && (
+          {placeDetails.photoUrls && placeDetails.photoUrls.length > 0 && (
             <View>
-              <Text style={global.sectionLabel}>{`Photos (${court.photoUrls.length})`}</Text>
+              <Text style={global.sectionLabel}>{`Photos (${placeDetails.photoUrls.length})`}</Text>
               <FlatList
                 ref={scrollViewRef}
-                data={court.photoUrls}
+                data={placeDetails.photoUrls}
                 keyExtractor={(item) => item}
                 removeClippedSubviews
                 renderItem={({ item }) => (
