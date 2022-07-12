@@ -18,7 +18,7 @@ const SearchResults = ({
   onPressCourt,
   onHide,
 }) => {
-  const [scrollOffset, setScrollOffset] = useState(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
   const [useDistanceSort, setUseDistanceSort] = useState(false);
   const scrollViewRef = useRef();
 

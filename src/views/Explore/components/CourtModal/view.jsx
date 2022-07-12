@@ -19,7 +19,7 @@ const CourtModal = ({ court, unsetCourt, handleUnsaveCourt, handleGetPlaceDetail
   };
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [scrollOffset, setScrollOffset] = useState(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
   const [placeDetails, setPlaceDetails] = useState({});
   const scrollViewRef = useRef();
 

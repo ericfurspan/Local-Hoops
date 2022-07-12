@@ -23,7 +23,7 @@ const Settings = ({
   onChangeSearchRadius,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [scrollOffset, setScrollOffset] = useState(null);
+  const [scrollOffset, setScrollOffset] = useState(0);
   const scrollViewRef = useRef();
 
   const handleScrollTo = ({ x }) => {
