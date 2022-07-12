@@ -10,7 +10,14 @@ Find basketball courts, anywhere.
 - [Google Places API](https://developers.google.com/places/web-service/search) - Query basketball courts
 - see package.json for more
 
-## Developer Reference
+## Developer Guide
+
+### Quick Start
+- Install nodejs, npm, & yarn via nvm
+- Install cocoapods https://guides.cocoapods.org/using/using-cocoapods.html
+- yarn install
+- cd ios && pod install
+
 
 ### React-Native
 - [Running on a device](https://reactnative.dev/docs/running-on-device)
