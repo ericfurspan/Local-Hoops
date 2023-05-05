@@ -26,23 +26,27 @@ const compilePlaces = async (places) => {
 };
 
 const getPage = async (url) => {
-  const res = await fetch(url);
+  try {
+    const res = await fetch(url);
 
-  if (res.ok && res.status === 200) {
-    const json = await res.json();
-    const { next_page_token, results } = json;
-
-    const data = await compilePlaces(results);
-
-    if (next_page_token) {
-      return { data, next_page_token };
+    if (res.ok && res.status === 200) {
+      const json = await res.json();
+      const { next_page_token, results } = json;
+  
+      const data = await compilePlaces(results);
+  
+      if (next_page_token) {
+        return { data, next_page_token };
+      }
+  
+      return { data };
+    } else {
+      crashlytics().recordError(
+        `Failed Google Places query with url ${url} and response ${JSON.stringify(res)}`
+      );
     }
-
-    return { data };
-  } else {
-    crashlytics().recordError(
-      `Failed Google Places query with url ${url} and response ${JSON.stringify(res)}`
-    );
+  } catch (error) {
+    crashlytics().recordError(error);
   }
 };
 
@@ -66,7 +70,7 @@ export const getGoogleCourtsByLatLong = async (coords, searchRadius, dispatch) =
     return true;
   } catch (error) {
     crashlytics().recordError(error);
-    throw new Error(error);
+    console.error(error);
   }
 };
 
@@ -95,7 +99,7 @@ export const fetchPlaceDetails = async (placeId) => {
     }
   } catch (error) {
     crashlytics().recordError(error);
-    throw new Error(error);
+    console.error(error);
   }
 };
 
@@ -121,6 +125,6 @@ export const findLocationByQuery = async (locationQuery) => {
     }
   } catch (error) {
     crashlytics().recordError(error);
-    throw new Error(error);
+    console.error(error);
   }
 };

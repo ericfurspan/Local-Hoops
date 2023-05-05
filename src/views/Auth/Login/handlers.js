@@ -1,5 +1,6 @@
 import firebase from '@react-native-firebase/app';
 import { Alert } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { setCurrentUser } from '../../../utils/actions';
 import { AVATAR_PLACEHOLDER_URL } from '../../../utils/constants';
 
@@ -13,6 +14,7 @@ export const handleEmailPwLogin = async (email, password, dispatch, initialProps
     dispatch(setCurrentUser(userObj));
     return navigation.navigate('App');
   } catch (error) {
+    crashlytics().recordError(error);
     if (error.code === 'auth/wrong-password') {
       Alert.alert('Login Failed', 'Invalid password');
     } else if (error.code === 'auth/user-not-found') {

@@ -1,5 +1,6 @@
 import firebase from '@react-native-firebase/app';
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { Alert } from 'react-native';
@@ -8,6 +9,7 @@ import { AVATAR_PLACEHOLDER_URL } from '../../../utils/constants';
 
 export const handleAppleLogin = async (dispatch, initialProps) => {
   try {
+    crashlytics().log('Attempting Apple Login');
     const { navigation } = initialProps;
 
     const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -34,7 +36,8 @@ export const handleAppleLogin = async (dispatch, initialProps) => {
     dispatch(setCurrentUser(userObj));
     return navigation.navigate('App');
   } catch (error) {
-    console.log('handleAppleLogin error', error);
+    crashlytics().recordError(error);
+    console.error('handleAppleLogin error', error);
   }
 };
 
@@ -42,6 +45,8 @@ export const handleGoogleLogin = async (dispatch, initialProps) => {
   const { navigation } = initialProps;
 
   try {
+    crashlytics().log('Attempting Google Login');
+
     GoogleSignin.configure();
 
     const res = await GoogleSignin.signIn();
@@ -57,6 +62,7 @@ export const handleGoogleLogin = async (dispatch, initialProps) => {
     dispatch(setCurrentUser(userObj));
     return navigation.navigate('App');
   } catch (error) {
+    crashlytics().recordError(error);
     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       Alert.alert('Login Failed', 'Unable to login with Google\nUser cancelled sign in');
     } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -71,6 +77,8 @@ export const handleFacebookLogin = async (dispatch, initialProps) => {
   const { navigation } = initialProps;
 
   try {
+    crashlytics().log('Attempting Facebook Login');
+
     const res = await LoginManager.logInWithPermissions(['public_profile', 'email']);
     if (res.isCancelled) {
       Alert.alert('Login Failed', 'Cancelled Facebook login');
@@ -96,6 +104,7 @@ export const handleFacebookLogin = async (dispatch, initialProps) => {
       }
     }
   } catch (error) {
+    crashlytics().recordError(error);
     Alert.alert('Login Failed', `Alert Unable to login with Facebook\n${error}`);
   }
 };

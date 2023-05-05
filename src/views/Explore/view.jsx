@@ -4,6 +4,7 @@ import { Button, Badge } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { BannerAd, BannerAdSize, TestIds } from '@react-native-firebase/admob';
+import crashlytics from '@react-native-firebase/crashlytics';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { SearchBar, CourtModal, Settings, SearchResults } from './components';
 import {
@@ -87,7 +88,7 @@ const Explore = ({
         null,
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, useSignificantChanges: true }
       );
-    } else if (savedCourts.length === 0) {
+    } else if (currentUser && savedCourts.length === 0) {
       getSavedCourts(currentUser.saved_courts);
     }
   }, [ initialRegion ]);
@@ -198,6 +199,12 @@ const Explore = ({
               </Marker>
             ))}
           </MapView>
+
+          <Button title="Test Crash" onPress={() => crashlytics().crash()} />
+
+          <Button title="Test Log" onPress={() => crashlytics().log('Testing log')} />
+
+          <Button title="Test RecordError" onPress={() => crashlytics().recordError(new Error('Testing recordError'))} />
 
           {activeCourt && (
             <CourtModal

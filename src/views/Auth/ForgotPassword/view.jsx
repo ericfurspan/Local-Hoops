@@ -20,6 +20,7 @@ const ForgotPassword = ({ toggleResetForm }) => {
       }
     } catch (error) {
       crashlytics().recordError(error);
+      console.error(error);
     }
   };
 

@@ -1,5 +1,6 @@
 import firebase from '@react-native-firebase/app';
 import { Alert } from 'react-native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import { AVATAR_PLACEHOLDER_URL } from '../../../utils/constants';
 
 export const handleCreateEmailPwUser = async (
@@ -28,6 +29,7 @@ export const handleCreateEmailPwUser = async (
       Alert.alert('Signup Failed', validated.message);
     }
   } catch (error) {
+    crashlytics().recordError(error);
     Alert.alert('Signup Failed', error.message);
   }
 };
